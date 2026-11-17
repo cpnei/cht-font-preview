@@ -120,8 +120,8 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .font-heading { display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap; margin-top: 5px; }
 .font-heading h3 { margin: 0; font-size: 19px; letter-spacing: .3px; font-weight: 500; }
 .font-heading > span { font-size: 10px; color: #8a9384; }
-.preview-area { display: grid; align-items: center; min-height: 149px; margin: 8px 0 0; }
-.font-preview { font-size: var(--preview-size); line-height: var(--preview-line-height); letter-spacing: var(--preview-spacing); margin: 17px 0 10px; white-space: pre-wrap; overflow-wrap: anywhere; font-synthesis: none; color: #2d352d; max-height: 440px; overflow-y: auto; }
+.preview-area { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; min-height: 149px; margin: 8px 0 0; }
+.font-preview { min-width: 0; font-size: var(--preview-size); line-height: var(--preview-line-height); letter-spacing: var(--preview-spacing); margin: 17px 0 10px; white-space: pre-wrap; word-break: normal; line-break: strict; overflow-wrap: break-word; font-synthesis: none; color: #2d352d; max-height: 440px; overflow-y: auto; }
 .font-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 12px; }
 .loading-lines { display: flex; flex-direction: column; align-self: stretch; gap: 17px; opacity: .7; margin: 13px 10px; }
 .loading-lines i { display: block; height: 20px; border-radius: 4px; background: #eef0e9; animation: breathe 1.5s ease-in-out infinite alternate; }

@@ -3,7 +3,7 @@ import { fonts, fontById, type Category } from './fonts';
 export const samples = [
   { name: '日常風景', text: '把日子，寫成喜歡的樣子。\n讓每一個字，都有溫度。' },
   { name: '繁體筆畫', text: '臺灣的風景，藏在巷弄與山海之間。\n繁花、龜鶴、鬱鬱蔥蔥，都是生活。' },
-  { name: '標點與英數', text: '「你好，世界！」—— 字裡行間。\nDesign in Taiwan / 2026 / NT$ 1,280' },
+  { name: '標點與英數', text: '「你好！」\n文字，日常。\nAbc 2026\nNT$ 1,280' },
 ];
 export interface Settings { size: number; spacing: number; lineHeight: number }
 export const defaults: Settings = { size: 36, spacing: 0, lineHeight: 1.8 };
