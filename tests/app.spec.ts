@@ -89,6 +89,8 @@ test('keyboard navigation, about dialog and viewport fit', async ({ page }) => {
   await expect(page.getByRole('dialog', { name: '讓選字，簡單一點。' })).toBeVisible();
   await page.getByRole('button', { name: '關閉關於字選' }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.setViewportSize({ width: 320, height: 720 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
 test('disabled storage does not prevent normal preview', async ({ page }) => {
