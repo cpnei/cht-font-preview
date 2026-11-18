@@ -21,6 +21,156 @@
       "path": "public/fonts/Font-Select-Broadstroke.preview.woff2",
       "bytes": 20176,
       "sha256": "a316849510c7387651f85ed113c473a025832cad6ea84e18fe76f44b7594c680"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-250.woff2",
+      "bytes": 2902348,
+      "sha256": "a848dd5ee59ed5f321742a762ee3ce36b5d0e3a684bbfcc707e2eac918832772"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-250.preview.woff2",
+      "bytes": 43120,
+      "sha256": "fefca516f7ba3cc52e09335c190480fae58e35ddfa2a363ca6002fbebb74ffb7"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-400.woff2",
+      "bytes": 3426920,
+      "sha256": "e5cd8a010917520af6c557fea5f259014fed46605f9ef9c175f763c97e849f7a"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-400.preview.woff2",
+      "bytes": 45852,
+      "sha256": "644299b3331df6dc5af0f7d47dda4b5c782a43d9addd4a8e80e9c914db13445d"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-700.woff2",
+      "bytes": 3604524,
+      "sha256": "83735d5360de86634a13ba071ce7622e345d5748a2add308f0bca2b6bc111aa3"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-700.preview.woff2",
+      "bytes": 47492,
+      "sha256": "3f038ad4f37268e347a41e724c63a449ee88fcec4661c3ddc8f5d693bc3c515e"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-800.woff2",
+      "bytes": 3715700,
+      "sha256": "2d0968c826065377622f21e5b5da418608bc42d1a9750fe7ada00a6821dccb69"
+    },
+    {
+      "path": "public/fonts/line-seed-tw-800.preview.woff2",
+      "bytes": 47528,
+      "sha256": "6b219f3aaf2703d4a94e8c856946ae97379ec86577cb694ec6b1960ea17cb18a"
+    },
+    {
+      "path": "public/fonts/taiwanpearl-400.woff2",
+      "bytes": 7439224,
+      "sha256": "c747f9cffcb41bf586f56f2cc28550dbfed30804968b62f46e6608552cb6d4c1"
+    },
+    {
+      "path": "public/fonts/taiwanpearl-400.preview.woff2",
+      "bytes": 29976,
+      "sha256": "d6ba4f66897459803945cffed8f4c8bef6a2cb9039cddf14a5a24909517c63e4"
+    },
+    {
+      "path": "public/fonts/tauhu-oo-400.woff2",
+      "bytes": 3438964,
+      "sha256": "c1fff68a6d656521bb68237f29e1a717b97e1ee5f8d58bccdadbfc40fd57b075"
+    },
+    {
+      "path": "public/fonts/tauhu-oo-400.preview.woff2",
+      "bytes": 30460,
+      "sha256": "1be6c1c6ee9c51dced7536468ed9b9b92fcb0ba32fe2af2f125ea3329be3548f"
+    },
+    {
+      "path": "public/fonts/genryu-mincho-tw-400.woff2",
+      "bytes": 7839680,
+      "sha256": "4e30dc1e32a3a4cbec25e7a6bf4ae0d1a466f6e4a8e47d9fb8445b20e11ea16e"
+    },
+    {
+      "path": "public/fonts/genryu-mincho-tw-400.preview.woff2",
+      "bytes": 31008,
+      "sha256": "08b7d571c13fbb12e73bf358ecaf4749d74bd8a294ba9eae7cd6d1ecf7c1b2d2"
+    },
+    {
+      "path": "public/fonts/genryu-mincho-tw-700.woff2",
+      "bytes": 8294264,
+      "sha256": "9a911c458dcf9ca1846a441d1680c83cc6b1ab3094ab7bad8502b0d6dc758dc0"
+    },
+    {
+      "path": "public/fonts/genryu-mincho-tw-700.preview.woff2",
+      "bytes": 32020,
+      "sha256": "e6cb784f7aac51c3b6bed8a068e7a801147259a6f6a3c1c4bb3102233fff17da"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-1-400.woff2",
+      "bytes": 4326384,
+      "sha256": "18063c620d32abd340ae6e78cc7748ad9638b070478bf5442fae44677688a107"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-1-400.preview.woff2",
+      "bytes": 44560,
+      "sha256": "98822f49434a9b5cd0236786bae87e7f8c86eff97a34cb55d29d27948d3e66a7"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-2-400.woff2",
+      "bytes": 2831956,
+      "sha256": "7ac44aab43e30aa6d97097a5c48b850f8687390bd2b8dfc10026b18b6c74218d"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-2-400.preview.woff2",
+      "bytes": 44180,
+      "sha256": "e6d916717312d600bc2e2f41db7c637f1cd61f62c83029cfa95e03a22577a2a6"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-4-400.woff2",
+      "bytes": 2045860,
+      "sha256": "c470b896c3233317e8e022af72d94ce8a653e8c18088d9989a3f4e2f5d65da06"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-4-400.preview.woff2",
+      "bytes": 47872,
+      "sha256": "8f83293ff7798cc6781563d38de8f9ea40db6c5134716ae8ad01082d17003f83"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-5-400.woff2",
+      "bytes": 3055340,
+      "sha256": "f6e7f6192006c53f990f644f1a0c467ee0bc79cdaf6529fb36f447efded5e056"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-5-400.preview.woff2",
+      "bytes": 49196,
+      "sha256": "6a56e44e9904722e9c1206af0de4057710ef3bd94c19c1518a217ed073fcb0f8"
+    },
+    {
+      "path": "public/licenses/line-seed-tw.txt",
+      "bytes": 4470,
+      "sha256": "c6b7b1a8d37becc65e645eec2e7a41bc41386f896aec21e9c735b8588cc19964"
+    },
+    {
+      "path": "public/licenses/taiwanpearl.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    {
+      "path": "public/licenses/tauhu-oo.txt",
+      "bytes": 4300,
+      "sha256": "9f6ffa4d4ceb839c1d12b830273c1d9f01cb0f5e2535f6143b8f7befdd5650d5"
+    },
+    {
+      "path": "public/licenses/genryu-mincho-tw.txt",
+      "bytes": 4559,
+      "sha256": "a6e4f868df1b9eec9284d26f35808a9a08f0733b8fd96109e509d6eac29f2aca"
+    },
+    {
+      "path": "public/licenses/jason-handwriting.txt",
+      "bytes": 4992,
+      "sha256": "786be6eb27fde11a4b6c4a781e420670758bda13c672e15f3d2ae5239d277b07"
+    },
+    {
+      "path": "src/local-font-assets.json",
+      "bytes": 9265,
+      "sha256": "71c5f6c8d3787cafe901bc78bca4e416bb69e851036c24ce0d40973bcd41dca5"
     }
   ]
 }

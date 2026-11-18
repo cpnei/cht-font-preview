@@ -23,10 +23,9 @@ describe('font catalog and state', () => {
     expect(text).toBe('𠮷'.repeat(500));
   });
 
-  it('includes thirty-four unique fonts, valid weights, and original licensed assets', () => {
-    expect(fonts).toHaveLength(34);
-    expect(new Set(fonts.map(f => f.id)).size).toBe(34);
-    const lock = JSON.parse(readFileSync('assets.lock.json', 'utf8'));
+  it('includes forty-two unique fonts, valid weights, and locked licensed assets', () => {
+    expect(fonts).toHaveLength(42);
+    expect(new Set(fonts.map(f => f.id)).size).toBe(42);
     const optimizedLock = JSON.parse(readFileSync('optimized-fonts.lock.json', 'utf8'));
     for (const font of fonts) {
       expect(font.weights).toContain(font.defaultWeight);
@@ -35,12 +34,14 @@ describe('font catalog and state', () => {
       expect(new URL(font.sourceUrl).protocol).toBe('https:');
       expect(new URL(font.downloadUrl).protocol).toBe('https:');
       if (font.loader.kind === 'local') {
-        const originalPath = `assets/fonts/${font.id === 'chenyuluoyan' ? 'ChenYuluoyan-2.0-Thin' : 'MantouSans-Regular'}.ttf`;
-        const fullPath = `public/${font.loader.path}`;
-        const previewPath = `public/${font.loader.preview.path}`;
-        expect(lock.assets.find((asset: { path: string }) => asset.path === originalPath)).toBeDefined();
-        expect(optimizedLock.assets.find((asset: { path: string }) => asset.path === fullPath).bytes).toBe(font.loader.bytes);
-        expect(optimizedLock.assets.find((asset: { path: string }) => asset.path === previewPath).bytes).toBe(font.loader.preview.bytes);
+        expect(Object.keys(font.loader.files).map(Number)).toEqual(font.weights);
+        for (const files of Object.values(font.loader.files)) {
+          for (const file of [files, files.preview]) {
+            const locked = optimizedLock.assets.find((asset: { path: string }) => asset.path === `public/${file.path}`);
+            expect(locked?.bytes).toBe(file.bytes);
+          }
+          expect(files.preview.bytes).toBeLessThan(files.bytes);
+        }
       }
     }
   });

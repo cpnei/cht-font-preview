@@ -1,7 +1,6 @@
 import './style.css';
 import { categories, fonts, fontById, fontFamily, type Category, type FontDefinition } from './fonts';
 import { defaults, filterFonts, limitText, restore, samples, storageKey, type Settings } from './state';
-import pairingSample from './pairing-sample.json';
 import { fontCard, icon } from './view';
 import { FontLoader } from './loader';
 
@@ -35,13 +34,6 @@ const pairingHeadingText = $<HTMLInputElement>('#pairing-heading-text');
 const pairingBodyText = $<HTMLTextAreaElement>('#pairing-body-text');
 const quickJump = $('#quick-jump');
 const quickJumpMenu = $<HTMLDetailsElement>('details', quickJump);
-const localSubsetCharacters = new Set([
-  ...samples.flatMap(sample => Array.from(sample.text)),
-  ...Array.from(pairingSample.heading),
-  ...Array.from(pairingSample.body),
-  ...Array.from({ length: 0x7F - 0x20 }, (_, index) => String.fromCodePoint(0x20 + index)),
-  ...Array.from('Aa臺灣'),
-]);
 input.value = previewText;
 
 function updateQuickJump() {
@@ -128,7 +120,18 @@ function pairingSamples() {
 }
 
 function prefersSubset(font: FontDefinition, text: string) {
-  return font.loader.kind !== 'local' || localSubsetCovers(text);
+  const files = currentLocalFiles(font);
+  if (!files) return true;
+  const normalized = text.replace(/\s+/gu, ' ').trim();
+  return Array.from(normalized).every(character => files.preview.characters.includes(character));
+}
+
+function currentLocalFiles(font: FontDefinition) {
+  return font.loader.kind === 'local' ? font.loader.files[weights.get(font.id)!] : undefined;
+}
+
+function approvalKey(font: FontDefinition) {
+  return `${font.id}:${weights.get(font.id)}`;
 }
 
 function fontStatus(font: FontDefinition, text: string) {
@@ -141,7 +144,7 @@ function requestFont(font: FontDefinition, text: string, retry = false) {
 }
 
 function requestFontExplicitly(font: FontDefinition, text: string) {
-  if (requiresFullFont(font, text)) localFullApproved.add(font.id);
+  if (requiresFullFont(font, text)) localFullApproved.add(approvalKey(font));
   requestFont(font, text, true);
 }
 
@@ -183,8 +186,9 @@ function updatePairingStatus() {
   const loading = selected.find(item => item.status === 'loading');
   if (loading) {
     const { font, text } = loading;
-    const size = font.loader.kind === 'local'
-      ? `（${prefersSubset(font, text) ? `${(font.loader.preview.bytes / 1000).toFixed(0)} KB` : `${(font.loader.bytes / 1000000).toFixed(1)} MB`}）`
+    const files = currentLocalFiles(font);
+    const size = files
+      ? `（${prefersSubset(font, text) ? `${(files.preview.bytes / 1000).toFixed(0)} KB` : `${(files.bytes / 1000000).toFixed(1)} MB`}）`
       : '';
     status.textContent = `正在載入 ${font.name}${size}…`;
     return;
@@ -193,12 +197,12 @@ function updatePairingStatus() {
   if (needsFull.length) {
     status.replaceChildren(document.createTextNode('這段搭配文字需要完整字型：'));
     for (const { font } of needsFull) {
-      if (font.loader.kind !== 'local') continue;
+      const files = currentLocalFiles(font)!;
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'pairing-load-button';
       button.dataset.pairLoad = font.id;
-      button.textContent = `載入${font.name}完整字型・${(font.loader.bytes / 1000000).toFixed(1)} MB`;
+      button.textContent = `載入${font.name}完整字型・${(files.bytes / 1000000).toFixed(1)} MB`;
       status.append(' ', button);
     }
     return;
@@ -221,16 +225,11 @@ function schedulePairingFontRequest(retry = false) {
   pairingRequestTimer = setTimeout(() => requestPairingFonts(retry), retry ? 0 : 400);
 }
 
-function localSubsetCovers(text: string) {
-  const normalized = text.replace(/\s+/gu, ' ').trim();
-  return Array.from(normalized).every(character => localSubsetCharacters.has(character));
-}
-
 function requiresFullFont(font: FontDefinition, text: string) {
   return font.loader.kind === 'local'
-    && !localSubsetCovers(text)
-    && !loader.isLocalFull(font.id)
-    && !localFullApproved.has(font.id);
+    && !prefersSubset(font, text)
+    && !loader.isLocalFull(font.id, weights.get(font.id)!)
+    && !localFullApproved.has(approvalKey(font));
 }
 
 function fontRowNearViewport(id: string) {
@@ -248,6 +247,7 @@ function updateFont(id: string) {
   const status = fontStatus(font, text);
   const hasLoaded = loader.hasLoaded(id);
   const needsFull = requiresFullFont(font, text);
+  const files = currentLocalFiles(font);
   document.querySelectorAll<HTMLElement>(`[data-font="${id}"]`).forEach(card => {
     const comparePreview = card.querySelector<HTMLElement>('[data-compare-preview]');
     if (comparePreview) {
@@ -277,9 +277,9 @@ function updateFont(id: string) {
     preview.hidden = status !== 'ready' && !hasLoaded;
     placeholder.hidden = status === 'ready' || hasLoaded;
     card.dataset.status = status;
-    if (font.loader.kind === 'local' && (needsFull || (status === 'idle' && !hasLoaded && prefersSubset(font, text)))) {
+    if (files && (needsFull || (status === 'idle' && !hasLoaded && prefersSubset(font, text)))) {
       const useSubset = !needsFull;
-      const size = useSubset ? `${(font.loader.preview.bytes / 1000).toFixed(0)} KB` : `${(font.loader.bytes / 1000000).toFixed(1)} MB`;
+      const size = useSubset ? `${(files.preview.bytes / 1000).toFixed(0)} KB` : `${(files.bytes / 1000000).toFixed(1)} MB`;
       if (hasLoaded) {
         placeholder.replaceChildren();
         statusLine.innerHTML = `這段文字含有子集未收錄的字元。<button type="button" class="load-button" data-load="${id}">${icon('download')} 載入完整字型・${size}</button>`;

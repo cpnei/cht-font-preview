@@ -1,0 +1,184 @@
+{
+  "downloads": {
+    "line-seed-tw.zip": {
+      "url": "https://seed.line.me/src/images/fonts/LINE_Seed_TW.zip",
+      "sha256": "a1992cd9e372f94a3cef52b98cee781639fe8b7f4d1a77e318a133acf857aecd"
+    },
+    "genryu-tw.zip": {
+      "url": "https://github.com/ButTaiwan/genryu-font/releases/download/v2.100/GenRyuMin2TW-otf.zip",
+      "sha256": "a7b5a531acb30597a7902ef74bd4fd6b606ec47c2c09326eecbaf54875791240"
+    },
+    "taiwanpearl.woff2": {
+      "url": "https://raw.githubusercontent.com/max32002/TaiwanPearl/9ada49ab67e05e68f83b3dde46b260e2bc2a7c39/webfont/TaiwanPearl-Regular.woff2",
+      "sha256": "c747f9cffcb41bf586f56f2cc28550dbfed30804968b62f46e6608552cb6d4c1"
+    },
+    "taiwanpearl-license.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/TaiwanPearl/9ada49ab67e05e68f83b3dde46b260e2bc2a7c39/SIL_Open_Font_License_1.1.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    "tauhu.woff2": {
+      "url": "https://raw.githubusercontent.com/tauhu-tw/tauhu-oo/a657f69c97790f748863277c48a807e3dd89394a/TauhuOo20.05-Regular.woff2",
+      "sha256": "c1fff68a6d656521bb68237f29e1a717b97e1ee5f8d58bccdadbfc40fd57b075"
+    },
+    "tauhu-license.txt": {
+      "url": "https://raw.githubusercontent.com/tauhu-tw/tauhu-oo/a657f69c97790f748863277c48a807e3dd89394a/LICENSE.txt",
+      "sha256": "9f6ffa4d4ceb839c1d12b830273c1d9f01cb0f5e2535f6143b8f7befdd5650d5"
+    },
+    "jason-readme.md": {
+      "url": "https://raw.githubusercontent.com/jasonhandwriting/JasonHandwriting/e488583c07077850aa4a2a6280baa20374cccde2/README.md",
+      "sha256": "11996d4e9f85c58af598b7dc7992681f8ac11f51122ca3d6997f45b8b2927423"
+    },
+    "sil-ofl.txt": {
+      "url": "https://openfontlicense.org/documents/OFL.txt",
+      "sha256": "1d361a8f8e8ce6e68457dcd93fb56e162e6baa3bbb7e7573a290d44399f6b57e"
+    },
+    "jason-1.ttf": {
+      "url": "https://raw.githubusercontent.com/jasonhandwriting/JasonHandwriting/e488583c07077850aa4a2a6280baa20374cccde2/JasonHandwriting1.ttf",
+      "sha256": "de76a15b1e2c1a7050d061485e28195f5b682d45e37499cf730c2b8554c44cf3"
+    },
+    "jason-2.ttf": {
+      "url": "https://raw.githubusercontent.com/jasonhandwriting/JasonHandwriting/e488583c07077850aa4a2a6280baa20374cccde2/JasonHandwriting2.ttf",
+      "sha256": "b67dce349d32e92e4ee7befeb0339d04ca69551bb523e60cfb5ea8f5fbd5d669"
+    },
+    "jason-4.ttf": {
+      "url": "https://raw.githubusercontent.com/jasonhandwriting/JasonHandwriting/e488583c07077850aa4a2a6280baa20374cccde2/JasonHandwriting4.ttf",
+      "sha256": "1db91107a80c78e6d04b6d78f86a4b8946f083cb0b41ff5864009c4e1698ee4b"
+    },
+    "jason-5.ttf": {
+      "url": "https://raw.githubusercontent.com/jasonhandwriting/JasonHandwriting/e488583c07077850aa4a2a6280baa20374cccde2/JasonHandwriting5.ttf",
+      "sha256": "2f0a54b56a79961e44f38d95ea293d113362e6eff438a2c351e60390d60f7960"
+    }
+  },
+  "fonts": [
+    {
+      "id": "line-seed-tw",
+      "family": "Font Select Ribbon",
+      "weights": [
+        {
+          "weight": 250,
+          "style": "Thin",
+          "download": "line-seed-tw.zip",
+          "member": "LINE Seed TW_ver02/WOFF2/LINESeedTW_OTF_Th.woff2"
+        },
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "line-seed-tw.zip",
+          "member": "LINE Seed TW_ver02/WOFF2/LINESeedTW_OTF_Rg.woff2"
+        },
+        {
+          "weight": 700,
+          "style": "Bold",
+          "download": "line-seed-tw.zip",
+          "member": "LINE Seed TW_ver02/WOFF2/LINESeedTW_OTF_Bd.woff2"
+        },
+        {
+          "weight": 800,
+          "style": "ExtraBold",
+          "download": "line-seed-tw.zip",
+          "member": "LINE Seed TW_ver02/WOFF2/LINESeedTW_OTF_Eb.woff2"
+        }
+      ]
+    },
+    {
+      "id": "taiwanpearl",
+      "family": "Font Select Softgrain",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "taiwanpearl.woff2"
+        }
+      ]
+    },
+    {
+      "id": "tauhu-oo",
+      "family": "Font Select Clearvoice",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "tauhu.woff2"
+        }
+      ]
+    },
+    {
+      "id": "genryu-mincho-tw",
+      "family": "Font Select Reed Serif",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "genryu-tw.zip",
+          "member": "GenRyuMin2TW-R.otf"
+        },
+        {
+          "weight": 700,
+          "style": "Bold",
+          "download": "genryu-tw.zip",
+          "member": "GenRyuMin2TW-B.otf"
+        }
+      ]
+    },
+    {
+      "id": "jason-handwriting-1",
+      "family": "Font Select Pen 1",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "jason-1.ttf"
+        }
+      ]
+    },
+    {
+      "id": "jason-handwriting-2",
+      "family": "Font Select Pen 2",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "jason-2.ttf"
+        }
+      ]
+    },
+    {
+      "id": "jason-handwriting-4",
+      "family": "Font Select Pen 4",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "jason-4.ttf"
+        }
+      ]
+    },
+    {
+      "id": "jason-handwriting-5",
+      "family": "Font Select Pen 5",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "jason-5.ttf"
+        }
+      ]
+    }
+  ],
+  "licenses": {
+    "line-seed-tw.txt": {
+      "download": "line-seed-tw.zip",
+      "member": "LINE Seed TW_ver02/license.txt"
+    },
+    "taiwanpearl.txt": {
+      "download": "taiwanpearl-license.txt"
+    },
+    "tauhu-oo.txt": {
+      "download": "tauhu-license.txt"
+    },
+    "genryu-mincho-tw.txt": {
+      "download": "genryu-tw.zip",
+      "member": "SIL_Open_Font_License_1.1.txt"
+    }
+  }
+}

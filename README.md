@@ -1,6 +1,6 @@
 # 字選 Font Select
 
-免費繁體中文字型預覽工具。輸入一段文字，預覽與收藏三十四款可商用開源字型。
+免費繁體中文字型預覽工具。輸入一段文字，預覽與收藏四十二款可商用開源字型。
 
 **網站：[cpnei.github.io/font-select](https://cpnei.github.io/font-select/)**
 
@@ -29,7 +29,7 @@ npm test                # 資料與互動狀態單元測試
 npm run build           # 型別、原始資產 SHA-256 驗證與正式建置
 npx playwright install chromium webkit
 npm run test:e2e        # 桌面與手機瀏覽器測試；外部字型失敗採確定性模擬
-npm run test:fonts      # 額外連網驗證三十四款真實字型、動態字元子集與字重
+npm run test:fonts      # 額外連網驗證所有真實字型、動態字元子集與字重
 npm run preview         # 預覽 dist 正式建置
 ```
 
@@ -66,16 +66,23 @@ npm run preview         # 預覽 dist 正式建置
 | 全字庫正楷體 | [數位發展部 CNS11643 全字庫](https://www.cns11643.gov.tw/) | jsDelivr WOFF2 字元子集 |
 | 源樣黑體 TC、源起黑體 TC | [ButTaiwan](https://github.com/ButTaiwan/genyog-font) | Ziano／jsDelivr WOFF2 字元子集 |
 | 尙古明體 TC、尙古黑體 TC | [GuiWonder / Shanggu](https://github.com/GuiWonder/Shanggu) | Ziano／jsDelivr WOFF2 字元子集 |
+| LINE Seed TW | [LY Corporation／華康字型](https://seed.line.me/index_tw.html) | 本站 WOFF2 樣張子集，四種官方字重 |
+| 台灣圓體 TaiwanPearl | [Max／姚春宇](https://github.com/max32002/TaiwanPearl) | 本站 WOFF2 樣張子集，標準字重 |
+| 豆腐烏 Tauhu Oo 20.05 | [再會豆腐字](https://tauhu.tw/ji-hing/) | 本站 WOFF2 樣張子集，標準字重 |
+| 源流明體月 TW | [But Ko／ButTaiwan](https://github.com/ButTaiwan/genryu-font) | 本站 WOFF2 樣張子集，標準與粗體 |
+| 清松手寫體 1、2、4、5 號 | [游清松](https://github.com/jasonhandwriting/JasonHandwriting) | 本站 WOFF2 樣張子集，各款一種字重 |
 
 收錄字型都提供 **SIL Open Font License 1.1** 全文；少數字型另附上游的補充授權或來源說明，保存在 `public/licenses/`。免費商用不等於沒有條件：再散布、修改及保留名稱仍須依各字型授權辦理。網站程式碼採 MIT，MIT 不套用於字型檔案。
 
-本地原始 TTF 保存在非公開的 `assets/fonts/`，與授權檔一樣由 `assets.lock.json` 依不可變的上游 commit、大小與 SHA-256 鎖定。瀏覽器使用 FontTools 產生的完整 WOFF2；三組內建樣本與預設搭配文另有小型 WOFF2 子集，涵蓋 ASCII。**Font Select Inkline** 源自辰宇落雁體 2.0 Thin，**Font Select Broadstroke** 源自饅頭黑體。兩個預覽子集沿用各自的 OFL 1.1、保留原作者與授權資訊，並採用獨立的內部字型名稱。預覽文字若包含子集以外的字元，會先提示再載入完整 WOFF2。`optimized-fonts.lock.json` 驗證產生的四個 WOFF2。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建；`npm run assets:restore` 可從鎖定來源還原原始字型與授權檔。
+本站字型的三組內建樣本、預設搭配文與 ASCII 有小型 WOFF2 子集。這些子集使用獨立的內部字型名稱，並保留原作者及授權資訊。完整檔優先使用作者發布的原始 WOFF2；源流明體和清松手寫體則由 FontTools 轉為完整 WOFF2。使用者輸入子集之外的文字時，介面會先顯示完整檔的大小，再由使用者確認。
+
+`assets.lock.json` 鎖定既有原始檔和授權；`assets/web-font-sources.json` 鎖定本批來源的版本和 SHA-256。`optimized-fonts.lock.json` 驗證發布的 WOFF2、相關授權與字元清單。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建，下載的新增來源會放在未納入版本控制的 `assets/.font-cache/`；`npm run assets:restore` 可還原既有來源。
 
 ## 載入、隱私與限制
 
 - 字型在卡片接近可視範圍時才請求。Google Fonts 使用 `text=` 傳送去重後的必要字元；字元清單過長時退回 Google 的 unicode-range 分片。其他 CJK 字型使用 jsDelivr 提供的 `unicode-range` CSS，瀏覽器只會下載目前文字命中的 WOFF2 字元片段。
 - 文字搭配區依各欄位實際選用的字型載入。只有採用 Google 字型的欄位會把該欄位的去重字元放入對應的精簡請求。
-- 兩款本機字型的內建樣本在卡片進入畫面時自動載入小型子集。子集外的文字會顯示完整字型載入按鈕；配對預覽也會先提示，等使用者確認才載入完整 WOFF2。
+- 本站字型的內建樣本在卡片進入畫面時自動載入小型子集。子集外的文字會顯示完整字型載入按鈕；搭配預覽也會先提示，等使用者確認才下載所選字重的完整 WOFF2。
 - 文字變動後延遲 400ms 請求所需字元，合併快速輸入期間的載入；保留中文輸入法組字流程。
 - 預覽文字只保存在頁面記憶體，不寫入 LocalStorage，也不傳送至本站。使用 Google Fonts 時，瀏覽器會把目前需要的排序、去重字元放在 `text=` 請求參數交給 Google；原文順序與完整字串不會送出。字元清單過長時改用 unicode-range 分片。使用 jsDelivr 字型時只請求對應的字型 CSS 與 WOFF2 子集，請求網址不包含預覽文字。本機字型不會把預覽文字放進請求。
 - LocalStorage 僅記錄收藏與排版設定；若被封鎖，工具仍可使用，但無法保存設定。
@@ -89,7 +96,7 @@ npm run preview         # 預覽 dist 正式建置
 3. Google Fonts 使用正確的 API 參數；外部 CSS 必須具備 unicode-range 並釘選可重現的套件版本；本地原始字型放入 `assets/fonts/`，產生的 WOFF2 放入 `public/fonts/` 並採按需載入。加入完整原始授權文件，使用固定來源更新 `assets.lock.json` 的位元組數與 SHA-256；再執行 `npm run assets:fonts` 更新 WOFF2 與最佳化資產鎖。
 4. 同步首頁精選數量、README 與目錄完整性測試；執行單元、瀏覽器及真實字型測試。
 
-目前目錄收錄三十四款，Google Fonts 繁中／香港目錄、臺灣開源字型專案、CNS11643 全字庫與三個 CJK 字型子集服務都已完成盤點。納入條件是來源可追溯、授權可用於網頁預覽、繁中字形或繁中版本可確認，並能按需載入字元子集。搜尋清單與未納入字型的理由整理在 [`docs/font-catalog-research.md`](docs/font-catalog-research.md)。不要把不允許再散布的字型放進 repository，也不要把不支援的字重當作真實字型提供。
+目前目錄收錄四十二款。納入條件是來源可追溯、授權可用於網頁預覽、繁中字形或繁中版本可確認，並能按需載入。搜尋清單與未納入字型的理由整理在 [`docs/font-catalog-research.md`](docs/font-catalog-research.md)。
 
 ## GitHub Pages 部署
 

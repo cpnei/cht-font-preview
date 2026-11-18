@@ -11,7 +11,19 @@
 3. 有臺灣／香港繁中字形版本，或官方說明明確提供繁體中文支援。
 4. 能在使用者預覽時按需載入字元，避免第一次開頁就下載整套大型 CJK 字型。
 
-目前目錄三十四款。Google Fonts 的繁中／香港子集目錄共有十九個候選家族：原有六款、這次新增十款，另三款是 Bpmf 注音／變體序列版本；一般預覽文字看不出它們與對應家族的差別，因此不重複列卡片。再從兩個 CJK 字型子集登錄納入十二款：台北黑體、未來熒黑五種字寬、Fusion Pixel 兩種 12px 字面、源起／源樣明體，以及全字庫正宋／正楷體。最後從 Ziano 的傳承字形字元分片服務加入四款黑體與明體。
+目前目錄四十二款。首批三十四款涵蓋 Google Fonts 繁中／香港目錄、CJK 字型子集套件、本機預覽檔和 Ziano 的傳承字形服務。第二批新增下列八款。
+
+## 第二批新增
+
+| 字型 | 網站字重與來源 |
+| --- | --- |
+| LINE Seed TW | Thin 250、Regular 400、Bold 700、ExtraBold 800。取自 [LINE 官方套件](https://seed.line.me/index_tw.html) 1.4.00。 |
+| 台灣圓體 TaiwanPearl | Regular 400。[作者專案](https://github.com/max32002/TaiwanPearl) 的官方 WOFF2。 |
+| 豆腐烏 | 20.05 Regular 400。[再會豆腐字](https://tauhu.tw/ji-hing/) 提供的 WOFF2。23.11 Bold 僅收錄部分臺語字元，作為增補字型使用。 |
+| 源流明體月 TW | Regular 400、Bold 700。取自 [ButTaiwan v2.100 TW 套件](https://github.com/ButTaiwan/genryu-font/releases/tag/v2.100)。 |
+| 清松手寫體 1、2、4、5 號 | 各一種字重，對應圓潤、秀氣、POP 及行楷。[作者專案](https://github.com/jasonhandwriting/JasonHandwriting) 的 TTF。 |
+
+本批都依作者發布的 OFL 1.1 收錄。LINE Seed TW、台灣圓體和豆腐烏的完整 WOFF2 採原檔；源流明體月和清松手寫體的完整 WOFF2 是本站轉換版。每個字重的精簡樣張使用獨立內部名稱，來源、授權與完整檔大小可從網站查閱。原始下載的雜湊記在 [來源鎖定檔](../assets/web-font-sources.json)。
 
 ## 本次新增
 
@@ -67,8 +79,7 @@ Google Fonts API 傳送排序、去重後的當前字元子集；CJK 套件則�
 | ChillDINGothic | 有 OFL 網頁分片套件，但上游說明未確認臺灣或香港繁中字形標準，先不放入以繁中為主的目錄。 |
 | WenJin Mincho、Zhuque Fangsong、Black Sugar Plum Candy | 字型包可取得，但來源說明分別標示中國字形習慣、預發布階段或日文字形取向；目前不把它們當作臺灣／香港繁中字型推薦。 |
 | ChillDINGothic | 有 OFL 與繁中文字元分片，但上游沒有確認臺灣或香港字形標準，先不標示為繁中地區字型。 |
-| LINE Seed TW、TaiwanPearl | 都有可確認的繁中字形與 OFL 授權。LINE Seed TW 找到完整 WOFF2 與第三方動態 CSS，尚未找到可固定版本、來源可追的字元分片套件；TaiwanPearl 找到完整 WOFF2。直接逐款載入完整字檔會讓長目錄瀏覽變慢。 |
-| Swei 獅尾系列、ButTaiwan 源樣黑體／源泉圓體／源流明體／源雲明體／源石黑體 | 多款授權與原始來源清楚，值得後續擴充；目前來源提供完整字型，尚未找到可固定版本、可按字元載入的同等網頁套件。 |
+| Swei 獅尾系列、ButTaiwan 源泉圓體／源雲明體／源石黑體 | 可列入後續擴充，需為各款確認字形版本、字重與網頁載入方案。 |
 
 未納入表示這次網站尚未收錄，並非評價字型品質或判定其授權不可用。若之後為完整字型建立小型預覽子集與按需完整載入，可以把這些候選再加入，而不必把大型原檔放入頁面初始下載。
 

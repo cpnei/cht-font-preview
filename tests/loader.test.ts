@@ -35,6 +35,6 @@ it('does not replace the ready full face when a timed-out preview finishes', asy
   await vi.advanceTimersByTimeAsync(0);
 
   expect([...installed]).toEqual([full]);
-  expect(loader.isLocalFull(font.id)).toBe(true);
+  expect(loader.isLocalFull(font.id, 400)).toBe(true);
   expect(loader.status(font, '完整預覽', 400, false)).toBe('ready');
 });

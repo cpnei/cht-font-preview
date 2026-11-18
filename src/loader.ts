@@ -10,7 +10,7 @@ interface Entry {
   failed?: string;
   stylesheets?: Set<string>;
   google?: { mode: GoogleMode; characters: Set<string>; links: HTMLLinkElement[] };
-  local?: { mode: LocalMode; face: FontFace };
+  local?: Map<number, { mode: LocalMode; face: FontFace }>;
 }
 
 function fontSample(text: string) {
@@ -31,7 +31,8 @@ function stylesheetUrl(font: FontDefinition, weight: number): string {
 
 function covers(entry: Entry, font: FontDefinition, characters: string[], weight: number, preferSubset: boolean) {
   if (font.loader.kind === 'local') {
-    return entry.local?.mode === 'full' || (preferSubset && entry.local?.mode === 'preview');
+    const local = entry.local?.get(weight);
+    return local?.mode === 'full' || (preferSubset && local?.mode === 'preview');
   }
   const confirmed = entry.charactersByWeight.get(weight);
   return confirmed && characters.every(character => confirmed.has(character));
@@ -93,24 +94,27 @@ export class FontLoader {
 
   hasLoaded(id: string): boolean {
     const entry = this.entries.get(id);
-    return Boolean(entry?.local || entry?.charactersByWeight.size);
+    return Boolean(entry?.local?.size || entry?.charactersByWeight.size);
   }
 
-  isLocalFull(id: string): boolean { return this.entries.get(id)?.local?.mode === 'full'; }
+  isLocalFull(id: string, weight: number): boolean { return this.entries.get(id)?.local?.get(weight)?.mode === 'full'; }
 
   private async loadFont(font: FontDefinition, entry: Entry, sample: string, characters: string[], weight: number, preferSubset: boolean, signal: AbortSignal) {
     const source = font.loader;
     if (source.kind === 'local') {
       const mode: LocalMode = preferSubset ? 'preview' : 'full';
-      const path = mode === 'preview' ? source.preview.path : source.path;
+      const files = source.files[weight];
+      const path = mode === 'preview' ? files.preview.path : files.path;
       const face = new FontFace(fontFamily(font), 'url("' + assetUrl(path) + '")', {
         weight: String(weight), style: 'normal', display: 'swap',
       });
       await face.load();
       signal.throwIfAborted();
       document.fonts.add(face);
-      if (entry.local) document.fonts.delete(entry.local.face);
-      entry.local = { mode, face };
+      entry.local ??= new Map();
+      const previous = entry.local.get(weight);
+      if (previous) document.fonts.delete(previous.face);
+      entry.local.set(weight, { mode, face });
       return;
     }
 
