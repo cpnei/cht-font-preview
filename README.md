@@ -27,7 +27,7 @@ npm run dev
 ```sh
 npm test                # 資料與互動狀態單元測試
 npm run build           # 型別、原始資產 SHA-256 驗證與正式建置
-npx playwright install chromium
+npx playwright install chromium webkit
 npm run test:e2e        # 桌面與手機瀏覽器測試；外部字型失敗採確定性模擬
 npm run test:fonts      # 額外連網驗證三十四款真實字型、動態字元子集與字重
 npm run preview         # 預覽 dist 正式建置
@@ -55,7 +55,7 @@ npm run preview         # 預覽 dist 正式建置
 | 思源宋體 HK | [Google / Adobe](https://github.com/notofonts/noto-cjk) | Google Fonts |
 | 宇文天穹 | [Moonlit Owen](https://github.com/MoonlitOwen/ThenKhung) | Google Fonts |
 | WD-XL 滑石體 TC | [NightFurySL2001](https://github.com/NightFurySL2001/WD-XL-font) | Google Fonts |
-| 辰宇落雁體 2.0 Thin | [劉韋辰 / 王立宇](https://github.com/Chenyu-otf/chenyuluoyan_thin) | 樣本子集 WOFF2 58 KB；自訂文字 4.8 MB |
+| 辰宇落雁體 2.0 Thin | [劉韋辰 / 王立宇](https://github.com/Chenyu-otf/chenyuluoyan_thin) | 樣本子集 WOFF2 59 KB；自訂文字 4.8 MB |
 | 饅頭黑體 | [mant0u0 / Artakana](https://github.com/mant0u0/MantouSans) | 樣本子集 WOFF2 20 KB；自訂文字 1.3 MB |
 | 台北黑體 Taipei Sans TC Beta | [臺北市政府資訊局 / JT Foundry](https://sites.google.com/view/jtfoundry/zh-tw/downloads) | jsDelivr WOFF2 字元子集 |
 | 未來熒黑 TC 標準、壓縮、窄、寬、加寬 | [Project Wêlai](https://github.com/welai/glow-sans) | jsDelivr WOFF2 字元子集 |
@@ -69,11 +69,12 @@ npm run preview         # 預覽 dist 正式建置
 
 收錄字型都提供 **SIL Open Font License 1.1** 全文；少數字型另附上游的補充授權或來源說明，保存在 `public/licenses/`。免費商用不等於沒有條件：再散布、修改及保留名稱仍須依各字型授權辦理。網站程式碼採 MIT，MIT 不套用於字型檔案。
 
-本地原始 TTF 保存在非公開的 `assets/fonts/`，與授權檔一樣由 `assets.lock.json` 依不可變的上游 commit、大小與 SHA-256 鎖定。瀏覽器使用 FontTools 產生的完整 WOFF2；三組內建樣本與預設搭配文另有小型 WOFF2 子集，涵蓋 ASCII。預覽文字若包含子集以外的字元，會先提示再載入完整 WOFF2。`optimized-fonts.lock.json` 驗證產生的四個 WOFF2。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建；`npm run assets:restore` 可從鎖定來源還原原始字型與授權檔。
+本地原始 TTF 保存在非公開的 `assets/fonts/`，與授權檔一樣由 `assets.lock.json` 依不可變的上游 commit、大小與 SHA-256 鎖定。瀏覽器使用 FontTools 產生的完整 WOFF2；三組內建樣本與預設搭配文另有小型 WOFF2 子集，涵蓋 ASCII。**Font Select Inkline** 源自辰宇落雁體 2.0 Thin，**Font Select Broadstroke** 源自饅頭黑體。兩個預覽子集沿用各自的 OFL 1.1、保留原作者與授權資訊，並採用獨立的內部字型名稱。預覽文字若包含子集以外的字元，會先提示再載入完整 WOFF2。`optimized-fonts.lock.json` 驗證產生的四個 WOFF2。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建；`npm run assets:restore` 可從鎖定來源還原原始字型與授權檔。
 
 ## 載入、隱私與限制
 
 - 字型在卡片接近可視範圍時才請求。Google Fonts 使用 `text=` 傳送去重後的必要字元；字元清單過長時退回 Google 的 unicode-range 分片。其他 CJK 字型使用 jsDelivr 提供的 `unicode-range` CSS，瀏覽器只會下載目前文字命中的 WOFF2 字元片段。
+- 文字搭配區依各欄位實際選用的字型載入。只有採用 Google 字型的欄位會把該欄位的去重字元放入對應的精簡請求。
 - 兩款本機字型的內建樣本在卡片進入畫面時自動載入小型子集。子集外的文字會顯示完整字型載入按鈕；配對預覽也會先提示，等使用者確認才載入完整 WOFF2。
 - 文字變動後延遲 400ms 請求所需字元，合併快速輸入期間的載入；保留中文輸入法組字流程。
 - 預覽文字只保存在頁面記憶體，不寫入 LocalStorage，也不傳送至本站。使用 Google Fonts 時，瀏覽器會把目前需要的排序、去重字元放在 `text=` 請求參數交給 Google；原文順序與完整字串不會送出。字元清單過長時改用 unicode-range 分片。使用 jsDelivr 字型時只請求對應的字型 CSS 與 WOFF2 子集，請求網址不包含預覽文字。本機字型不會把預覽文字放進請求。

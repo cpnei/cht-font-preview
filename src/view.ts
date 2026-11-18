@@ -25,7 +25,7 @@ export function fontCard(font: FontDefinition, base: string, selectedWeight = fo
     <div class="font-heading"><h3>${font.name}</h3><span>${font.englishName}</span></div>
     <div class="preview-area"><p class="font-preview" data-preview></p><div class="font-placeholder" data-placeholder></div></div>
     <div class="font-status" data-status aria-live="polite"></div>
-    <div class="card-description"><p>${font.description}</p><label class="weight-label"><span class="sr-only">${font.name} 字重</span><select data-weight="${font.id}" ${font.weights.length === 1 ? 'disabled' : ''}>${weightOptions(font, selectedWeight)}</select></label></div>
+    <div class="card-description"><p>${font.description}${font.loader.kind === 'local' ? '<br>精簡預覽由字選依原字型製作。' : ''}</p><label class="weight-label"><span class="sr-only">${font.name} 字重</span><select data-weight="${font.id}" ${font.weights.length === 1 ? 'disabled' : ''}>${weightOptions(font, selectedWeight)}</select></label></div>
     <div class="card-details"><a href="${font.sourceUrl}" target="_blank" rel="noopener noreferrer">${font.author} ${icon('arrow')}</a><a class="license-badge" href="${base}${font.licensePath}" target="_blank" rel="noopener noreferrer" aria-label="${font.name} OFL 授權">OFL・可商用</a></div>
     <div class="card-footer"><a href="${font.downloadUrl}" target="_blank" rel="noopener noreferrer">前往下載 ${icon('arrow')}</a></div>
   </article>`;
@@ -84,8 +84,9 @@ export function renderHome(base: string) {
             <label class="pairing-field" for="pairing-heading-font"><span>標題字型</span><select id="pairing-heading-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-serif-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
             <label class="pairing-field" for="pairing-body-font"><span>內文字型</span><select id="pairing-body-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-sans-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
           </div>
-          <label class="pairing-field" for="pairing-heading-text"><span>標題文字</span><input id="pairing-heading-text" type="text" maxlength="80" value="${pairingSample.heading}"></label>
-          <label class="pairing-field" for="pairing-body-text"><span>段落內文</span><textarea id="pairing-body-text" rows="4" maxlength="400">${pairingSample.body}</textarea></label>
+          <label class="pairing-field" for="pairing-heading-text"><span>標題文字</span><input id="pairing-heading-text" type="text" maxlength="80" aria-describedby="pairing-privacy-note" value="${pairingSample.heading}"></label>
+          <label class="pairing-field" for="pairing-body-text"><span>段落內文</span><textarea id="pairing-body-text" rows="4" maxlength="400" aria-describedby="pairing-privacy-note">${pairingSample.body}</textarea></label>
+          <p class="preview-font-note" id="pairing-privacy-note">使用 Google Fonts 精簡載入時，Google 只會收到採用該字型的欄位所需的去重字元。</p>
           <p class="pairing-status" id="pairing-status" role="status" aria-live="polite"></p>
         </div>
         <div class="pairing-canvas" id="pairing-canvas">

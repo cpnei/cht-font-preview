@@ -8,9 +8,9 @@
       "sha256": "ac8d722c9603c6f594c0c27eb567d1d5ff758f603046635e08b7f2bf120e5a85"
     },
     {
-      "path": "public/fonts/ChenYuluoyan-2.0-Thin.preview.woff2",
-      "bytes": 58092,
-      "sha256": "491ad27b298e71670daafd88434d685029585e9de61f41a3bb863690f50d8cbe"
+      "path": "public/fonts/Font-Select-Inkline.preview.woff2",
+      "bytes": 58552,
+      "sha256": "21724416b9d6fe6787eefeea4b69407c45bf0d8b8c7b1453844e5a27538e1ee4"
     },
     {
       "path": "public/fonts/MantouSans-Regular.woff2",
@@ -18,9 +18,9 @@
       "sha256": "f6953e6302a99a69302af0a8439fb1c2da8120638d0008d4bd669bb7cd20379e"
     },
     {
-      "path": "public/fonts/MantouSans-Regular.preview.woff2",
-      "bytes": 20040,
-      "sha256": "b637c6cc48fc5e5240e563439962cbc8c0b62218052144c542a64bcddc7e0abd"
+      "path": "public/fonts/Font-Select-Broadstroke.preview.woff2",
+      "bytes": 20176,
+      "sha256": "a316849510c7387651f85ed113c473a025832cad6ea84e18fe76f44b7594c680"
     }
   ]
 }

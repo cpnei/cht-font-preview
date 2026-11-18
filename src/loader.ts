@@ -3,166 +3,185 @@ import { assetUrl, fontFamily, type FontDefinition } from './fonts';
 export type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
 type LocalMode = 'preview' | 'full';
 type GoogleMode = 'subset' | 'full';
+
 interface Entry {
-  status: LoadStatus;
-  loaded?: boolean;
-  promise?: Promise<void>;
-  links?: HTMLLinkElement[];
-  face?: FontFace;
-  googleText?: string;
-  googleMode?: GoogleMode;
-  stylesheets?: Map<string, { text: string }>;
-  localMode?: LocalMode;
+  charactersByWeight: Map<number, Set<string>>;
+  pending?: Promise<void>;
+  failed?: string;
+  stylesheets?: Set<string>;
+  google?: { mode: GoogleMode; characters: Set<string>; links: HTMLLinkElement[] };
+  local?: { mode: LocalMode; face: FontFace };
 }
 
-function compactText(text: string) {
-  return text.replace(/\s+/gu, ' ').trim();
+function fontSample(text: string) {
+  return text.replace(/[\uD800-\uDFFF]/gu, '\uFFFD').replace(/\s+/gu, ' ').trim();
 }
 
 function uniqueCharacters(text: string) {
-  return [...new Set(Array.from(text))]
-    .sort((left, right) => left.codePointAt(0)! - right.codePointAt(0)!)
-    .join('');
-}
-
-function containsCharacters(available: string, requested: string) {
-  const set = new Set(Array.from(available));
-  return Array.from(requested).every(character => set.has(character));
-}
-
-function googleModeFor(sample: string, preferSubset: boolean): GoogleMode {
-  return preferSubset && encodeURIComponent(uniqueCharacters(sample)).length <= 2000 ? 'subset' : 'full';
+  return [...new Set(Array.from(text))].sort((left, right) => left.codePointAt(0)! - right.codePointAt(0)!);
 }
 
 function stylesheetUrl(font: FontDefinition, weight: number): string {
   if (font.loader.kind !== 'stylesheet') throw new Error('字型樣式表設定錯誤');
   const { stylesheet } = font.loader;
   const url = typeof stylesheet === 'string' ? stylesheet : stylesheet[weight];
-  if (!url) throw new Error(`找不到 ${font.name} ${weight} 字重樣式`);
+  if (!url) throw new Error('找不到指定字重的字型樣式');
   return url;
+}
+
+function covers(entry: Entry, font: FontDefinition, characters: string[], weight: number, preferSubset: boolean) {
+  if (font.loader.kind === 'local') {
+    return entry.local?.mode === 'full' || (preferSubset && entry.local?.mode === 'preview');
+  }
+  const confirmed = entry.charactersByWeight.get(weight);
+  return confirmed && characters.every(character => confirmed.has(character));
+}
+
+function requestKey(characters: string[], weight: number, preferSubset: boolean) {
+  return [weight, preferSubset, characters.join('')].join(':');
+}
+
+async function loadStylesheet(href: string | undefined, descriptor: string, sample: string, signal: AbortSignal) {
+  const link = href ? document.createElement('link') : undefined;
+  let rejectStylesheet: ((reason: unknown) => void) | undefined;
+  function cancel() {
+    link?.remove();
+    rejectStylesheet?.(signal.reason);
+  }
+
+  signal.addEventListener('abort', cancel, { once: true });
+  try {
+    if (link && href) {
+      link.rel = 'stylesheet';
+      link.href = href;
+      await new Promise<void>((resolve, reject) => {
+        rejectStylesheet = reject;
+        link.onload = () => resolve();
+        link.onerror = () => reject(new Error('無法取得字型樣式'));
+        document.head.append(link);
+      });
+    }
+    signal.throwIfAborted();
+    const loaded = await document.fonts.load(descriptor, sample);
+    signal.throwIfAborted();
+    if (loaded.length === 0) throw new Error('未取得字型');
+    return link;
+  } catch (error) {
+    link?.remove();
+    throw error;
+  } finally {
+    signal.removeEventListener('abort', cancel);
+    if (link) {
+      link.onload = null;
+      link.onerror = null;
+    }
+  }
 }
 
 export class FontLoader {
   private entries = new Map<string, Entry>();
   constructor(private onChange: (id: string) => void) {}
 
-  status(id: string): LoadStatus { return this.entries.get(id)?.status ?? 'idle'; }
-  hasLoaded(id: string): boolean { return this.entries.get(id)?.loaded ?? false; }
-  isLocalFull(id: string): boolean { return this.entries.get(id)?.localMode === 'full'; }
-
-  private async initialize(font: FontDefinition, entry: Entry, sample: string, weight: number, preferSubset: boolean) {
-    if (font.loader.kind === 'local') {
-      const mode: LocalMode = preferSubset && font.loader.preview ? 'preview' : 'full';
-      if (entry.localMode === 'full' || entry.localMode === mode) return;
-      const path = mode === 'preview' ? font.loader.preview.path : font.loader.path;
-      const face = new FontFace(fontFamily(font), `url("${assetUrl(path)}")`, {
-        weight: String(font.defaultWeight), style: 'normal', display: 'swap',
-      });
-      await face.load();
-      document.fonts.add(face);
-      if (entry.face) document.fonts.delete(entry.face);
-      entry.face = face;
-      entry.localMode = mode;
-      return;
-    }
-
-    if (font.loader.kind === 'stylesheet') {
-      const href = stylesheetUrl(font, weight);
-      if (entry.stylesheets?.has(href)) return;
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = href;
-      await new Promise<void>((resolve, reject) => {
-        link.onload = () => resolve();
-        link.onerror = () => reject(new Error('無法取得字型樣式'));
-        document.head.append(link);
-      }).catch(error => {
-        link.remove();
-        throw error;
-      });
-      entry.links = [...(entry.links ?? []), link];
-      entry.stylesheets ??= new Map();
-      entry.stylesheets.set(href, { text: '' });
-      return;
-    }
-
-    const text = uniqueCharacters(sample);
-    const mode = googleModeFor(sample, preferSubset);
-    if (entry.googleMode === 'full') return;
-    const previousText = entry.googleMode === 'subset' ? entry.googleText ?? '' : '';
-    const textToRequest = mode === 'subset'
-      ? uniqueCharacters(Array.from(text).filter(character => !previousText.includes(character)).join(''))
-      : '';
-    if (mode === 'subset' && !textToRequest) return;
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    const family = encodeURIComponent(font.loader.family).replace(/%20/g, '+');
-    const textParameter = mode === 'subset' ? `&text=${encodeURIComponent(textToRequest)}` : '';
-    link.href = `https://fonts.googleapis.com/css2?family=${family}${font.loader.axis}&display=swap${textParameter}`;
-    await new Promise<void>((resolve, reject) => {
-      link.onload = () => resolve();
-      link.onerror = () => reject(new Error('無法取得字型樣式'));
-      document.head.append(link);
-    }).catch(error => {
-      link.remove();
-      throw error;
-    });
-    if (mode === 'subset') {
-      entry.links = [...(entry.links ?? []), link];
-      entry.googleMode = 'subset';
-      entry.googleText = uniqueCharacters(previousText + textToRequest);
-    } else {
-      for (const previous of entry.links ?? []) previous.remove();
-      entry.links = [link];
-      entry.googleMode = 'full';
-      entry.googleText = undefined;
-    }
+  status(font: FontDefinition, text: string, weight: number, preferSubset: boolean): LoadStatus {
+    const entry = this.entries.get(font.id);
+    if (!entry) return 'idle';
+    const characters = uniqueCharacters(fontSample(text));
+    if (covers(entry, font, characters, weight, preferSubset)) return 'ready';
+    if (entry.pending) return 'loading';
+    return entry.failed === requestKey(characters, weight, preferSubset) ? 'error' : 'idle';
   }
 
-  async load(font: FontDefinition, text: string, weight: number, retry = false, preferSubset = false): Promise<void> {
-    let entry = this.entries.get(font.id);
-    if (!entry) { entry = { status: 'idle' }; this.entries.set(font.id, entry); }
-    const displayText = compactText(text);
-    const sample = `${displayText}\nAa臺灣`;
-    const requestedCharacters = uniqueCharacters(sample);
-    const stretch = font.loader.kind === 'stylesheet' && font.loader.stretch ? `${font.loader.stretch} ` : '';
-    const descriptor = `${stretch}${weight} 36px "${fontFamily(font)}"`;
+  hasLoaded(id: string): boolean {
+    const entry = this.entries.get(id);
+    return Boolean(entry?.local || entry?.charactersByWeight.size);
+  }
 
-    while (entry.promise) await entry.promise;
-    if (entry.status === 'error' && !retry) return;
-    const modeIsCovered = font.loader.kind === 'google'
-      ? entry.googleMode === 'full' || (googleModeFor(sample, preferSubset) === 'subset'
-        && entry.googleMode === 'subset' && Boolean(entry.googleText && containsCharacters(entry.googleText, requestedCharacters)))
-      : font.loader.kind === 'stylesheet'
-        ? Boolean(entry.stylesheets?.get(stylesheetUrl(font, weight))?.text
-          && containsCharacters(entry.stylesheets.get(stylesheetUrl(font, weight))!.text, requestedCharacters))
-        : entry.localMode === 'full' || (preferSubset && entry.localMode === 'preview');
-    if (entry.status === 'ready' && modeIsCovered && document.fonts.check(descriptor, sample)) return;
+  isLocalFull(id: string): boolean { return this.entries.get(id)?.local?.mode === 'full'; }
 
-    entry.status = 'loading';
-    this.onChange(font.id);
-    let timer: ReturnType<typeof setTimeout>;
-    const work = async () => {
-      await this.initialize(font, entry, sample, weight, preferSubset);
-      const loaded = await document.fonts.load(descriptor, sample);
-      if (loaded.length === 0) throw new Error('未取得字型');
-    };
-    entry.promise = Promise.race([
-      work(),
-      new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error('載入逾時')), 25000); }),
-    ]).then(() => {
-      if (font.loader.kind === 'stylesheet') {
-        const state = entry.stylesheets?.get(stylesheetUrl(font, weight));
-        if (state) state.text = uniqueCharacters(state.text + sample);
+  private async loadFont(font: FontDefinition, entry: Entry, sample: string, characters: string[], weight: number, preferSubset: boolean, signal: AbortSignal) {
+    const source = font.loader;
+    if (source.kind === 'local') {
+      const mode: LocalMode = preferSubset ? 'preview' : 'full';
+      const path = mode === 'preview' ? source.preview.path : source.path;
+      const face = new FontFace(fontFamily(font), 'url("' + assetUrl(path) + '")', {
+        weight: String(weight), style: 'normal', display: 'swap',
+      });
+      await face.load();
+      signal.throwIfAborted();
+      document.fonts.add(face);
+      if (entry.local) document.fonts.delete(entry.local.face);
+      entry.local = { mode, face };
+      return;
+    }
+
+    const stretch = source.kind === 'stylesheet' && source.stretch ? source.stretch + ' ' : '';
+    const descriptor = stretch + weight + ' 36px "' + fontFamily(font) + '"';
+    if (source.kind === 'stylesheet') {
+      const href = stylesheetUrl(font, weight);
+      await loadStylesheet(entry.stylesheets?.has(href) ? undefined : href, descriptor, sample, signal);
+      entry.stylesheets ??= new Set();
+      entry.stylesheets.add(href);
+    } else {
+      const current = entry.google;
+      const encodedText = encodeURIComponent(characters.join(''));
+      const mode: GoogleMode = preferSubset && encodedText.length <= 2000 ? 'subset' : 'full';
+      const missing = characters.filter(character => !current?.characters.has(character));
+      let href: string | undefined;
+      if (current?.mode !== 'full' && (mode === 'full' || missing.length)) {
+        const family = encodeURIComponent(source.family).replace(/%20/g, '+');
+        const textParameter = mode === 'subset' ? '&text=' + encodeURIComponent(missing.join('')) : '';
+        href = 'https://fonts.googleapis.com/css2?family=' + family + source.axis + '&display=swap' + textParameter;
       }
-      entry.status = 'ready'; entry.loaded = true;
-    }).catch(() => {
-      entry.status = 'error';
-    }).finally(() => {
-      clearTimeout(timer);
-      entry.promise = undefined;
-      this.onChange(font.id);
+
+      const link = await loadStylesheet(href, descriptor, sample, signal);
+      if (link && mode === 'full') {
+        for (const previous of current?.links ?? []) previous.remove();
+        entry.google = { mode, characters: new Set(), links: [link] };
+        entry.charactersByWeight.clear();
+      } else if (link) {
+        entry.google = { mode, characters: new Set([...(current?.characters ?? []), ...missing]), links: [...(current?.links ?? []), link] };
+      }
+    }
+
+    const confirmed = entry.charactersByWeight.get(weight) ?? new Set<string>();
+    for (const character of characters) confirmed.add(character);
+    entry.charactersByWeight.set(weight, confirmed);
+  }
+
+  async load(font: FontDefinition, text: string, weight: number, retry: boolean, preferSubset: boolean): Promise<void> {
+    const sample = fontSample(text);
+    if (!sample) return;
+    let entry = this.entries.get(font.id);
+    if (!entry) {
+      entry = { charactersByWeight: new Map() };
+      this.entries.set(font.id, entry);
+    }
+    while (entry.pending) await entry.pending;
+
+    const characters = uniqueCharacters(sample);
+    const key = requestKey(characters, weight, preferSubset);
+    if (covers(entry, font, characters, weight, preferSubset) || (!retry && entry.failed === key)) return;
+
+    const controller = new AbortController();
+    let timer: ReturnType<typeof setTimeout>;
+    const timeout = new Promise<never>((_, reject) => {
+      timer = setTimeout(() => {
+        const error = new Error('載入逾時');
+        controller.abort(error);
+        reject(error);
+      }, 25000);
     });
-    await entry.promise;
+    entry.pending = Promise.race([this.loadFont(font, entry, sample, characters, weight, preferSubset, controller.signal), timeout])
+      .then(() => {
+        if (entry.failed === key) entry.failed = undefined;
+      })
+      .catch(() => { entry.failed = key; })
+      .finally(() => {
+        clearTimeout(timer);
+        entry.pending = undefined;
+        this.onChange(font.id);
+      });
+    this.onChange(font.id);
+    await entry.pending;
   }
 }

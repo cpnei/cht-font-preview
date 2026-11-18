@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import samples from '../src/samples.json' with { type: 'json' };
 
 test('all thirty-four actual fonts load, change weights and render new text', async ({ page }) => {
   test.skip(!process.env.FONT_SMOKE, 'Run npm run test:fonts for real network verification.');
@@ -16,17 +17,25 @@ test('all thirty-four actual fonts load, change weights and render new text', as
     await expect(card).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
     await expect(card.locator('.font-preview')).toBeVisible();
   }
-  await page.locator('#preview-input').fill('臺灣的風景，「字」裡行間。\nDesign 2026 / NT$ 1,280');
-  await page.waitForTimeout(400);
+  const newSubset = page.waitForRequest(request => {
+    const url = new URL(request.url());
+    return url.hostname === 'fonts.googleapis.com' &&
+      url.searchParams.get('family')?.startsWith('Noto Sans TC:') === true &&
+      url.searchParams.get('text')?.includes('~') === true;
+  });
+  await page.locator('#preview-input').fill(samples[2].text + ' ~');
   for (const card of await page.locator('#font-grid .font-card').all()) {
+    await card.scrollIntoViewIfNeeded();
     await expect(card).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
   }
-  await page.locator('[data-weight="noto-sans-tc"]').selectOption('700');
-  await expect(page.locator('[data-font="noto-sans-tc"]')).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
+  await newSubset;
+  const notoSansCard = page.locator('#font-grid [data-font="noto-sans-tc"]');
+  await notoSansCard.locator('[data-weight]').selectOption('700');
+  await expect(notoSansCard).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
+  await expect(notoSansCard.locator('.font-preview')).toHaveCSS('font-weight', '700');
   const loadedFamilies = await page.evaluate(() => Array.from(document.fonts).filter(font => font.status === 'loaded').map(font => font.family.replaceAll('"', '')));
-  for (const family of ['Noto Sans TC', 'Noto Serif TC', 'Huninn', 'Chiron GoRound TC', 'LXGW WenKai TC', 'Iansui', 'preview-chenyuluoyan', 'preview-mantou-sans', 'Cactus Classical Serif', 'Chiron Hei HK', 'Chiron Sung HK', 'Chocolate Classical Sans', 'LXGW Marker Gothic', 'LXGW WenKai Mono TC', 'Noto Sans HK', 'Noto Serif HK', 'UoqMunThenKhung', 'WDXL Lubrifont TC', 'Taipei Sans TC', 'Glow Sans TC', 'Fusion Pixel 12px Monospaced Traditional Chinese', 'Fusion Pixel 12px Proportional Traditional Chinese', 'GenKiMin2TC', 'GenYoMin2TC', 'TW-Sung', 'TW-Kai', 'GenYo Gothic TC', 'Genki Gothic TC', 'Shanggu Serif TC', 'Shanggu Sans TC']) {
+  for (const family of ['Noto Sans TC', 'Noto Serif TC', 'Huninn', 'Chiron GoRound TC', 'LXGW WenKai TC', 'Iansui', 'Font Select Inkline', 'Font Select Broadstroke', 'Cactus Classical Serif', 'Chiron Hei HK', 'Chiron Sung HK', 'Chocolate Classical Sans', 'LXGW Marker Gothic', 'LXGW WenKai Mono TC', 'Noto Sans HK', 'Noto Serif HK', 'UoqMunThenKhung', 'WDXL Lubrifont TC', 'Taipei Sans TC', 'Glow Sans TC', 'Fusion Pixel 12px Monospaced Traditional Chinese', 'Fusion Pixel 12px Proportional Traditional Chinese', 'GenKiMin2TC', 'GenYoMin2TC', 'TW-Sung', 'TW-Kai', 'GenYo Gothic TC', 'Genki Gothic TC', 'Shanggu Serif TC', 'Shanggu Sans TC']) {
     expect(loadedFamilies).toContain(family);
   }
-  expect(requests.some(url => url.includes('text='))).toBe(true);
   expect(errors).toEqual([]);
 });
