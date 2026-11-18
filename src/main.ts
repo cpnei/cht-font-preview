@@ -29,15 +29,17 @@ const weights = new Map(fonts.map(font => [font.id, font.defaultWeight]));
 const requested = new Set<string>();
 let noticeTimer: ReturnType<typeof setTimeout>;
 let textTimer: ReturnType<typeof setTimeout>;
+let pairingRequestTimer: ReturnType<typeof setTimeout>;
 let compareScrollProgress = 0;
 let compareScrollFrame = 0;
+let pairingActivated = false;
 const expectedCompareScroll = new WeakMap<HTMLElement, number>();
 
 $('#app').innerHTML = `
   <a class="skip-link" href="#preview-input">跳至預覽文字</a>
   <header class="site-header wrap">
     <a class="brand" href="${import.meta.env.BASE_URL}" aria-label="字選首頁"><span class="brand-mark">字</span><span class="brand-name">字選<span>FONT SELECT</span></span></a>
-    <nav aria-label="主選單"><a class="nav-active" href="#catalog">探索字型</a><button type="button" data-open-about>關於字選</button><a class="github-link" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">GitHub ${icon('arrow')}</a></nav>
+    <nav aria-label="主選單"><a class="nav-active" href="#catalog">探索字型</a><a href="#pairing">文字搭配</a><button type="button" data-open-about>關於字選</button><a class="github-link" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">GitHub ${icon('arrow')}</a></nav>
   </header>
   <main class="wrap">
     <section class="hero" aria-labelledby="hero-title">
@@ -63,15 +65,41 @@ $('#app').innerHTML = `
       <div class="empty-state" id="empty-state" hidden><span aria-hidden="true">字</span><h3>還沒遇見這款字</h3><p>換個關鍵字，或放寬篩選條件試試。</p><button type="button" id="reset-filters" class="button-primary">顯示所有字型</button></div>
       <p class="coverage-note">每款字型收錄的字元不同，罕用字、符號或 Emoji 可能由系統字型顯示。</p>
     </section>
+    <section class="pairing-section" id="pairing" aria-labelledby="pairing-heading">
+      <div class="pairing-section-heading"><div><p class="eyebrow"><span></span> TYPE PAIRING</p><h2 id="pairing-heading">標題與內文，各選一款字型。</h2></div><p>編輯文字、挑選字型，即時查看搭配。</p></div>
+      <div class="pairing-layout">
+        <div class="pairing-controls">
+          <div class="pairing-font-selects">
+            <label class="pairing-field" for="pairing-heading-font"><span>標題字型</span><select id="pairing-heading-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-serif-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
+            <label class="pairing-field" for="pairing-body-font"><span>內文字型</span><select id="pairing-body-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-sans-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
+          </div>
+          <label class="pairing-field" for="pairing-heading-text"><span>標題文字</span><input id="pairing-heading-text" type="text" maxlength="80" value="讓每一段文字，都有自己的樣子。"></label>
+          <label class="pairing-field" for="pairing-body-text"><span>段落內文</span><textarea id="pairing-body-text" rows="4" maxlength="400">標題負責吸引目光，內文陪伴閱讀。為它們挑選不同字型，感受筆畫、節奏與性格如何搭配。</textarea></label>
+          <p class="pairing-status" id="pairing-status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="pairing-canvas" id="pairing-canvas">
+          <span class="pairing-canvas-label">即時排版預覽</span>
+          <article class="pairing-specimen" aria-label="標題與內文字型搭配預覽">
+            <h3 id="pairing-preview-heading"></h3>
+            <p id="pairing-preview-body"></p>
+          </article>
+          <span class="pairing-canvas-footer">標題與內文可使用不同字型</span>
+        </div>
+      </div>
+    </section>
     <section class="closing-note"><span aria-hidden="true">字</span><div><h2>好字，值得被看見。</h2><p>感謝每一位字型創作者，讓文字有更多可能。<br>喜歡一款字，也別忘了到作者的頁面走走。</p></div><button type="button" data-open-about>關於字型與授權 ${icon('arrow')}</button></section>
   </main>
   <footer class="site-footer wrap"><span>字選 FONT SELECT <span class="footer-dash">—</span> 給每一個認真選字的人。</span><span>Made for Traditional Chinese. <a href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">開源專案 ${icon('arrow')}</a></span></footer>
-  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具。我們精選八款適合繁體中文使用的字型，你可以逐張瀏覽介紹，也可以切換單行模式，對照同一段文字在不同字型裡的樣子。</p><h3>免費商用，尊重原創</h3><p>收錄字型皆採 SIL Open Font License 1.1。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。每張卡片附有作者來源與完整授權，本站程式碼則採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器，預覽文字不會存檔，也不會送往伺服器。六款字型由 Google Fonts 載入，瀏覽器會連線至 Google 取得樣式及字型檔；另兩款由本站提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
+  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具。我們精選八款適合繁體中文使用的字型，你可以逐張瀏覽介紹、切換單行模式比較，也可以分別替標題和內文選字，查看搭配效果。</p><h3>免費商用，尊重原創</h3><p>收錄字型皆採 SIL Open Font License 1.1。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。每張卡片附有作者來源與完整授權，本站程式碼則採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器，預覽文字不會存檔，也不會送往伺服器。六款字型由 Google Fonts 載入，瀏覽器會連線至 Google 取得樣式及字型檔；另兩款由本站提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
   <div id="notice" class="notice" role="status" aria-live="polite"></div>
 `;
 
 const loader = new FontLoader(updateFont);
 const input = $<HTMLTextAreaElement>('#preview-input');
+const pairingHeadingFont = $<HTMLSelectElement>('#pairing-heading-font');
+const pairingBodyFont = $<HTMLSelectElement>('#pairing-body-font');
+const pairingHeadingText = $<HTMLInputElement>('#pairing-heading-text');
+const pairingBodyText = $<HTMLTextAreaElement>('#pairing-body-text');
 input.value = previewText;
 
 function notify(message: string) {
@@ -119,6 +147,13 @@ const observer = new IntersectionObserver(entries => {
     if (font.loader.kind === 'google') requestFont(font);
   }
 }, { rootMargin: '150px' });
+const pairingObserver = new IntersectionObserver(entries => {
+  if (!entries.some(entry => entry.isIntersecting)) return;
+  pairingActivated = true;
+  pairingObserver.disconnect();
+  updatePairingStatus();
+  schedulePairingFontRequest();
+}, { rootMargin: '150px' });
 
 function renderCatalog() {
   observer.disconnect();
@@ -141,9 +176,74 @@ function renderCatalog() {
   updateFavoriteUI();
 }
 
-function requestFont(font: FontDefinition, retry = false) {
+function requestFont(font: FontDefinition, retry = false, sample = previewText) {
   requested.add(font.id);
-  void loader.load(font, previewText, weights.get(font.id)!, retry);
+  void loader.load(font, sample, weights.get(font.id)!, retry);
+}
+
+function selectedPairFonts() {
+  return [...new Set([pairingHeadingFont.value, pairingBodyFont.value])].map(id => fontById.get(id)!);
+}
+
+function updatePairingPreview() {
+  const headingFont = fontById.get(pairingHeadingFont.value)!;
+  const bodyFont = fontById.get(pairingBodyFont.value)!;
+  const heading = $<HTMLHeadingElement>('#pairing-preview-heading');
+  const body = $<HTMLParagraphElement>('#pairing-preview-body');
+  heading.textContent = pairingHeadingText.value;
+  heading.style.fontFamily = `"${fontFamily(headingFont)}", serif`;
+  heading.style.fontWeight = String(weights.get(headingFont.id));
+  body.textContent = pairingBodyText.value;
+  body.style.fontFamily = `"${fontFamily(bodyFont)}", serif`;
+  body.style.fontWeight = String(weights.get(bodyFont.id));
+}
+
+function updatePairingStatus() {
+  const status = $<HTMLParagraphElement>('#pairing-status');
+  const selected = selectedPairFonts();
+  const errors = selected.filter(font => loader.status(font.id) === 'error');
+  if (errors.length) {
+    status.replaceChildren(document.createTextNode(`${errors.map(font => font.name).join('、')} 載入失敗。`));
+    const retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'pairing-retry';
+    retry.dataset.pairRetry = 'true';
+    retry.textContent = '重新載入';
+    status.append(' ', retry);
+    return;
+  }
+  const loading = selected.find(font => loader.status(font.id) === 'loading');
+  if (loading) {
+    const size = loading.loader.kind === 'local' ? `（${(loading.loader.bytes / 1000000).toFixed(1)} MB）` : '';
+    status.textContent = `正在載入 ${loading.name}${size}…`;
+    return;
+  }
+  if (!pairingActivated) {
+    status.textContent = '預覽會隨文字即時更新；字型在選用時按需載入。';
+    return;
+  }
+  const idleLocal = selected.find(font => font.loader.kind === 'local' && loader.status(font.id) === 'idle');
+  if (idleLocal?.loader.kind === 'local') {
+    status.textContent = `首次預覽會載入原始字型（${(idleLocal.loader.bytes / 1000000).toFixed(1)} MB）。`;
+    return;
+  }
+  const idle = selected.find(font => loader.status(font.id) === 'idle');
+  if (idle) {
+    status.textContent = `準備載入 ${idle.name}…`;
+    return;
+  }
+  status.textContent = `標題：${fontById.get(pairingHeadingFont.value)!.name} · 內文：${fontById.get(pairingBodyFont.value)!.name}`;
+}
+
+function requestPairingFonts(retry = false) {
+  if (!pairingActivated) return;
+  const sample = `${pairingHeadingText.value}\n${pairingBodyText.value}`;
+  for (const font of selectedPairFonts()) requestFont(font, retry, sample);
+}
+
+function schedulePairingFontRequest(retry = false) {
+  clearTimeout(pairingRequestTimer);
+  pairingRequestTimer = setTimeout(() => requestPairingFonts(retry), retry ? 0 : 220);
 }
 
 function updateFont(id: string) {
@@ -196,6 +296,8 @@ function updateFont(id: string) {
     }
     $<HTMLSelectElement>('[data-weight]', card).value = String(weights.get(id));
   });
+  if (pairingHeadingFont.value === id || pairingBodyFont.value === id) updatePairingPreview();
+  updatePairingStatus();
 }
 
 function applyCompareScrollProgress() {
@@ -276,6 +378,8 @@ document.addEventListener('click', event => {
     if (favoritesOnly) renderCatalog(); else updateFavoriteUI();
   } else if (button.dataset.load) {
     requestFont(fontById.get(button.dataset.load)!, true);
+  } else if (button.dataset.pairRetry) {
+    schedulePairingFontRequest(true);
   } else if (button.id === 'view-toggle') {
     viewMode = viewMode === 'cards' ? 'compare' : 'cards';
     renderCatalog();
@@ -320,6 +424,21 @@ document.addEventListener('change', event => {
 input.addEventListener('input', event => { if (!(event as InputEvent).isComposing) setPreviewText(input.value); });
 input.addEventListener('compositionend', () => setPreviewText(input.value));
 $('#clear-text').addEventListener('click', () => { setPreviewText(''); input.focus(); });
+for (const field of [pairingHeadingText, pairingBodyText]) {
+  field.addEventListener('input', () => {
+    updatePairingPreview();
+    schedulePairingFontRequest();
+  });
+}
+for (const select of [pairingHeadingFont, pairingBodyFont]) {
+  select.addEventListener('change', () => {
+    pairingActivated = true;
+    pairingObserver.disconnect();
+    updatePairingPreview();
+    updatePairingStatus();
+    schedulePairingFontRequest();
+  });
+}
 $('#search').addEventListener('input', event => { query = (event.target as HTMLInputElement).value; renderCatalog(); });
 $('#favorites-filter').addEventListener('click', () => { favoritesOnly = !favoritesOnly; renderCatalog(); });
 $('#reset-filters').addEventListener('click', () => {
@@ -340,4 +459,7 @@ document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('c
 
 syncTypography();
 setPreviewText(previewText);
+updatePairingPreview();
+updatePairingStatus();
+pairingObserver.observe($('#pairing'));
 renderCatalog();
