@@ -7,6 +7,7 @@ const icons = {
   arrow: '<path d="M7 17 17 7M7 7h10v10"/>',
   search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/>',
   heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
+  compare: '<path d="M4 6h16M4 12h16M4 18h16"/><circle cx="7" cy="6" r="1.5" fill="currentColor"/><circle cx="17" cy="12" r="1.5" fill="currentColor"/>',
   close: '<path d="m6 6 12 12M18 6 6 18"/>',
   reset: '<path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/>',
   download: '<path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/>',
@@ -23,6 +24,7 @@ let previewText = samples[0].text;
 let query = '';
 let category: Category = '全部字型';
 let favoritesOnly = false;
+let viewMode: 'cards' | 'compare' = 'cards';
 const weights = new Map(fonts.map(font => [font.id, font.defaultWeight]));
 const requested = new Set<string>();
 let noticeTimer: ReturnType<typeof setTimeout>;
@@ -50,17 +52,18 @@ $('#app').innerHTML = `
       </div>
     </section>
     <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
-      <div class="catalog-top"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">08 TYPEFACES</span></h2><div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div></div>
+      <div class="catalog-top"><div class="catalog-title"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">08 TYPEFACES</span></h2><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">${icon('compare')}<span>單行比較</span></button></div><div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div></div>
       <div class="filter-row"><div class="category-list" role="group" aria-label="字型分類">${categories.map((item, i) => `<button class="category-button" type="button" data-category="${item}" aria-pressed="${i === 0}">${item}</button>`).join('')}</div><button class="favorites-filter" id="favorites-filter" type="button" aria-pressed="false">${icon('heart')}<span>我的收藏</span><span id="favorites-count">${favorites.size}</span></button></div>
       <p class="catalog-hint"><span>一段文字，八種表情。</span><span>${icon('heart')} 收藏喜歡的字型，隨時回來看</span></p>
       <div class="font-grid" id="font-grid"></div>
+      <div class="compare-list" id="compare-list" hidden></div>
       <div class="empty-state" id="empty-state" hidden><span aria-hidden="true">字</span><h3>還沒遇見這款字</h3><p>換個關鍵字，或放寬篩選條件試試。</p><button type="button" id="reset-filters" class="button-primary">顯示所有字型</button></div>
       <p class="coverage-note">每款字型收錄的字元不同，罕用字、符號或 Emoji 可能由系統字型顯示。</p>
     </section>
     <section class="closing-note"><span aria-hidden="true">字</span><div><h2>好字，值得被看見。</h2><p>感謝每一位字型創作者，讓文字有更多可能。<br>喜歡一款字，也別忘了到作者的頁面走走。</p></div><button type="button" data-open-about>關於字型與授權 ${icon('arrow')}</button></section>
   </main>
   <footer class="site-footer wrap"><span>字選 FONT SELECT <span class="footer-dash">—</span> 給每一個認真選字的人。</span><span>Made for Traditional Chinese. <a href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">開源專案 ${icon('arrow')}</a></span></footer>
-  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具。我們精選八款適合繁體中文使用的字型，讓你在下載之前，先看看文字的表情。</p><h3>免費商用，尊重原創</h3><p>收錄字型皆採 SIL Open Font License 1.1。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。每張卡片附有作者來源與完整授權，本站程式碼則採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器，預覽文字不會存檔，也不會送往伺服器。六款字型由 Google Fonts 載入，瀏覽器會連線至 Google 取得樣式及字型檔；另兩款由本站提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
+  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具。我們精選八款適合繁體中文使用的字型，你可以逐張瀏覽介紹，也可以切換單行模式，對照同一段文字在不同字型裡的樣子。</p><h3>免費商用，尊重原創</h3><p>收錄字型皆採 SIL Open Font License 1.1。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。每張卡片附有作者來源與完整授權，本站程式碼則採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器，預覽文字不會存檔，也不會送往伺服器。六款字型由 Google Fonts 載入，瀏覽器會連線至 Google 取得樣式及字型檔；另兩款由本站提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
   <div id="notice" class="notice" role="status" aria-live="polite"></div>
 `;
 
@@ -97,6 +100,14 @@ function cardHTML(font: FontDefinition) {
   </article>`;
 }
 
+function compareRowHTML(font: FontDefinition) {
+  return `<article class="compare-row" data-font="${font.id}" aria-label="${font.name}">
+    <div class="compare-row-heading"><span class="font-category"><i class="category-dot category-${categories.indexOf(font.category)}"></i>${font.category}</span><h3>${font.name}</h3><span class="compare-english">${font.englishName}</span></div>
+    <p class="compare-preview" data-compare-preview aria-label="${font.name} 字型預覽"></p>
+    <div class="compare-row-actions"><button class="icon-button favorite-button" type="button" data-favorite="${font.id}" aria-label="收藏 ${font.name}" aria-pressed="${favorites.has(font.id)}">${icon('heart')}</button><span data-compare-load></span><a class="icon-button compare-download" href="${font.downloadUrl}" target="_blank" rel="noopener noreferrer" aria-label="前往下載 ${font.name}">${icon('download')}</a></div>
+  </article>`;
+}
+
 const observer = new IntersectionObserver(entries => {
   for (const entry of entries) {
     if (!entry.isIntersecting) continue;
@@ -110,10 +121,17 @@ function renderCatalog() {
   observer.disconnect();
   const visible = filterFonts(query, category, favoritesOnly, favorites);
   $('#font-grid').innerHTML = visible.map(font => cardHTML(font)).join('');
+  $('#compare-list').innerHTML = visible.map(font => compareRowHTML(font)).join('');
+  $('#font-grid').hidden = viewMode !== 'cards';
+  $('#compare-list').hidden = viewMode !== 'compare';
   $('#result-count').textContent = `${String(visible.length).padStart(2, '0')} TYPEFACES`;
   $('#empty-state').hidden = visible.length > 0;
   for (const font of visible) updateFont(font.id);
-  document.querySelectorAll('#font-grid .font-card').forEach(card => observer.observe(card));
+  document.querySelectorAll<HTMLElement>(viewMode === 'cards' ? '#font-grid .font-card' : '#compare-list .compare-row').forEach(row => observer.observe(row));
+  $('#view-toggle').setAttribute('aria-pressed', String(viewMode === 'compare'));
+  $('#view-toggle span').textContent = viewMode === 'compare' ? '卡片檢視' : '單行比較';
+  $('#view-toggle').setAttribute('aria-label', viewMode === 'compare' ? '切換至卡片檢視' : '切換至單行比較');
+  updateComparePreviews();
   updateFavoriteUI();
 }
 
@@ -126,6 +144,24 @@ function updateFont(id: string) {
   const font = fontById.get(id)!;
   const status = loader.status(id);
   document.querySelectorAll<HTMLElement>(`[data-font="${id}"]`).forEach(card => {
+    const comparePreview = card.querySelector<HTMLElement>('[data-compare-preview]');
+    if (comparePreview) {
+      comparePreview.style.fontFamily = `"${fontFamily(font)}", serif`;
+      comparePreview.style.fontWeight = String(weights.get(id));
+      comparePreview.title = previewText.replace(/\s+/gu, ' ').trim();
+      card.dataset.status = status;
+      const load = card.querySelector<HTMLElement>('[data-compare-load]')!;
+      if (status === 'idle' && font.loader.kind === 'local') {
+        load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="載入${font.name}預覽">載入</button>`;
+      } else if (status === 'error') {
+        load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="重新載入${font.name}預覽">重試</button>`;
+      } else if (status === 'loading') {
+        load.innerHTML = '<span class="compare-loading" aria-label="字型載入中">···</span>';
+      } else {
+        load.replaceChildren();
+      }
+      return;
+    }
     const preview = $<HTMLParagraphElement>('[data-preview]', card);
     const placeholder = $('[data-placeholder]', card);
     const statusLine = $('[data-status]', card);
@@ -155,6 +191,24 @@ function updateFont(id: string) {
   });
 }
 
+function updateComparePreviews() {
+  const previews = document.querySelectorAll<HTMLElement>('#compare-list [data-compare-preview]');
+  if (!previews.length) return;
+  const availableWidth = Math.min(...[...previews].map(preview => preview.clientWidth));
+  if (!availableWidth) return;
+  const fontSize = Number.parseFloat(getComputedStyle(previews[0]).fontSize) || 20;
+  const count = Math.max(1, Math.floor(availableWidth / fontSize));
+  const text = previewText.replace(/\s+/gu, ' ').trim();
+  const graphemes = typeof Intl.Segmenter === 'function'
+    ? [...new Intl.Segmenter('zh-TW', { granularity: 'grapheme' }).segment(text)].map(part => part.segment)
+    : Array.from(text);
+  const sample = graphemes.length > count ? `${graphemes.slice(0, count).join('')}…` : text;
+  for (const preview of previews) {
+    preview.textContent = sample || '在上方輸入要預覽的文字';
+    preview.title = text;
+  }
+}
+
 function syncTypography() {
   document.documentElement.style.setProperty('--preview-size', `${settings.size}px`);
   document.documentElement.style.setProperty('--preview-spacing', `${settings.spacing}px`);
@@ -165,6 +219,7 @@ function syncTypography() {
     slider.style.setProperty('--range-fill', `${(Number(slider.value) - Number(slider.min)) / (Number(slider.max) - Number(slider.min)) * 100}%`);
     $(`#${id}-value`).textContent = `${settings[key]}${suffix}`;
   }
+  updateComparePreviews();
 }
 
 function setPreviewText(value: string) {
@@ -173,6 +228,7 @@ function setPreviewText(value: string) {
   $('#char-count').textContent = `${Array.from(previewText).length} / 500`;
   document.querySelectorAll<HTMLButtonElement>('[data-sample]').forEach(button => button.setAttribute('aria-pressed', String(previewText === samples[Number(button.dataset.sample)].text)));
   for (const font of fonts) updateFont(font.id);
+  updateComparePreviews();
   clearTimeout(textTimer);
   textTimer = setTimeout(() => {
     for (const id of requested) {
@@ -202,6 +258,9 @@ document.addEventListener('click', event => {
     if (favoritesOnly) renderCatalog(); else updateFavoriteUI();
   } else if (button.dataset.load) {
     requestFont(fontById.get(button.dataset.load)!, true);
+  } else if (button.id === 'view-toggle') {
+    viewMode = viewMode === 'cards' ? 'compare' : 'cards';
+    renderCatalog();
   } else if (button.dataset.category) {
     category = button.dataset.category as Category;
     document.querySelectorAll<HTMLButtonElement>('[data-category]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
@@ -214,6 +273,8 @@ document.addEventListener('click', event => {
     $<HTMLDialogElement>('#about-dialog').showModal();
   }
 });
+
+window.addEventListener('resize', updateComparePreviews);
 
 document.addEventListener('change', event => {
   const select = event.target as HTMLSelectElement;
