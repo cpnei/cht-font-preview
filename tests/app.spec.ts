@@ -45,14 +45,15 @@ test('favorites survive reload and filter correctly', async ({ page }) => {
   await expect(page.locator('#empty-state')).toBeVisible();
 });
 
-test('large fonts wait for consent and failed downloads can be retried', async ({ page }) => {
+test('full local fonts wait for consent and failed downloads can be retried', async ({ page }) => {
   let downloads = 0;
   await page.route('**/fonts/*.woff2', route => { downloads++; return route.abort(); });
+  await page.getByRole('textbox', { name: '試著寫點什麼' }).fill('自訂字元𠮷');
   await page.getByRole('button', { name: '標題字', exact: true }).click();
   const card = page.locator('[data-font="mantou-sans"]');
-  await expect(card.getByRole('button', { name: '載入預覽', exact: true })).toBeVisible();
+  await expect(card.getByRole('button', { name: '載入完整字型', exact: true })).toBeVisible();
   expect(downloads).toBe(0);
-  await card.getByRole('button', { name: '載入預覽', exact: true }).click();
+  await card.getByRole('button', { name: '載入完整字型', exact: true }).click();
   await expect(card.getByText('字型暫時無法載入')).toBeVisible();
   await expect(card.locator('.font-preview')).not.toBeVisible();
   expect(downloads).toBe(1);

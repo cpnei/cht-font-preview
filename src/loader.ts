@@ -39,6 +39,7 @@ export class FontLoader {
 
   status(id: string): LoadStatus { return this.entries.get(id)?.status ?? 'idle'; }
   hasLoaded(id: string): boolean { return this.entries.get(id)?.loaded ?? false; }
+  isLocalFull(id: string): boolean { return this.entries.get(id)?.localMode === 'full'; }
 
   private async initialize(font: FontDefinition, entry: Entry, sample: string, preferSubset: boolean) {
     if (font.loader.kind === 'local') {

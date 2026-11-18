@@ -95,6 +95,7 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .pairing-field textarea { min-height: 92px; max-height: 190px; resize: vertical; }
 .pairing-status { min-height: 18px; margin: auto 0 0; color: #818a7d; font-size: 9px; line-height: 1.7; }
 .pairing-retry { padding: 0; color: #4b6740; text-decoration: underline; text-underline-offset: 2px; }
+.pairing-load-button { padding: 0; color: #4b6740; text-decoration: underline; text-underline-offset: 2px; }
 .pairing-canvas { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; min-width: 0; min-height: 336px; padding: 25px 34px 20px; background: #fff; }
 .pairing-canvas-label, .pairing-canvas-footer { color: #8b9486; font-size: 9px; letter-spacing: .7px; }
 .pairing-specimen { width: 100%; margin: auto 0; padding: 24px 0; }
@@ -174,7 +175,7 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .load-button svg { width: 14px; height: 14px; }
 .local-font-symbol { font-family: Georgia, serif; font-size: 36px; line-height: 1; color: #ccd5c1; }
 .load-failed { color: #8b674a; font-size: 13px; }
-.font-status { min-height: 20px; display: flex; align-items: center; gap: 5px; font-size: 9px; color: #8f9888; margin-bottom: 5px; }
+.font-status { min-height: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 9px; color: #8f9888; margin-bottom: 5px; }
 .ready-dot { width: 4px; height: 4px; border-radius: 50%; background: #93a67f; }
 .card-description { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 0 14px; }
 .card-description > p { font-size: 11px; color: #7f8878; margin: 0; line-height: 1.8; }

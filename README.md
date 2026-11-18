@@ -45,17 +45,17 @@ npm run preview         # 預覽 dist 正式建置
 | 昭源環方 | [Tamcy / Chiron Fonts](https://github.com/chiron-fonts/chiron-go-round-tc) | Google Fonts |
 | 霞鶩文楷 TC | [LXGW / Aaron Bell](https://github.com/aaronbell/LxgwWenkaiTC) | Google Fonts |
 | 芫荽 | [But Ko / ButTaiwan](https://github.com/ButTaiwan/iansui) | Google Fonts |
-| 辰宇落雁體 2.0 Thin | [劉韋辰 / 王立宇](https://github.com/Chenyu-otf/chenyuluoyan_thin) | 樣本子集 WOFF2 42 KB；自訂文字 4.8 MB |
-| 饅頭黑體 | [mant0u0 / Artakana](https://github.com/mant0u0/MantouSans) | 樣本子集 WOFF2 15 KB；自訂文字 1.3 MB |
+| 辰宇落雁體 2.0 Thin | [劉韋辰 / 王立宇](https://github.com/Chenyu-otf/chenyuluoyan_thin) | 樣本子集 WOFF2 58 KB；自訂文字 4.8 MB |
+| 饅頭黑體 | [mant0u0 / Artakana](https://github.com/mant0u0/MantouSans) | 樣本子集 WOFF2 20 KB；自訂文字 1.3 MB |
 
 全部字型採 **SIL Open Font License 1.1**，完整版權與授權保存在 `public/licenses/`。免費商用不等於沒有條件：再散布、修改及保留名稱仍須依各字型授權辦理。網站程式碼採 MIT，MIT 不套用於字型檔案。
 
-本地原始 TTF 保存在非公開的 `assets/fonts/`，與授權檔一樣由 `assets.lock.json` 依不可變的上游 commit、大小與 SHA-256 鎖定。瀏覽器使用 FontTools 產生的完整 WOFF2；現有三組內建文字另有小型 WOFF2 子集，涵蓋內建樣本文字與 ASCII。預覽文字若包含子集以外的字元，會載入完整 WOFF2。`optimized-fonts.lock.json` 驗證產生的四個 WOFF2。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建；`npm run assets:restore` 可從鎖定來源還原原始字型與授權檔。
+本地原始 TTF 保存在非公開的 `assets/fonts/`，與授權檔一樣由 `assets.lock.json` 依不可變的上游 commit、大小與 SHA-256 鎖定。瀏覽器使用 FontTools 產生的完整 WOFF2；三組內建樣本與預設搭配文另有小型 WOFF2 子集，涵蓋 ASCII。預覽文字若包含子集以外的字元，會先提示再載入完整 WOFF2。`optimized-fonts.lock.json` 驗證產生的四個 WOFF2。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建；`npm run assets:restore` 可從鎖定來源還原原始字型與授權檔。
 
 ## 載入、隱私與限制
 
 - Google Fonts 在卡片接近可視範圍時才請求。一般文字使用 `text=` 傳送排序、去重後的必要字元；字元清單過長時退回 Google 的 unicode-range 分片。
-- 兩款本機字型在使用者點擊「載入預覽」或於搭配區選用後才下載；內建樣本使用小型子集，自訂文字使用完整 WOFF2。
+- 兩款本機字型的內建樣本在卡片進入畫面時自動載入小型子集。子集外的文字會顯示完整字型載入按鈕；配對預覽也會先提示，等使用者確認才載入完整 WOFF2。
 - 文字變動後延遲 400ms 請求所需字元，合併快速輸入期間的載入；保留中文輸入法組字流程。
 - 預覽文字只保存在頁面記憶體，不寫入 LocalStorage，也不傳送至本站。使用 Google Fonts 時，瀏覽器會把目前需要的排序、去重字元放在 `text=` 請求參數交給 Google；原文順序與完整字串不會送出。字元清單過長時改用 unicode-range 分片。本機字型不會把預覽文字放進請求。
 - LocalStorage 僅記錄收藏與排版設定；若被封鎖，工具仍可使用，但無法保存設定。

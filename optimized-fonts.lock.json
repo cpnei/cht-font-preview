@@ -1,6 +1,6 @@
 {
   "fonttools": "4.68.0",
-  "previewTextSource": "src/samples.json plus ASCII U+0020–U+007E",
+  "previewTextSource": "src/samples.json and src/pairing-sample.json plus ASCII U+0020–U+007E",
   "assets": [
     {
       "path": "public/fonts/ChenYuluoyan-2.0-Thin.woff2",
@@ -9,8 +9,8 @@
     },
     {
       "path": "public/fonts/ChenYuluoyan-2.0-Thin.preview.woff2",
-      "bytes": 41740,
-      "sha256": "ec2f3a99eacab9bbb994973a27aeb4f05f1c048e7335568980d411157a40f0b8"
+      "bytes": 58092,
+      "sha256": "491ad27b298e71670daafd88434d685029585e9de61f41a3bb863690f50d8cbe"
     },
     {
       "path": "public/fonts/MantouSans-Regular.woff2",
@@ -19,8 +19,8 @@
     },
     {
       "path": "public/fonts/MantouSans-Regular.preview.woff2",
-      "bytes": 15096,
-      "sha256": "e6352efe4f7cc7943641dae44909dd95693dd33e8372dfcccc088ee223465169"
+      "bytes": 20040,
+      "sha256": "b637c6cc48fc5e5240e563439962cbc8c0b62218052144c542a64bcddc7e0abd"
     }
   ]
 }

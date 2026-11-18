@@ -1,6 +1,7 @@
 import './style.css';
 import { assetUrl, categories, fonts, fontById, fontFamily, type Category, type FontDefinition } from './fonts';
 import { defaults, filterFonts, limitText, restore, samples, storageKey, type Settings } from './state';
+import pairingSample from './pairing-sample.json';
 import { FontLoader } from './loader';
 
 const icons = {
@@ -27,6 +28,7 @@ let favoritesOnly = false;
 let viewMode: 'cards' | 'compare' = 'cards';
 const weights = new Map(fonts.map(font => [font.id, font.defaultWeight]));
 const requested = new Set<string>();
+const localFullApproved = new Set<string>();
 let noticeTimer: ReturnType<typeof setTimeout>;
 let textTimer: ReturnType<typeof setTimeout>;
 let pairingRequestTimer: ReturnType<typeof setTimeout>;
@@ -74,8 +76,8 @@ $('#app').innerHTML = `
             <label class="pairing-field" for="pairing-heading-font"><span>標題字型</span><select id="pairing-heading-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-serif-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
             <label class="pairing-field" for="pairing-body-font"><span>內文字型</span><select id="pairing-body-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-sans-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
           </div>
-          <label class="pairing-field" for="pairing-heading-text"><span>標題文字</span><input id="pairing-heading-text" type="text" maxlength="80" value="讓每一段文字，都有自己的樣子。"></label>
-          <label class="pairing-field" for="pairing-body-text"><span>段落內文</span><textarea id="pairing-body-text" rows="4" maxlength="400">標題負責吸引目光，內文陪伴閱讀。為它們挑選不同字型，感受筆畫、節奏與性格如何搭配。</textarea></label>
+          <label class="pairing-field" for="pairing-heading-text"><span>標題文字</span><input id="pairing-heading-text" type="text" maxlength="80" value="${pairingSample.heading}"></label>
+          <label class="pairing-field" for="pairing-body-text"><span>段落內文</span><textarea id="pairing-body-text" rows="4" maxlength="400">${pairingSample.body}</textarea></label>
           <p class="pairing-status" id="pairing-status" role="status" aria-live="polite"></p>
         </div>
         <div class="pairing-canvas" id="pairing-canvas">
@@ -103,6 +105,8 @@ const pairingHeadingText = $<HTMLInputElement>('#pairing-heading-text');
 const pairingBodyText = $<HTMLTextAreaElement>('#pairing-body-text');
 const localSubsetCharacters = new Set([
   ...samples.flatMap(sample => Array.from(sample.text)),
+  ...Array.from(pairingSample.heading),
+  ...Array.from(pairingSample.body),
   ...Array.from({ length: 0x7F - 0x20 }, (_, index) => String.fromCodePoint(0x20 + index)),
   ...Array.from('Aa臺灣'),
 ]);
@@ -148,9 +152,11 @@ function compareRowHTML(font: FontDefinition) {
 const observer = new IntersectionObserver(entries => {
   for (const entry of entries) {
     if (!entry.isIntersecting) continue;
-    observer.unobserve(entry.target);
     const font = fontById.get((entry.target as HTMLElement).dataset.font!)!;
-    if (font.loader.kind === 'google') requestFont(font);
+    if (font.loader.kind === 'google' || fontCanUsePreviewSubset(font)) {
+      observer.unobserve(entry.target);
+      requestFont(font);
+    }
   }
 }, { rootMargin: '150px' });
 const pairingObserver = new IntersectionObserver(entries => {
@@ -182,13 +188,26 @@ function renderCatalog() {
   updateFavoriteUI();
 }
 
-function requestFont(font: FontDefinition, retry = false, sample = previewText) {
-  requested.add(font.id);
+function requestTextForFont(font: FontDefinition, sample = previewText) {
   const pairingUsesFont = pairingActivated && (pairingHeadingFont.value === font.id || pairingBodyFont.value === font.id);
   const globalText = sample || '在上方寫點什麼，讓字型說話。在上方輸入要預覽的文字';
-  const requestText = pairingUsesFont ? `${globalText}\n${pairingHeadingText.value}\n${pairingBodyText.value}` : globalText;
+  return pairingUsesFont ? `${globalText}\n${pairingHeadingText.value}\n${pairingBodyText.value}` : globalText;
+}
+
+function requestFont(font: FontDefinition, retry = false, sample = previewText) {
+  const requestText = requestTextForFont(font, sample);
   const preferSubset = font.loader.kind === 'google' || (font.loader.kind === 'local' && localSubsetCovers(requestText));
+  if (font.loader.kind === 'local' && !preferSubset && !localFullApproved.has(font.id) && !loader.isLocalFull(font.id)) {
+    updateFont(font.id);
+    return;
+  }
+  requested.add(font.id);
   void loader.load(font, requestText, weights.get(font.id)!, retry, preferSubset);
+}
+
+function requestFontExplicitly(font: FontDefinition) {
+  if (font.loader.kind === 'local' && !fontCanUsePreviewSubset(font)) localFullApproved.add(font.id);
+  requestFont(font, true);
 }
 
 function selectedPairFonts() {
@@ -224,7 +243,10 @@ function updatePairingStatus() {
   }
   const loading = selected.find(font => loader.status(font.id) === 'loading');
   if (loading) {
-    const size = loading.loader.kind === 'local' ? `（${(loading.loader.bytes / 1000000).toFixed(1)} MB）` : '';
+    const useSubset = loading.loader.kind === 'local' && fontCanUsePreviewSubset(loading);
+    const size = loading.loader.kind === 'local'
+      ? `（${useSubset ? `${(loading.loader.preview.bytes / 1000).toFixed(0)} KB` : `${(loading.loader.bytes / 1000000).toFixed(1)} MB`}）`
+      : '';
     status.textContent = `正在載入 ${loading.name}${size}…`;
     return;
   }
@@ -232,9 +254,18 @@ function updatePairingStatus() {
     status.textContent = '預覽會隨文字即時更新；字型在選用時按需載入。';
     return;
   }
-  const idleLocal = selected.find(font => font.loader.kind === 'local' && loader.status(font.id) === 'idle');
-  if (idleLocal?.loader.kind === 'local') {
-    status.textContent = `首次預覽會載入原始字型（${(idleLocal.loader.bytes / 1000000).toFixed(1)} MB）。`;
+  const needsFull = selected.filter(font => requiresFullFont(font));
+  if (needsFull.length) {
+    status.replaceChildren(document.createTextNode('這段搭配文字需要完整字型：'));
+    for (const font of needsFull) {
+      if (font.loader.kind !== 'local') continue;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'pairing-load-button';
+      button.dataset.pairLoad = font.id;
+      button.textContent = `載入${font.name}完整字型・${(font.loader.bytes / 1000000).toFixed(1)} MB`;
+      status.append(' ', button);
+    }
     return;
   }
   const idle = selected.find(font => loader.status(font.id) === 'idle');
@@ -262,9 +293,23 @@ function localSubsetCovers(text: string) {
 
 function fontCanUsePreviewSubset(font: FontDefinition, sample = previewText) {
   if (font.loader.kind !== 'local') return false;
-  const pairingUsesFont = pairingActivated && (pairingHeadingFont.value === font.id || pairingBodyFont.value === font.id);
-  const globalText = sample || '在上方寫點什麼，讓字型說話。在上方輸入要預覽的文字';
-  return localSubsetCovers(pairingUsesFont ? `${globalText}\n${pairingHeadingText.value}\n${pairingBodyText.value}` : globalText);
+  return localSubsetCovers(requestTextForFont(font, sample));
+}
+
+function requiresFullFont(font: FontDefinition) {
+  return font.loader.kind === 'local'
+    && !fontCanUsePreviewSubset(font)
+    && !loader.isLocalFull(font.id)
+    && !localFullApproved.has(font.id);
+}
+
+function fontRowNearViewport(id: string) {
+  const catalog = $(viewMode === 'cards' ? '#font-grid' : '#compare-list');
+  if (catalog.hidden) return false;
+  const row = catalog.querySelector<HTMLElement>(`[data-font="${id}"]`);
+  if (!row) return false;
+  const bounds = row.getBoundingClientRect();
+  return bounds.bottom >= -150 && bounds.top <= window.innerHeight + 150;
 }
 
 function updateFont(id: string) {
@@ -279,7 +324,9 @@ function updateFont(id: string) {
       comparePreview.title = previewText.replace(/\s+/gu, ' ').trim();
       card.dataset.status = status;
       const load = card.querySelector<HTMLElement>('[data-compare-load]')!;
-      if (status === 'idle' && font.loader.kind === 'local') {
+      if ((status === 'idle' || status === 'ready') && requiresFullFont(font)) {
+        load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="載入${font.name}完整字型" title="目前文字需要完整字型">完整字型</button>`;
+      } else if (status === 'idle' && font.loader.kind === 'local') {
         load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="載入${font.name}預覽">載入</button>`;
       } else if (status === 'error') {
         load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="重新載入${font.name}預覽">重試</button>`;
@@ -303,8 +350,8 @@ function updateFont(id: string) {
     if (status === 'idle' && font.loader.kind === 'local') {
       const useSubset = fontCanUsePreviewSubset(font);
       const size = useSubset ? `${(font.loader.preview.bytes / 1000).toFixed(0)} KB` : `${(font.loader.bytes / 1000000).toFixed(1)} MB`;
-      placeholder.innerHTML = `<span class="local-font-symbol" aria-hidden="true">Aa</span><button type="button" class="load-button" data-load="${id}">${icon('download')} 載入預覽</button><span class="load-size">${useSubset ? '預設樣張' : '完整字型'}・${size}</span>`;
-      statusLine.textContent = useSubset ? '預設樣本文字使用精簡字型；自訂文字會載入完整字型。' : '點擊後載入完整字型，體驗完整字形。';
+      placeholder.innerHTML = `<span class="local-font-symbol" aria-hidden="true">Aa</span><button type="button" class="load-button" data-load="${id}">${icon('download')} ${useSubset ? '載入預覽' : '載入完整字型'}</button><span class="load-size">${useSubset ? '精簡字型' : '完整字型'}・${size}</span>`;
+      statusLine.textContent = useSubset ? '進入畫面時自動載入精簡字型；其他字元可按需載入完整字型。' : '這段文字需要完整字型；點擊後才會下載。';
     } else if (status === 'error' && hasLoaded) {
       placeholder.replaceChildren();
       statusLine.innerHTML = `部分字元暫時無法載入，仍可使用其他預覽。<button type="button" class="load-button" data-load="${id}">${icon('reset')} 重試</button>`;
@@ -314,6 +361,9 @@ function updateFont(id: string) {
     } else if (status === 'loading' && hasLoaded) {
       placeholder.replaceChildren();
       statusLine.textContent = '正在載入這段文字需要的字元…';
+    } else if (status === 'ready' && requiresFullFont(font) && font.loader.kind === 'local') {
+      placeholder.replaceChildren();
+      statusLine.innerHTML = `這段文字含有子集未收錄的字元。<button type="button" class="load-button" data-load="${id}">${icon('download')} 載入完整字型・${(font.loader.bytes / 1000000).toFixed(1)} MB</button>`;
     } else if (status === 'idle') {
       placeholder.innerHTML = '<span class="loading-lines" aria-hidden="true"><i></i><i></i></span><span class="load-size">捲動至此處後載入字型</span>';
       statusLine.textContent = '待載入';
@@ -381,9 +431,11 @@ function setPreviewText(value: string) {
   updateComparePreviews();
   clearTimeout(textTimer);
   textTimer = setTimeout(() => {
-    for (const id of requested) {
-      const visible = document.querySelector(`#font-grid [data-font="${id}"]`);
-      if (visible) requestFont(fontById.get(id)!);
+    for (const font of fonts) {
+      if (!fontRowNearViewport(font.id)) continue;
+      if (requested.has(font.id) || (font.loader.kind === 'local' && fontCanUsePreviewSubset(font))) {
+        requestFont(font);
+      }
     }
   }, 400);
 }
@@ -407,7 +459,9 @@ document.addEventListener('click', event => {
     persist();
     if (favoritesOnly) renderCatalog(); else updateFavoriteUI();
   } else if (button.dataset.load) {
-    requestFont(fontById.get(button.dataset.load)!, true);
+    requestFontExplicitly(fontById.get(button.dataset.load)!);
+  } else if (button.dataset.pairLoad) {
+    requestFontExplicitly(fontById.get(button.dataset.pairLoad)!);
   } else if (button.dataset.pairRetry) {
     schedulePairingFontRequest(true);
   } else if (button.id === 'view-toggle') {

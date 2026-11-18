@@ -25,7 +25,9 @@ def sha256(path: Path) -> str:
 
 
 samples = json.loads((ROOT / "src/samples.json").read_text(encoding="utf-8"))
+pairing_sample = json.loads((ROOT / "src/pairing-sample.json").read_text(encoding="utf-8"))
 preview_text = "".join(sample["text"] for sample in samples)
+preview_text += pairing_sample["heading"] + pairing_sample["body"]
 preview_text += "".join(chr(codepoint) for codepoint in range(0x20, 0x7F))
 preview_text += "Aa臺灣"
 source_lock = json.loads((ROOT / "assets.lock.json").read_text(encoding="utf-8"))
@@ -65,7 +67,7 @@ for name in FONT_FILES:
 
 lock = {
     "fonttools": fontTools.__version__,
-    "previewTextSource": "src/samples.json plus ASCII U+0020–U+007E",
+    "previewTextSource": "src/samples.json and src/pairing-sample.json plus ASCII U+0020–U+007E",
     "assets": assets,
 }
 (ROOT / "optimized-fonts.lock.json").write_text(
