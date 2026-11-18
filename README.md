@@ -98,6 +98,8 @@ Repository：`cpnei/font-select`，預設分支：`main`。
 
 Vite 的 `base` 是 `/font-select/`。若更換 repository 名稱或自訂網域，須同步修改 `vite.config.ts`、Playwright base URL 與文件連結。本站沒有依賴伺服器的路由，重新整理不需要 SPA fallback。
 
+Vite 建置會從 `src/fonts.ts` 產生包含目錄及授權連結的首頁 HTML，瀏覽器則使用同一份卡片模板更新篩選結果。首頁的 canonical 與 [sitemap.xml](https://cpnei.github.io/font-select/sitemap.xml) 共用 `vite.config.ts` 的正式網址。驗證 Search Console 的網址前置字元資源後，可提交這份 sitemap。
+
 部署後確認首頁、字型、授權連結與手機版正常。需要回復版本時，revert 問題提交並推送至 `main`，由同一套 CI 重新部署。
 
 GitHub Pages 免費公開託管仍有[容量與流量限制](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)，不視為無上限服務。

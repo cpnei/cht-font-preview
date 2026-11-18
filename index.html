@@ -4,17 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f7f8f4" />
-    <meta name="description" content="找到適合你的繁體中文字型。免費預覽與單行比較三十四款可商用開源字型，自訂文字、調整排版、收藏好字。" />
-    <meta property="og:title" content="字選 Font Select — 免費繁體中文字型預覽" />
-    <meta property="og:description" content="輸入一段文字，遇見適合它的字型。單行比較三十四款繁體中文開源字型，收藏喜歡的字。" />
+    <meta name="description" content="%VITE_SITE_DESCRIPTION%" />
+    <link rel="canonical" href="%VITE_SITE_URL%" />
+    <meta property="og:title" content="%VITE_SITE_TITLE%" />
+    <meta property="og:description" content="%VITE_SITE_DESCRIPTION%" />
+    <meta property="og:site_name" content="字選 Font Select" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_TW" />
+    <meta property="og:url" content="%VITE_SITE_URL%" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>字選 Font Select — 免費繁體中文字型預覽</title>
+    <title>%VITE_SITE_TITLE%</title>
+    <noscript>
+      <style>
+        #app :is(.skip-link, [data-open-about], .editor, #view-toggle, .search-box, .filter-row, .catalog-hint,
+        .favorite-button, .preview-area, .font-status, .weight-label, .pairing-layout) { display: none; }
+        .font-grid { margin-top: 16px; }
+      </style>
+    </noscript>
   </head>
   <body>
     <div id="app"></div>
-    <noscript>字選需要 JavaScript 才能提供即時字型預覽。你也可以前往 GitHub：github.com/cpnei/font-select 查看字型來源。</noscript>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
