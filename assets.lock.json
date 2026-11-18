@@ -37,7 +37,7 @@
       "sha256": "ba756a625db54032da8e4c8e58a19519964b93fac04267ec15e14ee8c5cc82a5"
     },
     {
-      "path": "public/fonts/ChenYuluoyan-2.0-Thin.ttf",
+      "path": "assets/fonts/ChenYuluoyan-2.0-Thin.ttf",
       "url": "https://raw.githubusercontent.com/Chenyu-otf/chenyuluoyan_thin/6e36815b0bec9f4f948298698d00b27a5f0b65c1/ChenYuluoyan-2.0-Thin.ttf",
       "bytes": 9522140,
       "sha256": "1289e42a6d1ec995d0cb23aee89efc69fc95749fbd54a610057a3e992dc453db"
@@ -49,7 +49,7 @@
       "sha256": "393732512d2658fa5841dfaad325e002ccb6755b9037a818500434c0a5c4a6d1"
     },
     {
-      "path": "public/fonts/MantouSans-Regular.ttf",
+      "path": "assets/fonts/MantouSans-Regular.ttf",
       "url": "https://raw.githubusercontent.com/mant0u0/MantouSans/826e7a941f3b722033bad786db364287dee55780/Font/MantouSans-Regular.ttf",
       "bytes": 2747592,
       "sha256": "9ffe52b861b1b5f175c4aadf25dfcb95aff949e956f658b3072b1e2c6ff714bc"

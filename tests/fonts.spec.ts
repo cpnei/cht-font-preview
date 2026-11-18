@@ -27,6 +27,6 @@ test('all eight actual fonts load, change weights and render new text', async ({
   for (const family of ['Noto Sans TC', 'Noto Serif TC', 'Huninn', 'Chiron GoRound TC', 'LXGW WenKai TC', 'Iansui', 'preview-chenyuluoyan', 'preview-mantou-sans']) {
     expect(loadedFamilies).toContain(family);
   }
-  expect(requests.some(url => url.includes('text='))).toBe(false);
+  expect(requests.some(url => url.includes('text='))).toBe(true);
   expect(errors).toEqual([]);
 });

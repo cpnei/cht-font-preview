@@ -14,7 +14,7 @@ export interface FontDefinition {
   downloadUrl: string;
   license: 'OFL-1.1';
   licensePath: string;
-  loader: { kind: 'google'; family: string; axis: string } | { kind: 'local'; path: string; bytes: number };
+  loader: { kind: 'google'; family: string; axis: string } | { kind: 'local'; path: string; bytes: number; preview: { path: string; bytes: number } };
 }
 
 export const fonts: FontDefinition[] = [
@@ -58,13 +58,13 @@ export const fonts: FontDefinition[] = [
     id: 'chenyuluoyan', name: '辰宇落雁體', englishName: 'ChenYuluoyan 2.0 Thin', author: '劉韋辰 / 王立宇', category: '手寫・楷體',
     description: '細細的筆觸，收藏青春裡的每一句呢喃。', weights: [100], defaultWeight: 100,
     sourceUrl: 'https://github.com/Chenyu-otf/chenyuluoyan_thin', downloadUrl: 'https://github.com/Chenyu-otf/chenyuluoyan_thin#下載',
-    license: 'OFL-1.1', licensePath: 'licenses/chenyuluoyan.txt', loader: { kind: 'local', path: 'fonts/ChenYuluoyan-2.0-Thin.ttf', bytes: 9522140 },
+    license: 'OFL-1.1', licensePath: 'licenses/chenyuluoyan.txt', loader: { kind: 'local', path: 'fonts/ChenYuluoyan-2.0-Thin.woff2', bytes: 4809156, preview: { path: 'fonts/ChenYuluoyan-2.0-Thin.preview.woff2', bytes: 41740 } },
   },
   {
     id: 'mantou-sans', name: '饅頭黑體', englishName: 'Mantou Sans', author: 'mant0u0 / Artakana', category: '標題字',
     description: '飽滿、有力，讓想說的話成為目光焦點。', weights: [400], defaultWeight: 400,
     sourceUrl: 'https://github.com/mant0u0/MantouSans', downloadUrl: 'https://github.com/mant0u0/MantouSans#下載與安裝',
-    license: 'OFL-1.1', licensePath: 'licenses/mantou-sans.txt', loader: { kind: 'local', path: 'fonts/MantouSans-Regular.ttf', bytes: 2747592 },
+    license: 'OFL-1.1', licensePath: 'licenses/mantou-sans.txt', loader: { kind: 'local', path: 'fonts/MantouSans-Regular.woff2', bytes: 1334460, preview: { path: 'fonts/MantouSans-Regular.preview.woff2', bytes: 15096 } },
   },
 ];
 

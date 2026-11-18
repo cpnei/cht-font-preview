@@ -27,6 +27,7 @@ describe('font catalog and state', () => {
     expect(fonts).toHaveLength(8);
     expect(new Set(fonts.map(f => f.id)).size).toBe(8);
     const lock = JSON.parse(readFileSync('assets.lock.json', 'utf8'));
+    const optimizedLock = JSON.parse(readFileSync('optimized-fonts.lock.json', 'utf8'));
     for (const font of fonts) {
       expect(font.weights).toContain(font.defaultWeight);
       expect(font.license).toBe('OFL-1.1');
@@ -34,8 +35,12 @@ describe('font catalog and state', () => {
       expect(new URL(font.sourceUrl).protocol).toBe('https:');
       expect(new URL(font.downloadUrl).protocol).toBe('https:');
       if (font.loader.kind === 'local') {
-        const path = `public/${font.loader.path}`;
-        expect(lock.assets.find((asset: { path: string }) => asset.path === path).bytes).toBe(font.loader.bytes);
+        const originalPath = `assets/fonts/${font.id === 'chenyuluoyan' ? 'ChenYuluoyan-2.0-Thin' : 'MantouSans-Regular'}.ttf`;
+        const fullPath = `public/${font.loader.path}`;
+        const previewPath = `public/${font.loader.preview.path}`;
+        expect(lock.assets.find((asset: { path: string }) => asset.path === originalPath)).toBeDefined();
+        expect(optimizedLock.assets.find((asset: { path: string }) => asset.path === fullPath).bytes).toBe(font.loader.bytes);
+        expect(optimizedLock.assets.find((asset: { path: string }) => asset.path === previewPath).bytes).toBe(font.loader.preview.bytes);
       }
     }
   });

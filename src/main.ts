@@ -48,8 +48,9 @@ $('#app').innerHTML = `
     </section>
     <section class="editor" aria-label="預覽設定">
       <div class="editor-main"><div class="editor-heading"><label for="preview-input">試著寫點什麼</label><span id="char-count">0 / 500</span></div>
-        <textarea id="preview-input" rows="2" spellcheck="false" aria-describedby="input-help char-count" placeholder="在這裡輸入，看看文字的不同表情…"></textarea>
+        <textarea id="preview-input" rows="2" spellcheck="false" aria-describedby="input-help char-count preview-privacy-note" placeholder="在這裡輸入，看看文字的不同表情…"></textarea>
         <div class="sample-row"><span id="input-help">或試試</span>${samples.map((sample, i) => `<button type="button" class="sample-button" data-sample="${i}" aria-pressed="${i === 0}">${sample.name}</button>`).join('')}<button id="clear-text" type="button" class="clear-text">清空</button></div>
+        <p class="preview-font-note" id="preview-privacy-note">Google 字型會依預覽文字載入所需字元；精簡請求會傳送去重字元清單。</p>
       </div>
       <div class="editor-controls"><div class="controls-heading"><span>排版設定</span><button id="reset-settings" type="button" aria-label="重設排版設定" title="重設排版設定">${icon('reset')}</button></div>
         <label class="range-control" for="font-size"><span>字級 <output id="font-size-value"></output></span><input id="font-size" type="range" min="16" max="72" step="1"></label>
@@ -90,7 +91,7 @@ $('#app').innerHTML = `
     <section class="closing-note"><span aria-hidden="true">字</span><div><h2>好字，值得被看見。</h2><p>感謝每一位字型創作者，讓文字有更多可能。<br>喜歡一款字，也別忘了到作者的頁面走走。</p></div><button type="button" data-open-about>關於字型與授權 ${icon('arrow')}</button></section>
   </main>
   <footer class="site-footer wrap"><span>字選 FONT SELECT <span class="footer-dash">—</span> 給每一個認真選字的人。</span><span>Made for Traditional Chinese. <a href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">開源專案 ${icon('arrow')}</a></span></footer>
-  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具。我們精選八款適合繁體中文使用的字型，你可以逐張瀏覽介紹、切換單行模式比較，也可以分別替標題和內文選字，查看搭配效果。</p><h3>免費商用，尊重原創</h3><p>收錄字型皆採 SIL Open Font License 1.1。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。每張卡片附有作者來源與完整授權，本站程式碼則採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器，預覽文字不會存檔，也不會送往伺服器。六款字型由 Google Fonts 載入，瀏覽器會連線至 Google 取得樣式及字型檔；另兩款由本站提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
+  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具。我們精選八款適合繁體中文使用的字型，你可以逐張瀏覽介紹、切換單行模式比較，也可以分別替標題和內文選字，查看搭配效果。</p><h3>免費商用，尊重原創</h3><p>收錄字型皆採 SIL Open Font License 1.1。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。每張卡片附有作者來源與完整授權，本站程式碼則採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器。本站不會收到或保存預覽文字；使用 Google Fonts 時，精簡請求會將目前所需的去重字元傳給 Google，原文順序不會送出。字元清單太長時則使用一般字元分片載入。另兩款本機字型由本站按需提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
   <div id="notice" class="notice" role="status" aria-live="polite"></div>
 `;
 
@@ -100,6 +101,11 @@ const pairingHeadingFont = $<HTMLSelectElement>('#pairing-heading-font');
 const pairingBodyFont = $<HTMLSelectElement>('#pairing-body-font');
 const pairingHeadingText = $<HTMLInputElement>('#pairing-heading-text');
 const pairingBodyText = $<HTMLTextAreaElement>('#pairing-body-text');
+const localSubsetCharacters = new Set([
+  ...samples.flatMap(sample => Array.from(sample.text)),
+  ...Array.from({ length: 0x7F - 0x20 }, (_, index) => String.fromCodePoint(0x20 + index)),
+  ...Array.from('Aa臺灣'),
+]);
 input.value = previewText;
 
 function notify(message: string) {
@@ -178,7 +184,11 @@ function renderCatalog() {
 
 function requestFont(font: FontDefinition, retry = false, sample = previewText) {
   requested.add(font.id);
-  void loader.load(font, sample, weights.get(font.id)!, retry);
+  const pairingUsesFont = pairingActivated && (pairingHeadingFont.value === font.id || pairingBodyFont.value === font.id);
+  const globalText = sample || '在上方寫點什麼，讓字型說話。在上方輸入要預覽的文字';
+  const requestText = pairingUsesFont ? `${globalText}\n${pairingHeadingText.value}\n${pairingBodyText.value}` : globalText;
+  const preferSubset = font.loader.kind === 'google' || (font.loader.kind === 'local' && localSubsetCovers(requestText));
+  void loader.load(font, requestText, weights.get(font.id)!, retry, preferSubset);
 }
 
 function selectedPairFonts() {
@@ -237,18 +247,30 @@ function updatePairingStatus() {
 
 function requestPairingFonts(retry = false) {
   if (!pairingActivated) return;
-  const sample = `${pairingHeadingText.value}\n${pairingBodyText.value}`;
-  for (const font of selectedPairFonts()) requestFont(font, retry, sample);
+  for (const font of selectedPairFonts()) requestFont(font, retry, previewText);
 }
 
 function schedulePairingFontRequest(retry = false) {
   clearTimeout(pairingRequestTimer);
-  pairingRequestTimer = setTimeout(() => requestPairingFonts(retry), retry ? 0 : 220);
+  pairingRequestTimer = setTimeout(() => requestPairingFonts(retry), retry ? 0 : 400);
+}
+
+function localSubsetCovers(text: string) {
+  const normalized = text.replace(/\s+/gu, ' ').trim();
+  return normalized.length > 0 && Array.from(`${normalized}Aa臺灣`).every(character => localSubsetCharacters.has(character));
+}
+
+function fontCanUsePreviewSubset(font: FontDefinition, sample = previewText) {
+  if (font.loader.kind !== 'local') return false;
+  const pairingUsesFont = pairingActivated && (pairingHeadingFont.value === font.id || pairingBodyFont.value === font.id);
+  const globalText = sample || '在上方寫點什麼，讓字型說話。在上方輸入要預覽的文字';
+  return localSubsetCovers(pairingUsesFont ? `${globalText}\n${pairingHeadingText.value}\n${pairingBodyText.value}` : globalText);
 }
 
 function updateFont(id: string) {
   const font = fontById.get(id)!;
   const status = loader.status(id);
+  const hasLoaded = loader.hasLoaded(id);
   document.querySelectorAll<HTMLElement>(`[data-font="${id}"]`).forEach(card => {
     const comparePreview = card.querySelector<HTMLElement>('[data-compare-preview]');
     if (comparePreview) {
@@ -275,15 +297,23 @@ function updateFont(id: string) {
     preview.textContent = previewText || '在上方寫點什麼，讓字型說話。';
     preview.style.fontFamily = `"${fontFamily(font)}", serif`;
     preview.style.fontWeight = String(weights.get(id));
-    preview.hidden = status !== 'ready';
-    placeholder.hidden = status === 'ready';
+    preview.hidden = status !== 'ready' && !hasLoaded;
+    placeholder.hidden = status === 'ready' || hasLoaded;
     card.dataset.status = status;
     if (status === 'idle' && font.loader.kind === 'local') {
-      placeholder.innerHTML = `<span class="local-font-symbol" aria-hidden="true">Aa</span><button type="button" class="load-button" data-load="${id}">${icon('download')} 載入預覽</button><span class="load-size">原版字型・${(font.loader.bytes / 1000000).toFixed(1)} MB</span>`;
-      statusLine.textContent = '點擊後下載字型，體驗完整筆觸。';
+      const useSubset = fontCanUsePreviewSubset(font);
+      const size = useSubset ? `${(font.loader.preview.bytes / 1000).toFixed(0)} KB` : `${(font.loader.bytes / 1000000).toFixed(1)} MB`;
+      placeholder.innerHTML = `<span class="local-font-symbol" aria-hidden="true">Aa</span><button type="button" class="load-button" data-load="${id}">${icon('download')} 載入預覽</button><span class="load-size">${useSubset ? '預設樣張' : '完整字型'}・${size}</span>`;
+      statusLine.textContent = useSubset ? '預設樣本文字使用精簡字型；自訂文字會載入完整字型。' : '點擊後載入完整字型，體驗完整字形。';
+    } else if (status === 'error' && hasLoaded) {
+      placeholder.replaceChildren();
+      statusLine.innerHTML = `部分字元暫時無法載入，仍可使用其他預覽。<button type="button" class="load-button" data-load="${id}">${icon('reset')} 重試</button>`;
     } else if (status === 'error') {
       placeholder.innerHTML = `<span class="load-failed">字型暫時無法載入</span><button type="button" class="load-button" data-load="${id}">${icon('reset')} 重新載入</button>`;
       statusLine.textContent = '請確認網路連線後重試；仍可前往作者頁面下載。';
+    } else if (status === 'loading' && hasLoaded) {
+      placeholder.replaceChildren();
+      statusLine.textContent = '正在載入這段文字需要的字元…';
     } else if (status === 'idle') {
       placeholder.innerHTML = '<span class="loading-lines" aria-hidden="true"><i></i><i></i></span><span class="load-size">捲動至此處後載入字型</span>';
       statusLine.textContent = '待載入';
@@ -355,7 +385,7 @@ function setPreviewText(value: string) {
       const visible = document.querySelector(`#font-grid [data-font="${id}"]`);
       if (visible) requestFont(fontById.get(id)!);
     }
-  }, 250);
+  }, 400);
 }
 
 function updateFavoriteUI() {

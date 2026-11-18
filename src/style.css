@@ -65,6 +65,7 @@ textarea::placeholder { color: #9ca397; }
 .sample-row > span { color: #8a9186; margin-right: 5px; }
 .sample-button { border: 1px solid #e9ece4; border-radius: 5px; padding: 5px 9px; color: #75806f; background: #fafbf8; }
 .sample-button:hover, .sample-button[aria-pressed='true'] { border-color: #c6d3b8; background: #f0f4e7; color: var(--green); }
+.preview-font-note { margin: 6px 0 0; color: #8c9587; font-size: 9px; line-height: 1.6; }
 .clear-text { margin-left: auto; color: #80897b; padding: 6px 0 6px 8px; }
 .clear-text:hover { color: var(--ink); }
 .editor-controls { border-left: 1px solid #e5e9df; background: #f0f3e9; padding: 23px 25px; }
