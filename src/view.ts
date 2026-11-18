@@ -34,7 +34,7 @@ export function fontCard(font: FontDefinition, base: string, selectedWeight = fo
 export function renderHome(base: string) {
   return `
   <a class="skip-link" href="#preview-input">跳至預覽文字</a>
-  <header id="page-top" class="site-header wrap" tabindex="-1">
+  <header id="page-top" class="site-header wrap" tabindex="-1" data-jump-target>
     <a class="brand" href="${base}" aria-label="字選首頁"><span class="brand-mark">字</span><span class="brand-name">字選<span>FONT SELECT</span></span></a>
     <nav aria-label="主選單"><a class="nav-active" href="#catalog">探索字型</a><a href="#pairing">文字搭配</a><button type="button" data-open-about>關於字選</button><a class="github-link" href="https://github.com/cpnei/font-select" target="_blank" rel="noopener noreferrer">GitHub ${icon('arrow')}</a></nav>
   </header>
@@ -54,7 +54,7 @@ export function renderHome(base: string) {
       <div><p class="eyebrow"><span></span> 字裡行間，自有風景</p><h1 id="hero-title">好字，讓想法<span>有了樣子。</span><i aria-hidden="true">*</i></h1></div>
       <div class="hero-aside"><p>用自己的文字比較黑體、明體、圓體與手寫字型。<br>也能分別替標題和段落選字，預覽搭配效果。</p><div class="hero-meta"><span><b>${String(fonts.length).padStart(2, '0')}</b> 款精選字型</span><span class="meta-dot"></span><span>開源・免費商用</span></div></div>
     </section>
-    <section class="editor" id="preview-settings" aria-label="預覽設定" tabindex="-1">
+    <section class="editor" id="preview-settings" aria-label="預覽設定" tabindex="-1" data-jump-target>
       <div class="editor-main"><div class="editor-heading"><label for="preview-input">試著寫點什麼</label><span id="char-count">${Array.from(samples[0].text).length} / 500</span></div>
         <textarea id="preview-input" rows="2" spellcheck="false" aria-describedby="input-help char-count preview-privacy-note" placeholder="在這裡輸入，看看文字的不同表情…"></textarea>
         <div class="sample-row"><span id="input-help">或試試</span>${samples.map((sample, i) => `<button type="button" class="sample-button" data-sample="${i}" aria-pressed="${i === 0}">${sample.name}</button>`).join('')}<button id="clear-text" type="button" class="clear-text">清空</button></div>
@@ -65,7 +65,7 @@ export function renderHome(base: string) {
         <div class="small-controls"><label class="range-control" for="letter-spacing"><span>字距 <output id="letter-spacing-value"></output></span><input id="letter-spacing" type="range" min="-1" max="8" step="0.5"></label><label class="range-control" for="line-height"><span>行高 <output id="line-height-value"></output></span><input id="line-height" type="range" min="1.2" max="2.4" step="0.1"></label></div>
       </div>
     </section>
-    <section class="catalog" id="catalog" aria-labelledby="catalog-heading" tabindex="-1">
+    <section class="catalog" id="catalog" aria-labelledby="catalog-heading" tabindex="-1" data-jump-target>
       <div class="catalog-top"><div class="catalog-title"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">${String(fonts.length).padStart(2, '0')} TYPEFACES</span></h2><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">${icon('compare')}<span>單行比較</span></button></div><div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div></div>
       <div class="filter-row"><div class="category-list" role="group" aria-label="字型分類">${categories.map((item, i) => `<button class="category-button" type="button" data-category="${item}" aria-pressed="${i === 0}">${item}</button>`).join('')}</div><button class="favorites-filter" id="favorites-filter" type="button" aria-pressed="false">${icon('heart')}<span>我的收藏</span><span id="favorites-count">0</span></button></div>
       <p class="catalog-hint"><span data-view-hint>一段文字，${fonts.length} 種表情。</span><span>${icon('heart')} 收藏喜歡的字型，隨時回來看</span></p>
@@ -75,7 +75,7 @@ export function renderHome(base: string) {
       <noscript><p class="coverage-note">開啟 JavaScript 即可試打文字、比較與收藏字型。你仍可瀏覽字型資料、授權與下載連結。</p></noscript>
       <p class="coverage-note">每款字型收錄的字元不同，罕用字、符號或 Emoji 可能由系統字型顯示。</p>
     </section>
-    <section class="pairing-section" id="pairing" aria-labelledby="pairing-heading" tabindex="-1">
+    <section class="pairing-section" id="pairing" aria-labelledby="pairing-heading" tabindex="-1" data-jump-target>
       <div class="pairing-section-heading"><div><p class="eyebrow"><span></span> TYPE PAIRING</p><h2 id="pairing-heading">標題與內文，各選一款字型。</h2></div><p>編輯文字、挑選字型，即時查看搭配。</p></div>
       <noscript><p class="coverage-note">開啟 JavaScript 即可預覽字型搭配。</p></noscript>
       <div class="pairing-layout">

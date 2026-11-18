@@ -413,17 +413,25 @@ window.addEventListener('resize', updateQuickJump);
 window.addEventListener('pageshow', updateQuickJump);
 quickJump.addEventListener('keydown', event => {
   if (event.key !== 'Escape' || !quickJumpMenu.open) return;
-  quickJumpMenu.open = false;
   $('summary', quickJumpMenu).focus();
+  quickJumpMenu.open = false;
 });
-quickJump.addEventListener('focusout', event => {
-  if (!quickJump.contains(event.relatedTarget as Node | null)) quickJumpMenu.open = false;
+quickJump.addEventListener('click', event => {
+  const target = event.target;
+  if (!(target instanceof Element) || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const link = target.closest<HTMLAnchorElement>('a[href^="#"]');
+  if (!link) return;
+  const destination = document.getElementById(link.hash.slice(1));
+  if (!destination) return;
+
+  event.preventDefault();
+  if (window.location.hash !== link.hash) history.pushState(null, '', link.hash);
+  destination.focus({ preventScroll: true });
+  destination.scrollIntoView({ block: 'start' });
+  quickJumpMenu.open = false;
 });
 document.addEventListener('click', event => {
-  const target = event.target;
-  if (target instanceof Element && (!quickJump.contains(target) || target.closest('a'))) {
-    quickJumpMenu.open = false;
-  }
+  if (event.target instanceof Node && !quickJump.contains(event.target)) quickJumpMenu.open = false;
 });
 $('#compare-list').addEventListener('scroll', event => {
   const source = event.target;

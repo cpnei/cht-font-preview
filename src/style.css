@@ -88,6 +88,7 @@ button svg, a svg { pointer-events: none; }
   font-size: 13px;
 }
 .quick-jump-links a { display: flex; align-items: center; min-height: 44px; padding-inline: 12px; border-radius: 8px; }
+[data-jump-target]:focus { outline: none; }
 .hero { display: flex; align-items: flex-end; justify-content: space-between; padding: 64px 0 48px; gap: 32px; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: #65775e; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin: 0 0 20px; }
 .eyebrow > span { width: 6px; height: 6px; background: #7e9562; border-radius: 50%; }
