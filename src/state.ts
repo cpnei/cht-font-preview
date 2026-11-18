@@ -1,5 +1,6 @@
 import { fonts, fontById, type Category } from './fonts';
 import samples from './samples.json';
+import { normalizeSearch, searchRank } from './catalog-order';
 
 export { samples };
 export interface Settings { size: number; spacing: number; lineHeight: number }
@@ -8,11 +9,11 @@ export const storageKey = 'font-select:v1';
 export const limitText = (text: string) => Array.from(text).slice(0, 500).join('');
 
 export function filterFonts(query: string, category: Category, favoritesOnly: boolean, favorites: Set<string>) {
-  const term = query.trim().toLocaleLowerCase();
+  const term = normalizeSearch(query);
   return fonts.filter(font =>
     (category === '全部字型' || font.category === category) &&
     (!favoritesOnly || favorites.has(font.id)) &&
-    `${font.name} ${font.englishName} ${font.author}`.toLocaleLowerCase().includes(term),
+    searchRank(font, term) >= 0,
   );
 }
 

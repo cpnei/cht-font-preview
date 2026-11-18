@@ -1,7 +1,8 @@
 import './style.css';
 import { categories, fonts, fontById, fontFamily, type Category, type FontDefinition } from './fonts';
 import { defaults, filterFonts, limitText, restore, samples, storageKey, type Settings } from './state';
-import { fontCard, icon } from './view';
+import { icon, renderFontCards } from './view';
+import { normalizeSearch, orderedFonts, type CatalogSort } from './catalog-order';
 import { FontLoader } from './loader';
 
 const $ = <T extends HTMLElement>(selector: string, root: ParentNode = document) => root.querySelector<T>(selector)!;
@@ -13,6 +14,7 @@ let settings: Settings = initial.settings;
 const favorites = initial.favorites;
 let previewText = samples[0].text;
 let query = '';
+let catalogSort: CatalogSort = 'auto';
 let category: Category = '全部字型';
 let favoritesOnly = false;
 let viewMode: 'cards' | 'compare' = 'cards';
@@ -78,11 +80,15 @@ const pairingObserver = new IntersectionObserver(entries => {
 
 function renderCatalog(preRendered = false) {
   observer.disconnect();
-  const visible = filterFonts(query, category, favoritesOnly, favorites);
+  const visible = orderedFonts(filterFonts(query, category, favoritesOnly, favorites), catalogSort, query);
+  const searching = Boolean(normalizeSearch(query));
+  $('#catalog-sort option[value="auto"]').textContent = searching ? '搜尋相關度' : '依分類';
   if (!preRendered) {
-    $('#font-grid').innerHTML = visible
-      .map(font => fontCard(font, import.meta.env.BASE_URL, weights.get(font.id), favorites.has(font.id)))
-      .join('');
+    $('#font-grid').innerHTML = renderFontCards(visible, import.meta.env.BASE_URL, {
+      grouped: catalogSort === 'auto' && category === '全部字型' && !searching,
+      weights,
+      favorites,
+    });
   }
   $('#compare-list').innerHTML = visible.map(font => compareRowHTML(font)).join('');
   $('#font-grid').hidden = viewMode !== 'cards';
@@ -493,6 +499,12 @@ for (const select of [pairingHeadingFont, pairingBodyFont]) {
   });
 }
 $('#search').addEventListener('input', event => { query = (event.target as HTMLInputElement).value; renderCatalog(); });
+const sortControl = $<HTMLSelectElement>('#catalog-sort');
+sortControl.value = catalogSort;
+sortControl.addEventListener('change', () => {
+  catalogSort = sortControl.value as CatalogSort;
+  renderCatalog();
+});
 $('#favorites-filter').addEventListener('click', () => { favoritesOnly = !favoritesOnly; renderCatalog(); });
 $('#reset-filters').addEventListener('click', () => {
   query = ''; category = '全部字型'; favoritesOnly = false;

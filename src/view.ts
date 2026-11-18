@@ -1,4 +1,5 @@
 import { categories, fonts, type FontDefinition } from './fonts.ts';
+import { orderedFonts } from './catalog-order.ts';
 import pairingSample from './pairing-sample.json' with { type: 'json' };
 import samples from './samples.json' with { type: 'json' };
 
@@ -19,7 +20,7 @@ function weightOptions(font: FontDefinition, selectedWeight: number) {
   return font.weights.map(weight => `<option value="${weight}" ${selectedWeight === weight ? 'selected' : ''}>${names[weight] ?? '字重'} ${weight}</option>`).join('');
 }
 
-export function fontCard(font: FontDefinition, base: string, selectedWeight = font.defaultWeight, favorite = false) {
+function fontCard(font: FontDefinition, base: string, selectedWeight = font.defaultWeight, favorite = false) {
   return `<article class="font-card" data-font="${font.id}" aria-label="${font.name}">
     <div class="card-top"><span class="font-category"><i class="category-dot category-${categories.indexOf(font.category)}"></i>${font.category}</span><button class="icon-button favorite-button" type="button" data-favorite="${font.id}" aria-label="收藏 ${font.name}" aria-pressed="${favorite}">${icon('heart')}</button></div>
     <div class="font-heading"><h3>${font.name}</h3><span>${font.englishName}</span></div>
@@ -31,7 +32,30 @@ export function fontCard(font: FontDefinition, base: string, selectedWeight = fo
   </article>`;
 }
 
+export function renderFontCards(ordered: readonly FontDefinition[], base: string, {
+  grouped = false, weights, favorites,
+}: {
+  grouped?: boolean;
+  weights?: ReadonlyMap<string, number>;
+  favorites?: ReadonlySet<string>;
+} = {}) {
+  return ordered.map((font, index) => {
+    const heading = grouped && ordered[index - 1]?.category !== font.category
+      ? `<h3 class="font-group-heading">${font.category}</h3>`
+      : '';
+    return heading + fontCard(font, base, weights?.get(font.id), favorites?.has(font.id));
+  }).join('');
+}
+
+function pairingFontOptions(ordered: readonly FontDefinition[], selected: string) {
+  return categories.slice(1).map(category => `<optgroup label="${category}">${ordered
+    .filter(font => font.category === category)
+    .map(font => `<option value="${font.id}" ${font.id === selected ? 'selected' : ''}>${font.name}</option>`)
+    .join('')}</optgroup>`).join('');
+}
+
 export function renderHome(base: string) {
+  const ordered = orderedFonts(fonts);
   return `
   <a class="skip-link" href="#preview-input">跳至預覽文字</a>
   <header id="page-top" class="site-header wrap" tabindex="-1" data-jump-target>
@@ -66,10 +90,20 @@ export function renderHome(base: string) {
       </div>
     </section>
     <section class="catalog" id="catalog" aria-labelledby="catalog-heading" tabindex="-1" data-jump-target>
-      <div class="catalog-top"><div class="catalog-title"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">${String(fonts.length).padStart(2, '0')} TYPEFACES</span></h2><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">${icon('compare')}<span>單行比較</span></button></div><div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div></div>
+      <div class="catalog-top">
+        <div class="catalog-title"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">${String(fonts.length).padStart(2, '0')} TYPEFACES</span></h2><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">${icon('compare')}<span>單行比較</span></button></div>
+        <div class="catalog-tools">
+          <div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div>
+          <select id="catalog-sort" aria-label="排序字型">
+            <option value="auto">依分類</option>
+            <option value="newest">最近加入</option>
+            <option value="name">依名稱</option>
+          </select>
+        </div>
+      </div>
       <div class="filter-row"><div class="category-list" role="group" aria-label="字型分類">${categories.map((item, i) => `<button class="category-button" type="button" data-category="${item}" aria-pressed="${i === 0}">${item}</button>`).join('')}</div><button class="favorites-filter" id="favorites-filter" type="button" aria-pressed="false">${icon('heart')}<span>我的收藏</span><span id="favorites-count">0</span></button></div>
       <p class="catalog-hint"><span data-view-hint>一段文字，${fonts.length} 種表情。</span><span>${icon('heart')} 收藏喜歡的字型，隨時回來看</span></p>
-      <div class="font-grid" id="font-grid">${fonts.map(font => fontCard(font, base)).join('')}</div>
+      <div class="font-grid" id="font-grid">${renderFontCards(ordered, base, { grouped: true })}</div>
       <div class="compare-list" id="compare-list" hidden></div>
       <div class="empty-state" id="empty-state" hidden><span aria-hidden="true">字</span><h3>還沒遇見這款字</h3><p>換個關鍵字，或放寬篩選條件試試。</p><button type="button" id="reset-filters" class="button-primary">顯示所有字型</button></div>
       <noscript><p class="coverage-note">開啟 JavaScript 即可試打文字、比較與收藏字型。你仍可瀏覽字型資料、授權與下載連結。</p></noscript>
@@ -81,8 +115,8 @@ export function renderHome(base: string) {
       <div class="pairing-layout">
         <div class="pairing-controls">
           <div class="pairing-font-selects">
-            <label class="pairing-field" for="pairing-heading-font"><span>標題字型</span><select id="pairing-heading-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-serif-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
-            <label class="pairing-field" for="pairing-body-font"><span>內文字型</span><select id="pairing-body-font" data-pair-font>${fonts.map(font => `<option value="${font.id}" ${font.id === 'noto-sans-tc' ? 'selected' : ''}>${font.name}</option>`).join('')}</select></label>
+            <label class="pairing-field" for="pairing-heading-font"><span>標題字型</span><select id="pairing-heading-font" data-pair-font>${pairingFontOptions(ordered, 'noto-serif-tc')}</select></label>
+            <label class="pairing-field" for="pairing-body-font"><span>內文字型</span><select id="pairing-body-font" data-pair-font>${pairingFontOptions(ordered, 'noto-sans-tc')}</select></label>
           </div>
           <label class="pairing-field" for="pairing-heading-text"><span>標題文字</span><input id="pairing-heading-text" type="text" maxlength="80" aria-describedby="pairing-privacy-note" value="${pairingSample.heading}"></label>
           <label class="pairing-field" for="pairing-body-text"><span>段落內文</span><textarea id="pairing-body-text" rows="4" maxlength="400" aria-describedby="pairing-privacy-note">${pairingSample.body}</textarea></label>

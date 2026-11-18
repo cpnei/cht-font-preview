@@ -154,12 +154,14 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .catalog-title { display: flex; align-items: center; gap: 18px; min-width: 0; }
 .catalog-top h2 { display: flex; align-items: baseline; gap: 16px; margin: 0; font-size: 20px; font-weight: 500; letter-spacing: .3px; }
 #result-count { font-size: 9px; letter-spacing: 1.4px; color: #8b9486; font-weight: 500; white-space: nowrap; }
-.search-box { display: flex; align-items: center; gap: 10px; border: 1px solid #dfe4d8; background: #fcfcfa; border-radius: 7px; padding: 11px 14px; width: 247px; color: #7e8877; }
+.catalog-tools { display: flex; align-items: stretch; gap: 8px; flex: 0 1 365px; min-width: 0; }
+.search-box { display: flex; align-items: center; gap: 10px; border: 1px solid #dfe4d8; background: #fcfcfa; border-radius: 7px; padding: 10px 12px; flex: 1; min-width: 0; color: #7e8877; }
 .search-box svg { width: 16px; height: 16px; }
 .search-box input { width: 100%; min-width: 0; background: transparent; border: 0; font-size: 11px; }
 .search-box:focus-within { border-color: #7a9365; outline: 1px solid #7a9365; }
 .search-box input:focus { outline: none; }
 .search-box input::placeholder { color: #919a89; }
+#catalog-sort { min-height: 42px; padding-inline: 9px 6px; color: var(--green); background: #fcfcfa; border: 1px solid #dfe4d8; border-radius: 7px; font-size: 12px; }
 .view-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid #dfe4d8; border-radius: 6px; color: #73816b; background: #fcfcfa; font-size: 10px; white-space: nowrap; }
 .view-toggle:hover, .view-toggle[aria-pressed='true'] { background: #eef3e5; border-color: #cbd8bc; color: #43603e; }
 .view-toggle svg { width: 14px; height: 14px; }
@@ -177,6 +179,9 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .catalog-hint > span:last-child { display: flex; align-items: center; gap: 7px; }
 .catalog-hint svg { width: 12px; height: 12px; }
 .font-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.font-group-heading { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; margin: 9px 0 -7px; font-size: 15px; font-weight: 600; }
+.font-group-heading:first-child { margin-top: 0; }
+.font-group-heading::after { content: ''; height: 1px; flex: 1; background: var(--border); }
 .compare-list { overflow: hidden; border-top: 1px solid var(--border); background: #fff; }
 .compare-row { display: grid; grid-template-columns: minmax(118px, 158px) minmax(0, 1fr) 72px; align-items: center; gap: 12px; min-height: 68px; padding: 10px 16px; border-bottom: 1px solid #e8ebe3; }
 .compare-row-heading { min-width: 0; overflow: hidden; }
@@ -310,9 +315,11 @@ body:has(dialog[open]) { overflow: hidden; }
   .pairing-canvas { grid-column: 1; grid-row: 1; min-height: 280px; }
   .pairing-controls { grid-column: 1; grid-row: 2; }
   .catalog { margin-top: 34px; }
+  .catalog-top { flex-direction: column; align-items: stretch; gap: 14px; }
   .catalog-top h2 { font-size: 17px; flex-direction: column; gap: 6px; }
-  .catalog-title { gap: 10px; }
-  .search-box { width: 210px; }
+  .catalog-title { gap: 10px; justify-content: space-between; }
+  .catalog-tools { flex-basis: auto; }
+  #catalog-sort { min-height: 44px; }
   .filter-row { flex-wrap: wrap; padding-top: 17px; padding-bottom: 12px; }
   .category-button { font-size: 11px; padding: 8px 12px; }
   .favorites-filter { margin-left: auto; }
@@ -346,11 +353,8 @@ body:has(dialog[open]) { overflow: hidden; }
   .pairing-canvas { min-height: 250px; padding: 21px 19px 17px; }
   .pairing-controls { gap: 12px; padding: 16px; }
   .pairing-specimen h3 { font-size: clamp(27px, 7.2vw, 36px); }
-  .catalog-top { align-items: flex-start; gap: 15px; flex-direction: column; }
-  .catalog-title { width: 100%; justify-content: space-between; }
   .catalog-top h2 { flex-direction: row; align-items: baseline; gap: 10px; font-size: 15px; }
   #result-count { font-size: 8px; }
-  .search-box { width: 100%; }
   .category-list { gap: 4px; }
   .category-button { padding: 8px 10px; }
   .filter-row { gap: 5px; }

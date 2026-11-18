@@ -15,6 +15,7 @@ export interface FontDefinition {
   englishName: string;
   author: string;
   category: Exclude<Category, '全部字型'>;
+  addedAt: string;
   description: string;
   weights: number[];
   defaultWeight: number;
@@ -33,7 +34,9 @@ function localFont(id: keyof typeof localAssets) {
   return { weights: Object.keys(files).map(Number), loader: { kind: 'local' as const, family, files } };
 }
 
-export const fonts: FontDefinition[] = [
+type CatalogEntry = Omit<FontDefinition, 'addedAt'>;
+
+const launchFonts: CatalogEntry[] = [
   {
     id: 'noto-sans-tc', name: 'Noto Sans TC', englishName: '思源黑體・Google 版本', author: 'Google / Adobe', category: '黑體',
     description: '俐落而安定，讓每一段日常清楚可讀。', weights: [100,200,300,400,500,600,700,800,900], defaultWeight: 400,
@@ -82,6 +85,9 @@ export const fonts: FontDefinition[] = [
     sourceUrl: 'https://github.com/mant0u0/MantouSans', downloadUrl: 'https://github.com/mant0u0/MantouSans#下載與安裝',
     license: 'OFL-1.1', licensePath: 'licenses/mantou-sans.txt', ...localFont('mantou-sans'),
   },
+];
+
+const firstExpansion: CatalogEntry[] = [
   {
     id: 'cactus-classical-serif', name: '仙人掌古典明體', englishName: 'Cactus Classical Serif', author: 'Henry Chan / Tian Haidong / Moonlit Owen', category: '明體',
     description: '古典明體骨架帶著鮮明個性，適合標題與短段落。', weights: [400], defaultWeight: 400,
@@ -258,6 +264,9 @@ export const fonts: FontDefinition[] = [
     license: 'OFL-1.1', licensePath: 'licenses/shanggu-tc.txt',
     loader: { kind: 'stylesheet', family: 'Shanggu Sans TC', stylesheet: 'https://cdn.jsdelivr.net/npm/@hanzi.pro/webfonts-shanggu-sans-tc@0.1.0/swap.css' },
   },
+];
+
+const secondExpansion: CatalogEntry[] = [
   {
     id: 'line-seed-tw', name: 'LINE Seed TW', englishName: 'LINE Seed 繁體中文版', author: 'LY Corporation／華康字型', category: '黑體',
     description: '柔和的圓角與均衡的中英比例，適合介面與混排。', defaultWeight: 400,
@@ -287,7 +296,7 @@ export const fonts: FontDefinition[] = [
     [2, '秀氣', '筆畫秀氣，適合輕盈的故事標題和短句。'],
     [4, 'POP', '接近手繪 POP 招牌的節奏，適合醒目短標題。'],
     [5, '行楷', '行楷的筆意與手寫節奏，適合落款和書信。'],
-  ] as const).map(([number, style, description]): FontDefinition => ({
+  ] as const).map(([number, style, description]): CatalogEntry => ({
     id: `jason-handwriting-${number}`, name: `清松手寫體 ${number} 號`, englishName: `${style}・Jason Handwriting ${number}`,
     author: '游清松', category: '手寫・楷體', description, defaultWeight: 400,
     sourceUrl: 'https://github.com/jasonhandwriting/JasonHandwriting',
@@ -295,6 +304,16 @@ export const fonts: FontDefinition[] = [
     license: 'OFL-1.1', licensePath: 'licenses/jason-handwriting.txt', ...localFont(`jason-handwriting-${number}`),
   })),
 ];
+
+const catalogBatches = [
+  { addedAt: '2026-11-17T22:11:26+08:00', entries: launchFonts },
+  { addedAt: '2026-11-18T13:26:59+08:00', entries: firstExpansion },
+  { addedAt: '2026-11-18T23:30:57+08:00', entries: secondExpansion },
+];
+
+export const fonts: FontDefinition[] = catalogBatches.flatMap(({ addedAt, entries }) =>
+  entries.map(font => ({ ...font, addedAt })),
+);
 
 function glowSansStylesheets(width: 'normal' | 'compressed' | 'condensed' | 'extended' | 'wide') {
   const weights: Record<number, string> = {

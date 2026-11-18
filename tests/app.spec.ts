@@ -19,6 +19,37 @@ test('search, categories and empty-state recovery', async ({ page }) => {
   await expect(page.locator('#font-grid .font-card')).toHaveCount(42);
 });
 
+test('catalog sorting is shared with comparison and improves search order', async ({ page }) => {
+  const sort = page.getByRole('combobox', { name: '排序字型' });
+  const cards = page.locator('#font-grid .font-card');
+  const ids = (rows: typeof cards) => rows.evaluateAll(items => items.map(item => item.getAttribute('data-font')));
+  await expect(page.locator('#font-grid .font-group-heading')).toHaveText(['黑體', '明體', '圓體', '手寫・楷體', '標題字', '等寬']);
+  await expect(page.locator('#pairing-heading-font optgroup')).toHaveCount(6);
+
+  await sort.selectOption('newest');
+  await expect(cards.first()).toBeVisible();
+  const newest = (await ids(cards)).slice(0, 8);
+  expect(newest.sort()).toEqual([
+    'line-seed-tw', 'taiwanpearl', 'tauhu-oo', 'genryu-mincho-tw',
+    'jason-handwriting-1', 'jason-handwriting-2', 'jason-handwriting-4', 'jason-handwriting-5',
+  ].sort());
+  await page.locator('#view-toggle').click();
+  const rows = page.locator('#compare-list .compare-row');
+  expect(await ids(rows)).toEqual(await ids(cards));
+
+  const search = page.getByRole('searchbox');
+  await search.fill('粉圓');
+  await sort.selectOption('auto');
+  await expect(sort.locator('option[value="auto"]')).toHaveText('搜尋相關度');
+  await expect(rows.first()).toHaveAttribute('data-font', 'huninn');
+
+  await search.fill('清松手寫體');
+  await sort.selectOption('name');
+  expect(await ids(rows)).toEqual([
+    'jason-handwriting-1', 'jason-handwriting-2', 'jason-handwriting-4', 'jason-handwriting-5',
+  ]);
+});
+
 test('preview, settings, unicode limit and literal HTML', async ({ page }) => {
   const input = page.getByRole('textbox', { name: '試著寫點什麼' });
   await input.fill('臺灣，風景。\n<img src=x onerror=alert(1)>');
