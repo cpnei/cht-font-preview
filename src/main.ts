@@ -549,3 +549,7 @@ updatePairingPreview();
 updatePairingStatus();
 pairingObserver.observe($('#pairing'));
 renderCatalog();
+const siteHeadingText = Array.from(document.querySelectorAll<HTMLElement>('h1, h2, h3:not(#pairing-preview-heading), .brand-name'))
+  .map(heading => heading.textContent ?? '')
+  .join('\n');
+requestFont(fontById.get('taipei-sans-tc')!, false, siteHeadingText);

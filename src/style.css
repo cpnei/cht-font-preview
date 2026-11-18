@@ -11,6 +11,7 @@
   --preview-size: 36px;
   --preview-spacing: 0px;
   --preview-line-height: 1.8;
+  --site-heading-font: 'Taipei Sans TC', system-ui, -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 28px; }
@@ -349,3 +350,6 @@ body:has(dialog[open]) { overflow: hidden; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+.brand-name { font-family: var(--site-heading-font); }
+:is(h1, h2, h3):not(#pairing-preview-heading) { font-family: var(--site-heading-font); }
