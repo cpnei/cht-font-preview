@@ -44,6 +44,50 @@ button svg, a svg { pointer-events: none; }
 .nav-active::after { content: ''; position: absolute; width: 4px; height: 4px; border-radius: 50%; background: var(--green); left: calc(50% - 2px); bottom: -12px; }
 .github-link { display: flex; gap: 10px; align-items: center; border-left: 1px solid var(--border); padding-left: 28px; }
 .github-link svg { width: 16px; height: 16px; }
+.quick-jump {
+  position: fixed;
+  z-index: 20;
+  inset-inline-end: calc(12px + env(safe-area-inset-right));
+  inset-block-end: calc(12px + env(safe-area-inset-bottom));
+  display: flex;
+  color: var(--green);
+  background: #fcfcfa;
+  border: 1px solid #cbd8c3;
+  border-radius: 24px;
+  box-shadow: 0 3px 14px #283c3220;
+}
+.quick-jump summary, .quick-jump-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+.quick-jump summary { list-style: none; padding-inline: 13px 11px; border-radius: 24px 0 0 24px; }
+.quick-jump summary::-webkit-details-marker { display: none; }
+.quick-jump-top { width: 44px; border-inline-start: 1px solid var(--border); border-radius: 0 24px 24px 0; }
+.quick-jump :is(summary, a):hover, .quick-jump details[open] summary { background: #eef3e8; }
+.quick-jump :is(summary, a):focus-visible { outline: 2px solid #63885d; outline-offset: -2px; }
+.quick-jump-links {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-end: calc(100% + 8px);
+  min-inline-size: 144px;
+  max-block-size: calc(100dvh - 80px - env(safe-area-inset-bottom) - env(safe-area-inset-top));
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px;
+  background: #fcfcfa;
+  border: 1px solid #cbd8c3;
+  border-radius: 12px;
+  box-shadow: 0 3px 14px #283c3220;
+  list-style: none;
+  font-size: 13px;
+}
+.quick-jump-links a { display: flex; align-items: center; min-height: 44px; padding-inline: 12px; border-radius: 8px; }
 .hero { display: flex; align-items: flex-end; justify-content: space-between; padding: 64px 0 48px; gap: 32px; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: #65775e; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin: 0 0 20px; }
 .eyebrow > span { width: 6px; height: 6px; background: #7e9562; border-radius: 50%; }
@@ -208,7 +252,7 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .closing-note h2 { font-weight: 500; font-size: 17px; margin: 0 0 8px; }
 .closing-note p { margin: 0; font-size: 11px; line-height: 1.9; color: #88917d; }
 .closing-note > button { margin-left: auto; display: flex; align-items: center; gap: 17px; font-size: 12px; color: #617554; white-space: nowrap; }
-.site-footer { padding-block: 27px 32px; display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 9px; color: #8c9681; letter-spacing: .3px; }
+.site-footer { padding-block: 27px calc(64px + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 9px; color: #8c9681; letter-spacing: .3px; }
 .site-footer > span:last-child { display: flex; gap: 20px; align-items: center; }
 .footer-dash { margin-inline: 7px; }
 .site-footer a { display: flex; align-items: center; gap: 4px; }
@@ -228,6 +272,7 @@ body:has(dialog[open]) { overflow: hidden; }
 .about-source { display: inline-flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #cad8b9; font-size: 13px; }
 .notice { position: fixed; z-index: 30; left: 50%; bottom: 24px; transform: translate(-50%, 10px); max-width: calc(100% - 30px); background: #283c32; color: white; border-radius: 8px; padding: 12px 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; }
 .notice.visible { opacity: 1; transform: translate(-50%, 0); }
+.quick-jump:not([hidden]) ~ .notice.visible { bottom: calc(66px + env(safe-area-inset-bottom)); }
 @media (min-width: 1500px) { .hero { padding-top: 75px; } }
 @media (max-width: 1050px) {
   .wrap { width: calc(100% - 56px); }

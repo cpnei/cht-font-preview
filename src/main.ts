@@ -34,6 +34,8 @@ const pairingHeadingFont = $<HTMLSelectElement>('#pairing-heading-font');
 const pairingBodyFont = $<HTMLSelectElement>('#pairing-body-font');
 const pairingHeadingText = $<HTMLInputElement>('#pairing-heading-text');
 const pairingBodyText = $<HTMLTextAreaElement>('#pairing-body-text');
+const quickJump = $('#quick-jump');
+const quickJumpMenu = $<HTMLDetailsElement>('details', quickJump);
 const localSubsetCharacters = new Set([
   ...samples.flatMap(sample => Array.from(sample.text)),
   ...Array.from(pairingSample.heading),
@@ -42,6 +44,11 @@ const localSubsetCharacters = new Set([
   ...Array.from('Aa臺灣'),
 ]);
 input.value = previewText;
+
+function updateQuickJump() {
+  quickJump.hidden = window.scrollY < Math.min(window.innerHeight / 2, 320);
+  if (quickJump.hidden) quickJumpMenu.open = false;
+}
 
 function notify(message: string) {
   clearTimeout(noticeTimer);
@@ -401,6 +408,23 @@ document.addEventListener('click', event => {
 });
 
 window.addEventListener('resize', () => updateComparePreviews());
+window.addEventListener('scroll', updateQuickJump, { passive: true });
+window.addEventListener('resize', updateQuickJump);
+window.addEventListener('pageshow', updateQuickJump);
+quickJump.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || !quickJumpMenu.open) return;
+  quickJumpMenu.open = false;
+  $('summary', quickJumpMenu).focus();
+});
+quickJump.addEventListener('focusout', event => {
+  if (!quickJump.contains(event.relatedTarget as Node | null)) quickJumpMenu.open = false;
+});
+document.addEventListener('click', event => {
+  const target = event.target;
+  if (target instanceof Element && (!quickJump.contains(target) || target.closest('a'))) {
+    quickJumpMenu.open = false;
+  }
+});
 $('#compare-list').addEventListener('scroll', event => {
   const source = event.target;
   if (!(source instanceof HTMLElement) || !source.matches('[data-compare-preview]')) return;
@@ -462,6 +486,7 @@ document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('c
 }));
 
 syncTypography();
+updateQuickJump();
 updatePairingPreview();
 updatePairingStatus();
 pairingObserver.observe($('#pairing'));
