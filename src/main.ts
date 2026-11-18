@@ -29,6 +29,9 @@ const weights = new Map(fonts.map(font => [font.id, font.defaultWeight]));
 const requested = new Set<string>();
 let noticeTimer: ReturnType<typeof setTimeout>;
 let textTimer: ReturnType<typeof setTimeout>;
+let compareScrollProgress = 0;
+let compareScrollFrame = 0;
+const expectedCompareScroll = new WeakMap<HTMLElement, number>();
 
 $('#app').innerHTML = `
   <a class="skip-link" href="#preview-input">跳至預覽文字</a>
@@ -54,7 +57,7 @@ $('#app').innerHTML = `
     <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
       <div class="catalog-top"><div class="catalog-title"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">08 TYPEFACES</span></h2><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">${icon('compare')}<span>單行比較</span></button></div><div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div></div>
       <div class="filter-row"><div class="category-list" role="group" aria-label="字型分類">${categories.map((item, i) => `<button class="category-button" type="button" data-category="${item}" aria-pressed="${i === 0}">${item}</button>`).join('')}</div><button class="favorites-filter" id="favorites-filter" type="button" aria-pressed="false">${icon('heart')}<span>我的收藏</span><span id="favorites-count">${favorites.size}</span></button></div>
-      <p class="catalog-hint"><span>一段文字，八種表情。</span><span>${icon('heart')} 收藏喜歡的字型，隨時回來看</span></p>
+      <p class="catalog-hint"><span data-view-hint>一段文字，八種表情。</span><span>${icon('heart')} 收藏喜歡的字型，隨時回來看</span></p>
       <div class="font-grid" id="font-grid"></div>
       <div class="compare-list" id="compare-list" hidden></div>
       <div class="empty-state" id="empty-state" hidden><span aria-hidden="true">字</span><h3>還沒遇見這款字</h3><p>換個關鍵字，或放寬篩選條件試試。</p><button type="button" id="reset-filters" class="button-primary">顯示所有字型</button></div>
@@ -103,7 +106,7 @@ function cardHTML(font: FontDefinition) {
 function compareRowHTML(font: FontDefinition) {
   return `<article class="compare-row" data-font="${font.id}" aria-label="${font.name}">
     <div class="compare-row-heading"><span class="font-category"><i class="category-dot category-${categories.indexOf(font.category)}"></i>${font.category}</span><h3>${font.name}</h3><span class="compare-english">${font.englishName}</span></div>
-    <p class="compare-preview" data-compare-preview aria-label="${font.name} 字型預覽"></p>
+    <p class="compare-preview" data-compare-preview tabindex="0" aria-label="${font.name} 字型預覽；水平捲動會同步至所有字型"></p>
     <div class="compare-row-actions"><button class="icon-button favorite-button" type="button" data-favorite="${font.id}" aria-label="收藏 ${font.name}" aria-pressed="${favorites.has(font.id)}">${icon('heart')}</button><span data-compare-load></span><a class="icon-button compare-download" href="${font.downloadUrl}" target="_blank" rel="noopener noreferrer" aria-label="前往下載 ${font.name}">${icon('download')}</a></div>
   </article>`;
 }
@@ -131,7 +134,10 @@ function renderCatalog() {
   $('#view-toggle').setAttribute('aria-pressed', String(viewMode === 'compare'));
   $('#view-toggle span').textContent = viewMode === 'compare' ? '卡片檢視' : '單行比較';
   $('#view-toggle').setAttribute('aria-label', viewMode === 'compare' ? '切換至卡片檢視' : '切換至單行比較');
-  updateComparePreviews();
+  $('[data-view-hint]').textContent = viewMode === 'compare'
+    ? '滑動任一樣張，全部同步'
+    : '一段文字，八種表情。';
+  updateComparePreviews(true);
   updateFavoriteUI();
 }
 
@@ -160,6 +166,7 @@ function updateFont(id: string) {
       } else {
         load.replaceChildren();
       }
+      if (status === 'ready') applyCompareScrollProgress();
       return;
     }
     const preview = $<HTMLParagraphElement>('[data-preview]', card);
@@ -191,22 +198,33 @@ function updateFont(id: string) {
   });
 }
 
-function updateComparePreviews() {
+function applyCompareScrollProgress() {
+  document.querySelectorAll<HTMLElement>('#compare-list [data-compare-preview]').forEach(preview => {
+    const maxScroll = Math.max(0, preview.scrollWidth - preview.clientWidth);
+    const nextScroll = Math.round(maxScroll * compareScrollProgress);
+    if (Math.abs(preview.scrollLeft - nextScroll) < 1) return;
+    expectedCompareScroll.set(preview, nextScroll);
+    preview.scrollLeft = nextScroll;
+  });
+}
+
+function syncCompareScroll(source: HTMLElement) {
+  const maxScroll = Math.max(0, source.scrollWidth - source.clientWidth);
+  compareScrollProgress = maxScroll ? Math.min(1, Math.max(0, source.scrollLeft / maxScroll)) : 0;
+  applyCompareScrollProgress();
+}
+
+function updateComparePreviews(resetScroll = false) {
   const previews = document.querySelectorAll<HTMLElement>('#compare-list [data-compare-preview]');
   if (!previews.length) return;
-  const availableWidth = Math.min(...[...previews].map(preview => preview.clientWidth));
-  if (!availableWidth) return;
-  const fontSize = Number.parseFloat(getComputedStyle(previews[0]).fontSize) || 20;
-  const count = Math.max(1, Math.floor(availableWidth / fontSize));
   const text = previewText.replace(/\s+/gu, ' ').trim();
-  const graphemes = typeof Intl.Segmenter === 'function'
-    ? [...new Intl.Segmenter('zh-TW', { granularity: 'grapheme' }).segment(text)].map(part => part.segment)
-    : Array.from(text);
-  const sample = graphemes.length > count ? `${graphemes.slice(0, count).join('')}…` : text;
+  const sample = text || '在上方輸入要預覽的文字';
   for (const preview of previews) {
-    preview.textContent = sample || '在上方輸入要預覽的文字';
+    if (preview.textContent !== sample) preview.textContent = sample;
     preview.title = text;
   }
+  if (resetScroll) compareScrollProgress = 0;
+  applyCompareScrollProgress();
 }
 
 function syncTypography() {
@@ -274,7 +292,21 @@ document.addEventListener('click', event => {
   }
 });
 
-window.addEventListener('resize', updateComparePreviews);
+window.addEventListener('resize', () => updateComparePreviews());
+$('#compare-list').addEventListener('scroll', event => {
+  const source = event.target;
+  if (!(source instanceof HTMLElement) || !source.matches('[data-compare-preview]')) return;
+  const expected = expectedCompareScroll.get(source);
+  if (expected !== undefined) {
+    expectedCompareScroll.delete(source);
+    if (Math.abs(source.scrollLeft - expected) < 1) return;
+  }
+  if (compareScrollFrame) cancelAnimationFrame(compareScrollFrame);
+  compareScrollFrame = requestAnimationFrame(() => {
+    compareScrollFrame = 0;
+    syncCompareScroll(source);
+  });
+}, { capture: true, passive: true });
 
 document.addEventListener('change', event => {
   const select = event.target as HTMLSelectElement;
