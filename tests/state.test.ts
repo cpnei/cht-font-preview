@@ -5,7 +5,7 @@ import { defaults, filterFonts, limitText, restore } from '../src/state';
 
 describe('font catalog and state', () => {
   it('combines search, category, and favorites', () => {
-    expect(filterFonts('Noto', '明體', false, new Set()).map(f => f.id)).toEqual(['noto-serif-tc']);
+    expect(filterFonts('Noto', '明體', false, new Set()).map(f => f.id)).toEqual(['noto-serif-tc', 'noto-serif-hk']);
     expect(filterFonts('  JUSTFONT ', '全部字型', true, new Set(['huninn'])).map(f => f.id)).toEqual(['huninn']);
     expect(filterFonts('粉圓', '黑體', false, new Set())).toEqual([]);
     expect(filterFonts('', '全部字型', true, new Set())).toEqual([]);
