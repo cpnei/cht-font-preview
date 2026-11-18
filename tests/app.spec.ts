@@ -3,19 +3,20 @@ import { expect, test } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
   // Deterministic UI tests deliberately fail external fonts; real loading is tested separately.
   await page.route('https://fonts.googleapis.com/**', route => route.abort());
+  await page.route('https://cdn.jsdelivr.net/**', route => route.abort());
   await page.goto('./');
 });
 
 test('search, categories and empty-state recovery', async ({ page }) => {
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(8);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(34);
   await page.getByRole('searchbox', { name: '搜尋字型' }).fill('noto');
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(2);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(4);
   await page.getByRole('button', { name: '明體', exact: true }).click();
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(1);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(2);
   await page.getByRole('searchbox').fill('不存在');
   await expect(page.getByText('還沒遇見這款字')).toBeVisible();
   await page.getByRole('button', { name: '顯示所有字型' }).click();
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(8);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(34);
 });
 
 test('preview, settings, unicode limit and literal HTML', async ({ page }) => {

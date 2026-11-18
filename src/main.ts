@@ -46,13 +46,13 @@ $('#app').innerHTML = `
   <main class="wrap">
     <section class="hero" aria-labelledby="hero-title">
       <div><p class="eyebrow"><span></span> 字裡行間，自有風景</p><h1 id="hero-title">好字，讓想法<span>有了樣子。</span><i aria-hidden="true">*</i></h1></div>
-      <div class="hero-aside"><p>輸入一段文字，遇見適合它的字型。<br>從日常書寫到靈感提案，<br>在這裡，找到你的下一個好字。</p><div class="hero-meta"><span><b>08</b> 款精選字型</span><span class="meta-dot"></span><span>開源・免費商用</span></div></div>
+      <div class="hero-aside"><p>輸入一段文字，遇見適合它的字型。<br>從日常書寫到靈感提案，<br>在這裡，找到你的下一個好字。</p><div class="hero-meta"><span><b>${String(fonts.length).padStart(2, '0')}</b> 款精選字型</span><span class="meta-dot"></span><span>開源・免費商用</span></div></div>
     </section>
     <section class="editor" aria-label="預覽設定">
       <div class="editor-main"><div class="editor-heading"><label for="preview-input">試著寫點什麼</label><span id="char-count">0 / 500</span></div>
         <textarea id="preview-input" rows="2" spellcheck="false" aria-describedby="input-help char-count preview-privacy-note" placeholder="在這裡輸入，看看文字的不同表情…"></textarea>
         <div class="sample-row"><span id="input-help">或試試</span>${samples.map((sample, i) => `<button type="button" class="sample-button" data-sample="${i}" aria-pressed="${i === 0}">${sample.name}</button>`).join('')}<button id="clear-text" type="button" class="clear-text">清空</button></div>
-        <p class="preview-font-note" id="preview-privacy-note">Google 字型會依預覽文字載入所需字元；精簡請求會傳送去重字元清單。</p>
+        <p class="preview-font-note" id="preview-privacy-note">字型會在需要時載入預覽字元；Google Fonts 會收到去重字元清單。</p>
       </div>
       <div class="editor-controls"><div class="controls-heading"><span>排版設定</span><button id="reset-settings" type="button" aria-label="重設排版設定" title="重設排版設定">${icon('reset')}</button></div>
         <label class="range-control" for="font-size"><span>字級 <output id="font-size-value"></output></span><input id="font-size" type="range" min="16" max="72" step="1"></label>
@@ -60,9 +60,9 @@ $('#app').innerHTML = `
       </div>
     </section>
     <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
-      <div class="catalog-top"><div class="catalog-title"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">08 TYPEFACES</span></h2><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">${icon('compare')}<span>單行比較</span></button></div><div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div></div>
+      <div class="catalog-top"><div class="catalog-title"><h2 id="catalog-heading">找一款，剛剛好的字。<span id="result-count">${String(fonts.length).padStart(2, '0')} TYPEFACES</span></h2><button class="view-toggle" id="view-toggle" type="button" aria-pressed="false">${icon('compare')}<span>單行比較</span></button></div><div class="search-box">${icon('search')}<input id="search" type="search" aria-label="搜尋字型" placeholder="搜尋字型、設計師…"></div></div>
       <div class="filter-row"><div class="category-list" role="group" aria-label="字型分類">${categories.map((item, i) => `<button class="category-button" type="button" data-category="${item}" aria-pressed="${i === 0}">${item}</button>`).join('')}</div><button class="favorites-filter" id="favorites-filter" type="button" aria-pressed="false">${icon('heart')}<span>我的收藏</span><span id="favorites-count">${favorites.size}</span></button></div>
-      <p class="catalog-hint"><span data-view-hint>一段文字，八種表情。</span><span>${icon('heart')} 收藏喜歡的字型，隨時回來看</span></p>
+      <p class="catalog-hint"><span data-view-hint>一段文字，${fonts.length} 種表情。</span><span>${icon('heart')} 收藏喜歡的字型，隨時回來看</span></p>
       <div class="font-grid" id="font-grid"></div>
       <div class="compare-list" id="compare-list" hidden></div>
       <div class="empty-state" id="empty-state" hidden><span aria-hidden="true">字</span><h3>還沒遇見這款字</h3><p>換個關鍵字，或放寬篩選條件試試。</p><button type="button" id="reset-filters" class="button-primary">顯示所有字型</button></div>
@@ -93,7 +93,7 @@ $('#app').innerHTML = `
     <section class="closing-note"><span aria-hidden="true">字</span><div><h2>好字，值得被看見。</h2><p>感謝每一位字型創作者，讓文字有更多可能。<br>喜歡一款字，也別忘了到作者的頁面走走。</p></div><button type="button" data-open-about>關於字型與授權 ${icon('arrow')}</button></section>
   </main>
   <footer class="site-footer wrap"><span>字選 FONT SELECT <span class="footer-dash">—</span> 給每一個認真選字的人。</span><span>Made for Traditional Chinese. <a href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">開源專案 ${icon('arrow')}</a></span></footer>
-  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具。我們精選八款適合繁體中文使用的字型，你可以逐張瀏覽介紹、切換單行模式比較，也可以分別替標題和內文選字，查看搭配效果。</p><h3>免費商用，尊重原創</h3><p>收錄字型皆採 SIL Open Font License 1.1。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。每張卡片附有作者來源與完整授權，本站程式碼則採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器。本站不會收到或保存預覽文字；使用 Google Fonts 時，精簡請求會將目前所需的去重字元傳給 Google，原文順序不會送出。字元清單太長時則使用一般字元分片載入。另兩款本機字型由本站按需提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
+  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><div class="dialog-header"><div><p class="eyebrow">ABOUT FONT SELECT</p><h2 id="about-title">讓選字，簡單一點。</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="關閉關於字選">${icon('close')}</button></div><p>字選是一個免費、開源的繁體中文字型預覽工具，收錄 ${fonts.length} 款臺灣與香港繁體字形。你可以逐張瀏覽介紹、切換單行模式比較，也可以分別替標題和內文選字，查看搭配效果。</p><h3>免費商用，尊重原創</h3><p>收錄字型均提供 SIL Open Font License 1.1 全文；少數字型另附上游的補充授權或來源說明。可免費用於個人與商業作品；字型檔案的散布、修改與保留名稱仍須遵守各自授權。本站程式碼採 MIT 授權。</p><h3>關於你的資料</h3><p>收藏與排版設定只保存在這個瀏覽器。本站不會收到或保存預覽文字；使用 Google Fonts 時，精簡請求會將目前所需的去重字元傳給 Google，原文順序不會送出。其他網頁字型透過 jsDelivr 的字元範圍 CSS 按需載入，請求網址不含預覽文字。另兩款本機字型由本站按需提供。本站沒有帳號、廣告或追蹤分析。</p><h3>每一款字，都有自己的樣子</h3><p>字型的收字與地區字形習慣可能不同。罕用字、Emoji 或不支援的符號可能使用系統替代字型；本站不提供逐字缺字偵測。</p><a class="about-source" href="https://github.com/cpnei/cht-font-preview" target="_blank" rel="noopener noreferrer">查看原始碼與字型來源 ${icon('arrow')}</a></dialog>
   <div id="notice" class="notice" role="status" aria-live="polite"></div>
 `;
 
@@ -125,8 +125,8 @@ function persist() {
 }
 
 function weightOptions(font: FontDefinition) {
-  const names: Record<number, string> = {100: '極細', 200: '特細', 300: '細體', 400: '標準', 500: '中黑', 600: '半粗', 700: '粗體', 800: '特粗', 900: '極粗'};
-  return font.weights.map(weight => `<option value="${weight}" ${weights.get(font.id) === weight ? 'selected' : ''}>${names[weight]} ${weight}</option>`).join('');
+  const names: Record<number, string> = {100: '極細', 200: '特細', 250: '特細', 300: '細體', 350: '中細', 400: '標準', 500: '中黑', 600: '半粗', 700: '粗體', 800: '特粗', 900: '極粗'};
+  return font.weights.map(weight => `<option value="${weight}" ${weights.get(font.id) === weight ? 'selected' : ''}>${names[weight] ?? '字重'} ${weight}</option>`).join('');
 }
 
 function cardHTML(font: FontDefinition) {
@@ -153,7 +153,7 @@ const observer = new IntersectionObserver(entries => {
   for (const entry of entries) {
     if (!entry.isIntersecting) continue;
     const font = fontById.get((entry.target as HTMLElement).dataset.font!)!;
-    if (font.loader.kind === 'google' || fontCanUsePreviewSubset(font)) {
+    if (font.loader.kind !== 'local' || fontCanUsePreviewSubset(font)) {
       observer.unobserve(entry.target);
       requestFont(font);
     }
@@ -183,7 +183,7 @@ function renderCatalog() {
   $('#view-toggle').setAttribute('aria-label', viewMode === 'compare' ? '切換至卡片檢視' : '切換至單行比較');
   $('[data-view-hint]').textContent = viewMode === 'compare'
     ? '滑動任一樣張，全部同步'
-    : '一段文字，八種表情。';
+    : `一段文字，${fonts.length} 種表情。`;
   updateComparePreviews(true);
   updateFavoriteUI();
 }
@@ -196,7 +196,7 @@ function requestTextForFont(font: FontDefinition, sample = previewText) {
 
 function requestFont(font: FontDefinition, retry = false, sample = previewText) {
   const requestText = requestTextForFont(font, sample);
-  const preferSubset = font.loader.kind === 'google' || (font.loader.kind === 'local' && localSubsetCovers(requestText));
+  const preferSubset = font.loader.kind !== 'local' || localSubsetCovers(requestText);
   if (font.loader.kind === 'local' && !preferSubset && !localFullApproved.has(font.id) && !loader.isLocalFull(font.id)) {
     updateFont(font.id);
     return;
@@ -214,17 +214,21 @@ function selectedPairFonts() {
   return [...new Set([pairingHeadingFont.value, pairingBodyFont.value])].map(id => fontById.get(id)!);
 }
 
+function setPreviewFont(element: HTMLElement, font: FontDefinition) {
+  element.style.fontFamily = `"${fontFamily(font)}", serif`;
+  element.style.fontWeight = String(weights.get(font.id));
+  element.style.fontStretch = font.loader.kind === 'stylesheet' ? font.loader.stretch ?? 'normal' : 'normal';
+}
+
 function updatePairingPreview() {
   const headingFont = fontById.get(pairingHeadingFont.value)!;
   const bodyFont = fontById.get(pairingBodyFont.value)!;
   const heading = $<HTMLHeadingElement>('#pairing-preview-heading');
   const body = $<HTMLParagraphElement>('#pairing-preview-body');
   heading.textContent = pairingHeadingText.value;
-  heading.style.fontFamily = `"${fontFamily(headingFont)}", serif`;
-  heading.style.fontWeight = String(weights.get(headingFont.id));
+  setPreviewFont(heading, headingFont);
   body.textContent = pairingBodyText.value;
-  body.style.fontFamily = `"${fontFamily(bodyFont)}", serif`;
-  body.style.fontWeight = String(weights.get(bodyFont.id));
+  setPreviewFont(body, bodyFont);
 }
 
 function updatePairingStatus() {
@@ -319,8 +323,7 @@ function updateFont(id: string) {
   document.querySelectorAll<HTMLElement>(`[data-font="${id}"]`).forEach(card => {
     const comparePreview = card.querySelector<HTMLElement>('[data-compare-preview]');
     if (comparePreview) {
-      comparePreview.style.fontFamily = `"${fontFamily(font)}", serif`;
-      comparePreview.style.fontWeight = String(weights.get(id));
+      setPreviewFont(comparePreview, font);
       comparePreview.title = previewText.replace(/\s+/gu, ' ').trim();
       card.dataset.status = status;
       const load = card.querySelector<HTMLElement>('[data-compare-load]')!;
@@ -342,8 +345,7 @@ function updateFont(id: string) {
     const placeholder = $('[data-placeholder]', card);
     const statusLine = $('[data-status]', card);
     preview.textContent = previewText || '在上方寫點什麼，讓字型說話。';
-    preview.style.fontFamily = `"${fontFamily(font)}", serif`;
-    preview.style.fontWeight = String(weights.get(id));
+    setPreviewFont(preview, font);
     preview.hidden = status !== 'ready' && !hasLoaded;
     placeholder.hidden = status === 'ready' || hasLoaded;
     card.dataset.status = status;

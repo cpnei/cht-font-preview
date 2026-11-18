@@ -1,0 +1,82 @@
+# 繁體中文字型來源盤點
+
+更新日期：2026-11-18
+
+## 盤點範圍與納入原則
+
+沒有單一的免費字型全集。本次交叉檢視 Google Fonts 的繁體中文與香港中文子集、Fontsource 繁中目錄、臺灣字型作者與政府字型來源、CJK 字型網頁子集登錄，以及可追溯至原始字型專案的開源字型套件。收錄需要符合四項條件：
+
+1. 字型原作者或官方來源可確認。
+2. 授權全文明確，允許網頁使用及對外提供字型預覽。
+3. 有臺灣／香港繁中字形版本，或官方說明明確提供繁體中文支援。
+4. 能在使用者預覽時按需載入字元，避免第一次開頁就下載整套大型 CJK 字型。
+
+目前目錄三十四款。Google Fonts 的繁中／香港子集目錄共有十九個候選家族：原有六款、這次新增十款，另三款是 Bpmf 注音／變體序列版本；一般預覽文字看不出它們與對應家族的差別，因此不重複列卡片。再從兩個 CJK 字型子集登錄納入十二款：台北黑體、未來熒黑五種字寬、Fusion Pixel 兩種 12px 字面、源起／源樣明體，以及全字庫正宋／正楷體。最後從 Ziano 的傳承字形字元分片服務加入四款黑體與明體。
+
+## 本次新增
+
+### Google Fonts
+
+下列十款均可用 Google Fonts 的繁中或香港繁中子集按需載入；授權全文保存於 `public/licenses/`。
+
+| 字型 | 類型 | 官方來源 |
+| --- | --- | --- |
+| 仙人掌古典明體 Cactus Classical Serif | 明體 | [Moonlit Owen](https://github.com/MoonlitOwen/CactusSerif) |
+| 昭源黑體 HK Chiron Hei HK | 香港黑體 | [Chiron Fonts](https://github.com/chiron-fonts/chiron-hei-hk) |
+| 昭源宋體 HK Chiron Sung HK | 香港明體 | [Chiron Fonts](https://github.com/chiron-fonts/chiron-sung-hk) |
+| 巧克力古典黑體 Chocolate Classical Sans | 展示黑體 | [Moonlit Owen](https://github.com/MoonlitOwen/ChocolateSans) |
+| 霞鶩漫黑 LXGW Marker Gothic | 手寫展示字 | [LXGW / Aaron Bell](https://github.com/aaronbell/LxgwMarkerGothic) |
+| 霞鶩文楷等寬 TC LXGW WenKai Mono TC | 等寬楷體 | [LXGW / Aaron Bell](https://github.com/aaronbell/LxgwWenkaiTC) |
+| 思源黑體 HK Noto Sans HK | 香港黑體 | [Noto CJK](https://github.com/notofonts/noto-cjk) |
+| 思源宋體 HK Noto Serif HK | 香港明體 | [Noto CJK](https://github.com/notofonts/noto-cjk) |
+| 宇文天穹 UoqMunThenKhung | 手寫明體 | [Moonlit Owen](https://github.com/MoonlitOwen/ThenKhung) |
+| WD-XL 滑石體 TC | 展示黑體 | [NightFurySL2001](https://github.com/NightFurySL2001/WD-XL-font) |
+
+### 可依字元分片的繁中網頁字型
+
+這些套件把上游字型分割為 WOFF2，並用 `unicode-range` 讓瀏覽器只下載預覽文字命中的分片。頁面固定套件版本；卡片與下載連結仍指向原作者／上游。
+
+| 字型 | 收錄樣式 | 上游與授權 |
+| --- | --- | --- |
+| 台北黑體 Taipei Sans TC Beta | Light、Regular、Bold | [JT Foundry 官方下載說明](https://sites.google.com/view/jtfoundry/zh-tw/downloads)，SIL OFL 1.1；[分片套件與來源鎖](https://github.com/vp-tw/cjk-web-fonts/tree/main/packages/taipei-sans-tc) |
+| 未來熒黑 Wêlai Glow Sans TC | 標準、壓縮、窄、寬、加寬；每種九字重 | [Project Wêlai](https://github.com/welai/glow-sans)，SIL OFL 1.1；分片版本固定在上游 v0.93 |
+| Fusion Pixel Font | 12px 等寬、12px 比例 | [TakWolf 與貢獻者](https://github.com/TakWolf/fusion-pixel-font)，繁中來源、OFL 與組成字型授權全文一併收錄 |
+| 源起明體 GenKi Mincho TC | 七字重 | [ButTaiwan](https://github.com/ButTaiwan/genyo-font)，SIL OFL 1.1 |
+| 源樣明體 GenYo Mincho TC | 七字重 | [ButTaiwan](https://github.com/ButTaiwan/genyo-font)，SIL OFL 1.1 |
+| 全字庫正宋體 TW-Sung | Regular；含擴充漢字 | [數位發展部 CNS11643 全字庫](https://www.cns11643.gov.tw/)，本次使用的網頁套件採 SIL OFL 1.1 |
+| 全字庫正楷體 TW-Kai | Regular；含擴充漢字 | [數位發展部 CNS11643 全字庫](https://www.cns11643.gov.tw/)，本次使用的網頁套件採 SIL OFL 1.1 |
+
+### 傳承字形網頁字型
+
+Ziano 將原作者字型切成 `unicode-range` WOFF2 分片，以固定 npm 版本透過 jsDelivr 載入。標示 TC 的款式採傳統印刷字形方向；「傳承字形」不等同臺灣或香港現行標準字形，目錄會明確標示，供使用者自行比較。
+
+| 字型 | 字重 | 原作者／授權 |
+| --- | --- | --- |
+| 源樣黑體 TC GenYo Gothic TC | 250、300、350、400、500、700、900 | [ButTaiwan](https://github.com/ButTaiwan/genyog-font)，OFL 1.1 |
+| 源起黑體 TC Genki Gothic TC | 250、300、400、500、700、900 | [ButTaiwan](https://github.com/ButTaiwan/genyog-font)，OFL 1.1 |
+| 尙古明體 TC Shanggu Serif TC | 可變字重 250–900 | [GuiWonder](https://github.com/GuiWonder/Shanggu)，OFL 1.1 |
+| 尙古黑體 TC Shanggu Sans TC | 可變字重 250–900 | [GuiWonder](https://github.com/GuiWonder/Shanggu)，OFL 1.1 |
+
+Google Fonts API 傳送排序、去重後的當前字元子集；CJK 套件則由瀏覽器根據 `unicode-range` 請求分片，網址不帶文字參數。字型 CSS 與子集由 Google Fonts 或 jsDelivr 提供，相關請求的 IP 與一般連線資訊會由對應 CDN 收到。
+
+## 查過但這次沒有納入
+
+| 字型／來源 | 暫不納入的原因 |
+| --- | --- |
+| Bpmf Huninn、Bpmf Iansui、Bpmf Zihi Kai Std | 主要差異在注音／變體序列呈現，不適合一般預覽文字比較。 |
+| ChillDINGothic | 有 OFL 網頁分片套件，但上游說明未確認臺灣或香港繁中字形標準，先不放入以繁中為主的目錄。 |
+| WenJin Mincho、Zhuque Fangsong、Black Sugar Plum Candy | 字型包可取得，但來源說明分別標示中國字形習慣、預發布階段或日文字形取向；目前不把它們當作臺灣／香港繁中字型推薦。 |
+| ChillDINGothic | 有 OFL 與繁中文字元分片，但上游沒有確認臺灣或香港字形標準，先不標示為繁中地區字型。 |
+| LINE Seed TW、TaiwanPearl | 都有可確認的繁中字形與 OFL 授權。LINE Seed TW 找到完整 WOFF2 與第三方動態 CSS，尚未找到可固定版本、來源可追的字元分片套件；TaiwanPearl 找到完整 WOFF2。直接逐款載入完整字檔會讓長目錄瀏覽變慢。 |
+| Swei 獅尾系列、ButTaiwan 源樣黑體／源泉圓體／源流明體／源雲明體／源石黑體 | 多款授權與原始來源清楚，值得後續擴充；目前來源提供完整字型，尚未找到可固定版本、可按字元載入的同等網頁套件。 |
+
+未納入表示這次網站尚未收錄，並非評價字型品質或判定其授權不可用。若之後為完整字型建立小型預覽子集與按需完整載入，可以把這些候選再加入，而不必把大型原檔放入頁面初始下載。
+
+## 版本與授權維護
+
+- Google Fonts 的授權文字及本機字型原檔由 `assets.lock.json` 固定 URL、大小與 SHA-256。
+- 外部 CSS 釘選 npm 版本；外部授權文件也固定版本並由同一鎖檔驗證。
+- Ziano 以固定版本 npm 套件分發源自 ButTaiwan 與 GuiWonder 的傳承字形子集；卡片來源與下載仍指向字型原作者。
+- Fusion Pixel 的授權頁合併該繁中樣式所使用的上游字型授權全文。
+- 全字庫來源允許使用政府資料開放授權或 OFL；本次採用的 `@free-fonts` 字型包按 OFL 1.1 散布，並保留來源標示。
+- 新增字型前再次檢查目前上游版本、字形地區、授權文字、字重、網頁 CSS 與 WOFF2 分片是否仍可取得。

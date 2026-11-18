@@ -59,6 +59,120 @@
       "url": "https://raw.githubusercontent.com/mant0u0/MantouSans/826e7a941f3b722033bad786db364287dee55780/OFL.txt",
       "bytes": 4512,
       "sha256": "71e50a7b7739c113377fdd9b6bcce35966aa5fc8cfcf950f6f5ce3c6852118c5"
+    },
+    {
+      "path": "public/licenses/cactus-classical-serif.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/cactusclassicalserif/OFL.txt",
+      "bytes": 4407,
+      "sha256": "358cbc7066747b8ed6581a771dbccf6397c21db559fdf671e560d7a8a084c5d4"
+    },
+    {
+      "path": "public/licenses/chiron-hei-hk.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/chironheihk/OFL.txt",
+      "bytes": 4443,
+      "sha256": "68b9a31cc191bb8f5f428f191209f7d08c6b5b0d4816a293e5bd230724e84f10"
+    },
+    {
+      "path": "public/licenses/chiron-sung-hk.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/chironsunghk/OFL.txt",
+      "bytes": 4445,
+      "sha256": "b8aea45c9cb6a682b68e32d2cfa454ce34117770b6bd6a956c1661428918c1f4"
+    },
+    {
+      "path": "public/licenses/chocolate-classical-sans.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/chocolateclassicalsans/OFL.txt",
+      "bytes": 4410,
+      "sha256": "2e07464fdfc781cd68f976fcfab13ad30913c04465571c33eaddc7db20f74ad6"
+    },
+    {
+      "path": "public/licenses/lxgw-marker-gothic.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/lxgwmarkergothic/OFL.txt",
+      "bytes": 4401,
+      "sha256": "58e494ff4a5177d593a97ffc482f4069f59f54a0d4049fd29e531d3b1009e8b4"
+    },
+    {
+      "path": "public/licenses/lxgw-wenkai-mono-tc.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/lxgwwenkaimonotc/OFL.txt",
+      "bytes": 4390,
+      "sha256": "4fff27d35db0e22cd81d58da6f20e09f415cf354a3338e3cf1fc0eb9222c7174"
+    },
+    {
+      "path": "public/licenses/noto-sans-hk.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/notosanshk/OFL.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "public/licenses/noto-serif-hk.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/notoserifhk/OFL.txt",
+      "bytes": 4388,
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+    },
+    {
+      "path": "public/licenses/uoqmunthenkhung.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/uoqmunthenkhung/OFL.txt",
+      "bytes": 4396,
+      "sha256": "406ef62322951b6ea94f7a91989971ddd05441e0768e638528b27e5e677c3b91"
+    },
+    {
+      "path": "public/licenses/wdxl-lubrifont-tc.txt",
+      "url": "https://raw.githubusercontent.com/google/fonts/7af0d90b4d532ffa4b041937b560c6df4e7b1e95/ofl/wdxllubrifonttc/OFL.txt",
+      "bytes": 4521,
+      "sha256": "048eba87d28b5d74c432cfa38ca44737e86a5508cf912c1b2cc211c45944e1d9"
+    },
+    {
+      "path": "public/licenses/taipei-sans-tc.txt",
+      "bytes": 6088,
+      "sha256": "778afbc746e08e3d99efbaec8f9e50c5e7aacae1b7829bf4adac4f497960cd28",
+      "url": "https://cdn.jsdelivr.net/npm/@vp-tw/cjk-web-fonts-taipei-sans-tc@0.0.1/LICENSE.font.txt"
+    },
+    {
+      "path": "public/licenses/welai-glow-sans-tc.txt",
+      "bytes": 4339,
+      "sha256": "bd477cedd35215412a7b33896297ff2b0451fd902f701497d1f1b1c95233c19c",
+      "url": "https://cdn.jsdelivr.net/npm/@vp-tw/cjk-web-fonts-glow-sans-tc-normal@0.0.1/LICENSE.font.txt"
+    },
+    {
+      "path": "public/licenses/fusion-pixel.txt",
+      "bytes": 19259,
+      "sha256": "062701a1c89e54f703c0f2f52bb526c6c1a4163ccdd6466e615074dd2d249fe8",
+      "urls": [
+        "https://cdn.jsdelivr.net/npm/@vp-tw/cjk-web-fonts-fusion-pixel-font@0.0.1/LICENSE.font.txt",
+        "https://cdn.jsdelivr.net/npm/@vp-tw/cjk-web-fonts-fusion-pixel-font@0.0.1/NOTICE.md",
+        "https://cdn.jsdelivr.net/npm/@vp-tw/cjk-web-fonts-fusion-pixel-font@0.0.1/LICENSES/12px/ark-pixel/OFL.txt",
+        "https://cdn.jsdelivr.net/npm/@vp-tw/cjk-web-fonts-fusion-pixel-font@0.0.1/LICENSES/12px/cubic-11/OFL.txt",
+        "https://cdn.jsdelivr.net/npm/@vp-tw/cjk-web-fonts-fusion-pixel-font@0.0.1/LICENSES/12px/galmuri/LICENSE.txt"
+      ]
+    },
+    {
+      "path": "public/licenses/genyo-font-ofl.txt",
+      "bytes": 4464,
+      "sha256": "d84b652ca46586043946969a33c1dbf5a43028440825ae744a325965bec4c8fb",
+      "url": "https://raw.githubusercontent.com/ButTaiwan/genyo-font/880b7c9721b62ae813b737cdeca23fccba7d665b/SIL_Open_Font_License_1.1.txt"
+    },
+    {
+      "path": "public/licenses/tw-sung.txt",
+      "bytes": 4441,
+      "sha256": "333dae88e656cccc2c07ea6b6c1076961e8a6949f789137a14e3ba02db423af6",
+      "url": "https://cdn.jsdelivr.net/npm/@free-fonts/tw-sung@1.0.0/LICENSE"
+    },
+    {
+      "path": "public/licenses/tw-kai.txt",
+      "bytes": 4441,
+      "sha256": "e8d55809a7a35ab4784680d8cb88a6c1bcf189586578d2e2da12151b6cd07413",
+      "url": "https://cdn.jsdelivr.net/npm/@free-fonts/tw-kai@1.0.0/LICENSE"
+    },
+    {
+      "path": "public/licenses/shanggu-tc.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602",
+      "url": "https://cdn.jsdelivr.net/npm/@hanzi.pro/webfonts-shanggu-serif-tc@0.1.0/LICENSE"
+    },
+    {
+      "path": "public/licenses/genyog-font-ofl.txt",
+      "bytes": 4464,
+      "sha256": "d84b652ca46586043946969a33c1dbf5a43028440825ae744a325965bec4c8fb",
+      "url": "https://cdn.jsdelivr.net/npm/@hanzi.pro/webfonts-genyo-gothic-tc@0.1.0/LICENSE"
     }
   ]
 }

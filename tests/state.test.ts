@@ -23,9 +23,9 @@ describe('font catalog and state', () => {
     expect(text).toBe('𠮷'.repeat(500));
   });
 
-  it('includes eight unique fonts, valid weights, and original licensed assets', () => {
-    expect(fonts).toHaveLength(8);
-    expect(new Set(fonts.map(f => f.id)).size).toBe(8);
+  it('includes thirty-four unique fonts, valid weights, and original licensed assets', () => {
+    expect(fonts).toHaveLength(34);
+    expect(new Set(fonts.map(f => f.id)).size).toBe(34);
     const lock = JSON.parse(readFileSync('assets.lock.json', 'utf8'));
     const optimizedLock = JSON.parse(readFileSync('optimized-fonts.lock.json', 'utf8'));
     for (const font of fonts) {

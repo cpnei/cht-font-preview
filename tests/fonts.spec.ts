@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('all eight actual fonts load, change weights and render new text', async ({ page }) => {
+test('all thirty-four actual fonts load, change weights and render new text', async ({ page }) => {
   test.skip(!process.env.FONT_SMOKE, 'Run npm run test:fonts for real network verification.');
   test.setTimeout(180000);
   const errors: string[] = [];
@@ -24,7 +24,7 @@ test('all eight actual fonts load, change weights and render new text', async ({
   await page.locator('[data-weight="noto-sans-tc"]').selectOption('700');
   await expect(page.locator('[data-font="noto-sans-tc"]')).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
   const loadedFamilies = await page.evaluate(() => Array.from(document.fonts).filter(font => font.status === 'loaded').map(font => font.family.replaceAll('"', '')));
-  for (const family of ['Noto Sans TC', 'Noto Serif TC', 'Huninn', 'Chiron GoRound TC', 'LXGW WenKai TC', 'Iansui', 'preview-chenyuluoyan', 'preview-mantou-sans']) {
+  for (const family of ['Noto Sans TC', 'Noto Serif TC', 'Huninn', 'Chiron GoRound TC', 'LXGW WenKai TC', 'Iansui', 'preview-chenyuluoyan', 'preview-mantou-sans', 'Cactus Classical Serif', 'Chiron Hei HK', 'Chiron Sung HK', 'Chocolate Classical Sans', 'LXGW Marker Gothic', 'LXGW WenKai Mono TC', 'Noto Sans HK', 'Noto Serif HK', 'UoqMunThenKhung', 'WDXL Lubrifont TC', 'Taipei Sans TC', 'Glow Sans TC', 'Fusion Pixel 12px Monospaced Traditional Chinese', 'Fusion Pixel 12px Proportional Traditional Chinese', 'GenKiMin2TC', 'GenYoMin2TC', 'TW-Sung', 'TW-Kai', 'GenYo Gothic TC', 'Genki Gothic TC', 'Shanggu Serif TC', 'Shanggu Sans TC']) {
     expect(loadedFamilies).toContain(family);
   }
   expect(requests.some(url => url.includes('text='))).toBe(true);
