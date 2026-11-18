@@ -6,14 +6,14 @@ export default defineConfig({
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? 'github' : 'list',
-  use: { baseURL: 'http://127.0.0.1:4173/cht-font-preview/', trace: 'retain-on-failure' },
+  use: { baseURL: 'http://127.0.0.1:4173/font-select/', trace: 'retain-on-failure' },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
   ],
   webServer: {
     command: 'npm run preview -- --port 4173 --strictPort',
-    url: 'http://127.0.0.1:4173/cht-font-preview/',
+    url: 'http://127.0.0.1:4173/font-select/',
     reuseExistingServer: !process.env.CI,
   },
 });

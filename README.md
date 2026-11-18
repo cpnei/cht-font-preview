@@ -2,7 +2,7 @@
 
 免費繁體中文字型預覽工具。輸入一段文字，預覽與收藏三十四款可商用開源字型。
 
-**網站：[cpnei.github.io/cht-font-preview](https://cpnei.github.io/cht-font-preview/)**
+**網站：[cpnei.github.io/font-select](https://cpnei.github.io/font-select/)**
 
 ## 功能
 
@@ -22,7 +22,7 @@ npm ci
 npm run dev
 ```
 
-開啟終端機顯示的 `/cht-font-preview/` 網址。專案採用 Vite、TypeScript 與原生 CSS，沒有後端、資料庫或環境變數需求。
+開啟終端機顯示的 `/font-select/` 網址。專案採用 Vite、TypeScript 與原生 CSS，沒有後端、資料庫或環境變數需求。
 
 ```sh
 npm test                # 資料與互動狀態單元測試
@@ -92,11 +92,11 @@ npm run preview         # 預覽 dist 正式建置
 
 ## GitHub Pages 部署
 
-Repository：`cpnei/cht-font-preview`，預設分支：`main`。
+Repository：`cpnei/font-select`，預設分支：`main`。
 
 在 GitHub **Settings → Pages → Build and deployment** 選擇 **GitHub Actions**。`.github/workflows/pages.yml` 會在 PR 檢查測試與建置；推送到 `main` 後，檢查通過才部署 `dist/`。不需要另外設定 token 或 secret。
 
-Vite 的 `base` 是 `/cht-font-preview/`。若更換 repository 名稱或自訂網域，須同步修改 `vite.config.ts`、Playwright base URL 與文件連結。本站沒有依賴伺服器的路由，重新整理不需要 SPA fallback。
+Vite 的 `base` 是 `/font-select/`。若更換 repository 名稱或自訂網域，須同步修改 `vite.config.ts`、Playwright base URL 與文件連結。本站沒有依賴伺服器的路由，重新整理不需要 SPA fallback。
 
 部署後確認首頁、字型、授權連結與手機版正常。需要回復版本時，revert 問題提交並推送至 `main`，由同一套 CI 重新部署。
 
