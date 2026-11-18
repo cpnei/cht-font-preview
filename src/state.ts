@@ -19,12 +19,6 @@ export function filterFonts(query: string, category: Category, favoritesOnly: bo
   );
 }
 
-export function toggleCompare(current: string[], id: string): string[] {
-  if (!fontById.has(id)) return current;
-  if (current.includes(id)) return current.filter(item => item !== id);
-  return current.length < 4 ? [...current, id] : current;
-}
-
 export function restore(value: string | null): { favorites: Set<string>; settings: Settings } {
   const fallback = { favorites: new Set<string>(), settings: { ...defaults } };
   try {

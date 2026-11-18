@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { fonts } from '../src/fonts';
-import { defaults, filterFonts, limitText, restore, toggleCompare } from '../src/state';
+import { defaults, filterFonts, limitText, restore } from '../src/state';
 
 describe('font catalog and state', () => {
   it('combines search, category, and favorites', () => {
@@ -9,14 +9,6 @@ describe('font catalog and state', () => {
     expect(filterFonts('  JUSTFONT ', '全部字型', true, new Set(['huninn'])).map(f => f.id)).toEqual(['huninn']);
     expect(filterFonts('粉圓', '黑體', false, new Set())).toEqual([]);
     expect(filterFonts('', '全部字型', true, new Set())).toEqual([]);
-  });
-
-  it('caps comparison at four while allowing removal and rejecting unknown IDs', () => {
-    const selected = fonts.slice(0, 4).map(f => f.id);
-    expect(toggleCompare(selected, fonts[4].id)).toBe(selected);
-    expect(toggleCompare(selected, 'missing')).toBe(selected);
-    expect(toggleCompare(selected, selected[0])).toEqual(selected.slice(1));
-    expect(toggleCompare([], fonts[0].id)).toEqual([fonts[0].id]);
   });
 
   it('recovers from corrupt storage and removes stale or malformed favorites', () => {

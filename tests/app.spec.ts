@@ -45,24 +45,6 @@ test('favorites survive reload and filter correctly', async ({ page }) => {
   await expect(page.locator('#empty-state')).toBeVisible();
 });
 
-test('comparison is limited to four and restores focus on Escape', async ({ page }) => {
-  for (const id of ['noto-sans-tc', 'noto-serif-tc', 'huninn', 'chiron-goround-tc', 'iansui']) {
-    await page.locator(`#font-grid [data-compare="${id}"]`).click();
-  }
-  await expect(page.locator('#compare-count')).toHaveText('4 / 4');
-  await expect(page.locator('#notice')).toContainText('最多比較四款');
-  await page.locator('#open-compare').click();
-  await expect(page.getByRole('dialog', { name: '好字，放在一起看。' })).toBeVisible();
-  await expect(page.locator('#compare-grid .font-card')).toHaveCount(4);
-  await page.keyboard.press('Escape');
-  await expect(page.locator('#compare-dialog')).not.toBeVisible();
-  await expect(page.locator('#open-compare')).toBeFocused();
-  await page.getByRole('button', { name: '移除比較 粉圓' }).click();
-  await expect(page.locator('#compare-count')).toHaveText('3 / 4');
-  await page.locator('#clear-compare').click();
-  await expect(page.locator('#compare-bar')).not.toBeVisible();
-});
-
 test('large fonts wait for consent and failed downloads can be retried', async ({ page }) => {
   let downloads = 0;
   await page.route('**/fonts/*.ttf', route => { downloads++; return route.abort(); });

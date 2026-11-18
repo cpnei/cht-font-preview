@@ -146,11 +146,10 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .card-details svg { width: 11px; height: 11px; }
 .card-details a:hover { color: var(--green); }
 .license-badge { font-size: 9px; background: #f3f5ec; color: #839270; padding: 4px 6px; border-radius: 3px; letter-spacing: .2px; }
-.card-footer { border-top: 1px solid #edf0e6; padding: 13px 0; display: flex; justify-content: space-between; align-items: center; }
-.card-footer a, .compare-toggle { display: flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 0; color: #7b8870; }
-.card-footer a:hover, .compare-toggle:hover { color: #34542a; }
+.card-footer { border-top: 1px solid #edf0e6; padding: 13px 0; display: flex; justify-content: flex-end; align-items: center; }
+.card-footer a { display: flex; align-items: center; gap: 5px; font-size: 11px; padding: 4px 0; color: #7b8870; }
+.card-footer a:hover { color: #34542a; }
 .card-footer svg { width: 14px; height: 14px; }
-.compare-toggle[aria-pressed='true'] { color: #365a2e; }
 .empty-state { text-align: center; padding: 55px 16px; }
 .empty-state > span { display: inline-grid; place-items: center; background: #e9eedf; color: #7c8d64; height: 60px; width: 60px; border-radius: 18px; font-size: 32px; font-family: serif; }
 .empty-state h3 { font-size: 19px; font-weight: 500; }
@@ -170,30 +169,17 @@ input[type='range']::-moz-range-thumb { width: 8px; height: 8px; background: #61
 .button-primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; border-radius: 6px; background: var(--green); color: #fff; font-size: 12px; padding: 12px 17px; white-space: nowrap; }
 .button-primary:hover { background: #496b45; }
 .button-primary svg { width: 15px; height: 15px; }
-.has-selection { padding-bottom: 95px; }
-.compare-bar { position: fixed; z-index: 10; bottom: 20px; left: 50%; transform: translateX(-50%); width: min(1050px, calc(100% - 40px)); display: flex; align-items: center; gap: 16px; padding: 15px 18px; border-radius: 12px; background: #fffffff5; backdrop-filter: blur(12px); border: 1px solid #d6dfc8; box-shadow: 0 8px 35px #283c3226; }
-.compare-summary { display: flex; align-items: center; gap: 9px; white-space: nowrap; }
-.compare-summary strong { font-size: 12px; font-weight: 500; }
-#compare-count { font-size: 11px; color: #89957c; }
-.compare-chips { display: flex; flex-wrap: wrap; gap: 5px; flex: 1; }
-.compare-chips button { background: #eef3e5; font-size: 10px; color: #687d51; padding: 7px 8px; border-radius: 5px; display: flex; align-items: center; gap: 6px; }
-.compare-chips svg { width: 10px; height: 10px; }
-.text-button { font-size: 11px; color: #859079; white-space: nowrap; }
 dialog { color: var(--ink); background: #f7f8f4; padding: 30px; border: 1px solid #dce3d2; border-radius: 16px; width: min(1160px, calc(100% - 48px)); max-height: calc(100dvh - 64px); }
 dialog::backdrop { background: #1a2b2366; backdrop-filter: blur(4px); }
 body:has(dialog[open]) { overflow: hidden; }
 .dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
 .dialog-header h2 { margin: 0; font-size: 27px; font-weight: 500; font-family: 'Songti TC', serif; }
 .dialog-header .eyebrow { font-size: 9px; margin-bottom: 9px; }
-.dialog-intro { font-size: 12px; color: #859177; margin: 16px 0 22px; }
-.compare-grid { display: grid; grid-template-columns: repeat(var(--compare-columns, 2), minmax(0, 1fr)); gap: 16px; }
-.font-number { color: #a0ac92; font-size: 12px; }
-.compare-card-note { font-size: 10px; color: #8b9680; }
 .about-dialog { width: min(620px, calc(100% - 40px)); padding: 34px; }
 .about-dialog > p { font-size: 14px; line-height: 1.95; color: #69785e; }
 .about-dialog h3 { font-size: 16px; margin-top: 25px; font-weight: 600; }
 .about-source { display: inline-flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #cad8b9; font-size: 13px; }
-.notice { position: fixed; z-index: 30; left: 50%; bottom: 115px; transform: translate(-50%, 10px); max-width: calc(100% - 30px); background: #283c32; color: white; border-radius: 8px; padding: 12px 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; }
+.notice { position: fixed; z-index: 30; left: 50%; bottom: 24px; transform: translate(-50%, 10px); max-width: calc(100% - 30px); background: #283c32; color: white; border-radius: 8px; padding: 12px 20px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; }
 .notice.visible { opacity: 1; transform: translate(-50%, 0); }
 @media (min-width: 1500px) { .hero { padding-top: 75px; } }
 @media (max-width: 1050px) {
@@ -205,11 +191,6 @@ body:has(dialog[open]) { overflow: hidden; }
   .font-heading { gap: 7px; }
   .font-heading > span { flex-basis: 100%; }
   .card-description { flex-wrap: wrap; gap: 7px; }
-  .compare-bar { flex-wrap: wrap; gap: 10px; }
-  .compare-chips { order: 4; flex-basis: 100%; }
-  .compare-summary { flex: 1; }
-  .has-selection { padding-bottom: 145px; }
-  .notice { bottom: 160px; }
 }
 @media (max-width: 760px) {
   .wrap { width: calc(100% - 40px); }
@@ -267,7 +248,7 @@ body:has(dialog[open]) { overflow: hidden; }
   .category-button { padding: 8px 10px; }
   .filter-row { gap: 5px; }
   .favorites-filter { padding-block: 7px; }
-  .font-grid, .compare-grid { grid-template-columns: 1fr; }
+  .font-grid { grid-template-columns: 1fr; }
   .font-card { padding: 19px 21px 0; }
   .font-heading h3 { font-size: 19px; }
   .font-heading > span { flex-basis: auto; }
@@ -281,15 +262,8 @@ body:has(dialog[open]) { overflow: hidden; }
   .closing-note { column-gap: 18px; }
   .closing-note p { font-size: 10px; }
   .closing-note h2 { font-size: 16px; }
-  .compare-bar { bottom: 12px; width: calc(100% - 24px); padding: 12px; gap: 9px; }
-  .compare-summary { gap: 6px; }
-  .compare-summary > svg { display: none; }
-  .compare-summary strong { font-size: 11px; }
-  .compare-bar .button-primary { font-size: 11px; padding: 10px 12px; }
-  .compare-chips button { font-size: 9px; }
   dialog { padding: 20px; width: calc(100% - 24px); max-height: calc(100dvh - 32px); }
   .dialog-header h2 { font-size: 23px; }
-  .dialog-intro { font-size: 11px; }
   .about-dialog { padding: 25px; }
   .about-dialog > p { font-size: 13px; }
   .notice { width: max-content; text-align: center; font-size: 11px; }
