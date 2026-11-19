@@ -100,6 +100,8 @@ test('bundled fonts use the selected weight and ask before loading its full file
 
   await page.locator('#pairing-heading-font').selectOption('line-seed-tw');
   await page.locator('#pairing-body-font').selectOption('jason-handwriting-5');
+  await expect(page.locator('#pairing-preview-heading')).toHaveCSS('font-weight', '400');
+  await page.locator('#pairing-heading-weight').selectOption('700');
   await expect(page.locator('#pairing-status')).toHaveText('標題：LINE Seed TW · 內文：清松手寫體 5 號');
   await expect(page.locator('#pairing-preview-heading')).toHaveCSS('font-weight', '700');
 });

@@ -7,7 +7,7 @@ type GoogleMode = 'subset' | 'full';
 interface Entry {
   charactersByWeight: Map<number, Set<string>>;
   pending?: Promise<void>;
-  failed?: string;
+  failedByWeight: Map<number, string>;
   stylesheets?: Set<string>;
   google?: { mode: GoogleMode; characters: Set<string>; links: HTMLLinkElement[] };
   local?: Map<number, { mode: LocalMode; face: FontFace }>;
@@ -89,7 +89,7 @@ export class FontLoader {
     const characters = uniqueCharacters(fontSample(text));
     if (covers(entry, font, characters, weight, preferSubset)) return 'ready';
     if (entry.pending) return 'loading';
-    return entry.failed === requestKey(characters, weight, preferSubset) ? 'error' : 'idle';
+    return entry.failedByWeight.get(weight) === requestKey(characters, weight, preferSubset) ? 'error' : 'idle';
   }
 
   hasLoaded(id: string): boolean {
@@ -157,14 +157,14 @@ export class FontLoader {
     if (!sample) return;
     let entry = this.entries.get(font.id);
     if (!entry) {
-      entry = { charactersByWeight: new Map() };
+      entry = { charactersByWeight: new Map(), failedByWeight: new Map() };
       this.entries.set(font.id, entry);
     }
     while (entry.pending) await entry.pending;
 
     const characters = uniqueCharacters(sample);
     const key = requestKey(characters, weight, preferSubset);
-    if (covers(entry, font, characters, weight, preferSubset) || (!retry && entry.failed === key)) return;
+    if (covers(entry, font, characters, weight, preferSubset) || (!retry && entry.failedByWeight.get(weight) === key)) return;
 
     const controller = new AbortController();
     let timer: ReturnType<typeof setTimeout>;
@@ -177,9 +177,9 @@ export class FontLoader {
     });
     entry.pending = Promise.race([this.loadFont(font, entry, sample, characters, weight, preferSubset, controller.signal), timeout])
       .then(() => {
-        if (entry.failed === key) entry.failed = undefined;
+        entry.failedByWeight.delete(weight);
       })
-      .catch(() => { entry.failed = key; })
+      .catch(() => { entry.failedByWeight.set(weight, key); })
       .finally(() => {
         clearTimeout(timer);
         entry.pending = undefined;

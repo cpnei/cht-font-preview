@@ -1,9 +1,13 @@
 import './style.css';
 import { categories, fonts, fontById, fontFamily, type Category, type FontDefinition } from './fonts';
 import { defaults, filterFonts, limitText, restore, samples, storageKey, type Settings } from './state';
-import { icon, renderFontCards } from './view';
+import { icon, renderFontCards, weightOptions } from './view';
 import { normalizeSearch, orderedFonts, type CatalogSort } from './catalog-order';
 import { FontLoader } from './loader';
+import {
+  maxShareFileSize, maxShareUrlLength, pairingRoles, pairingSpec, pairingUrl, readPairingSpec, readPairingUrl,
+  type Pairing, type PairingChoice, type PairingRole,
+} from './pairing-share';
 
 const $ = <T extends HTMLElement>(selector: string, root: ParentNode = document) => root.querySelector<T>(selector)!;
 
@@ -30,10 +34,14 @@ const expectedCompareScroll = new WeakMap<HTMLElement, number>();
 
 const loader = new FontLoader(updateFont);
 const input = $<HTMLTextAreaElement>('#preview-input');
-const pairingHeadingFont = $<HTMLSelectElement>('#pairing-heading-font');
-const pairingBodyFont = $<HTMLSelectElement>('#pairing-body-font');
-const pairingHeadingText = $<HTMLInputElement>('#pairing-heading-text');
-const pairingBodyText = $<HTMLTextAreaElement>('#pairing-body-text');
+function pairingFields(role: PairingRole) {
+  return {
+    font: $<HTMLSelectElement>(`#pairing-${role}-font`),
+    weight: $<HTMLSelectElement>(`#pairing-${role}-weight`),
+    text: $<HTMLInputElement | HTMLTextAreaElement>(`#pairing-${role}-text`),
+  };
+}
+const fields = { heading: pairingFields('heading'), body: pairingFields('body') };
 const quickJump = $('#quick-jump');
 const quickJumpMenu = $<HTMLDetailsElement>('details', quickJump);
 input.value = previewText;
@@ -111,64 +119,90 @@ function catalogSample() {
   return previewText.trim() ? previewText : '在上方輸入要預覽的文字';
 }
 
-function pairingSamples() {
-  const byFont = new Map<FontDefinition, string>();
-  for (const [id, text] of [
-    [pairingHeadingFont.value, pairingHeadingText.value],
-    [pairingBodyFont.value, pairingBodyText.value],
-  ]) {
-    if (!text.trim()) continue;
-    const font = fontById.get(id)!;
-    const previous = byFont.get(font);
-    byFont.set(font, previous ? previous + '\n' + text : text);
-  }
-  return byFont;
+function currentPairing(): Pairing {
+  const choice = (role: PairingRole) => {
+    const { font, weight, text } = fields[role];
+    return { font: fontById.get(font.value)!, weight: Number(weight.value), text: text.value };
+  };
+  return { heading: choice('heading'), body: choice('body') };
 }
 
-function prefersSubset(font: FontDefinition, text: string) {
-  const files = currentLocalFiles(font);
+function pairingSamples() {
+  const samples = new Map<string, PairingChoice>();
+  for (const choice of Object.values(currentPairing())) {
+    if (!choice.text.trim()) continue;
+    const key = approvalKey(choice.font, choice.weight);
+    const previous = samples.get(key);
+    samples.set(key, { ...choice, text: previous ? previous.text + '\n' + choice.text : choice.text });
+  }
+  return samples;
+}
+
+function prefersSubset(font: FontDefinition, text: string, weight = weights.get(font.id)!) {
+  const files = currentLocalFiles(font, weight);
   if (!files) return true;
   const normalized = text.replace(/\s+/gu, ' ').trim();
   return Array.from(normalized).every(character => files.preview.characters.includes(character));
 }
 
-function currentLocalFiles(font: FontDefinition) {
-  return font.loader.kind === 'local' ? font.loader.files[weights.get(font.id)!] : undefined;
+function currentLocalFiles(font: FontDefinition, weight = weights.get(font.id)!) {
+  return font.loader.kind === 'local' ? font.loader.files[weight] : undefined;
 }
 
-function approvalKey(font: FontDefinition) {
-  return `${font.id}:${weights.get(font.id)}`;
+function approvalKey(font: FontDefinition, weight: number) {
+  return `${font.id}:${weight}`;
 }
 
-function fontStatus(font: FontDefinition, text: string) {
-  return loader.status(font, text, weights.get(font.id)!, prefersSubset(font, text));
+function fontStatus(font: FontDefinition, text: string, weight = weights.get(font.id)!) {
+  return loader.status(font, text, weight, prefersSubset(font, text, weight));
 }
 
-function requestFont(font: FontDefinition, text: string, retry = false) {
-  if (requiresFullFont(font, text)) return;
-  void loader.load(font, text, weights.get(font.id)!, retry, prefersSubset(font, text));
+function requestFont(font: FontDefinition, text: string, retry = false, weight = weights.get(font.id)!) {
+  if (requiresFullFont(font, text, weight)) return;
+  void loader.load(font, text, weight, retry, prefersSubset(font, text, weight));
 }
 
-function requestFontExplicitly(font: FontDefinition, text: string) {
-  if (requiresFullFont(font, text)) localFullApproved.add(approvalKey(font));
-  requestFont(font, text, true);
+function requestFontExplicitly(font: FontDefinition, text: string, weight = weights.get(font.id)!) {
+  if (requiresFullFont(font, text, weight)) localFullApproved.add(approvalKey(font, weight));
+  requestFont(font, text, true, weight);
 }
 
-function setPreviewFont(element: HTMLElement, font: FontDefinition) {
+function setPreviewFont(element: HTMLElement, font: FontDefinition, weight = weights.get(font.id)!) {
   element.style.fontFamily = `"${fontFamily(font)}", serif`;
-  element.style.fontWeight = String(weights.get(font.id));
+  element.style.fontWeight = String(weight);
   element.style.fontStretch = font.loader.kind === 'stylesheet' ? font.loader.stretch ?? 'normal' : 'normal';
 }
 
+function setPairingWeightOptions(role: PairingRole, font: FontDefinition, weight = font.defaultWeight) {
+  const control = fields[role].weight;
+  control.innerHTML = weightOptions(font, weight);
+  control.closest('label')!.hidden = font.weights.length < 2;
+}
+
 function updatePairingPreview() {
-  const headingFont = fontById.get(pairingHeadingFont.value)!;
-  const bodyFont = fontById.get(pairingBodyFont.value)!;
-  const heading = $<HTMLHeadingElement>('#pairing-preview-heading');
-  const body = $<HTMLParagraphElement>('#pairing-preview-body');
-  heading.textContent = pairingHeadingText.value;
-  setPreviewFont(heading, headingFont);
-  body.textContent = pairingBodyText.value;
-  setPreviewFont(body, bodyFont);
+  const pairing = currentPairing();
+  for (const role of pairingRoles) {
+    const { font, weight, text } = pairing[role];
+    const element = $(`#pairing-preview-${role}`);
+    element.textContent = text;
+    setPreviewFont(element, font, weight);
+  }
+}
+
+function updatePairing() {
+  updatePairingPreview();
+  updatePairingStatus();
+  schedulePairingFontRequest();
+}
+
+function applyPairing(pairing: Pairing) {
+  for (const role of pairingRoles) {
+    const { font, weight, text } = pairing[role];
+    fields[role].font.value = font.id;
+    setPairingWeightOptions(role, font, weight);
+    fields[role].text.value = text;
+  }
+  updatePairing();
 }
 
 function updatePairingStatus() {
@@ -177,7 +211,7 @@ function updatePairingStatus() {
     status.textContent = '預覽會隨文字即時更新；字型在選用時按需載入。';
     return;
   }
-  const selected = Array.from(pairingSamples(), ([font, text]) => ({ font, text, status: fontStatus(font, text) }));
+  const selected = Array.from(pairingSamples().values(), choice => ({ ...choice, status: fontStatus(choice.font, choice.text, choice.weight) }));
   const errors = selected.filter(item => item.status === 'error');
   if (errors.length) {
     status.replaceChildren(document.createTextNode(`${errors.map(({ font }) => font.name).join('、')} 載入失敗。`));
@@ -191,24 +225,24 @@ function updatePairingStatus() {
   }
   const loading = selected.find(item => item.status === 'loading');
   if (loading) {
-    const { font, text } = loading;
-    const files = currentLocalFiles(font);
+    const { font, text, weight } = loading;
+    const files = currentLocalFiles(font, weight);
     const size = files
-      ? `（${prefersSubset(font, text) ? `${(files.preview.bytes / 1000).toFixed(0)} KB` : `${(files.bytes / 1000000).toFixed(1)} MB`}）`
+      ? `（${prefersSubset(font, text, weight) ? `${(files.preview.bytes / 1000).toFixed(0)} KB` : `${(files.bytes / 1000000).toFixed(1)} MB`}）`
       : '';
     status.textContent = `正在載入 ${font.name}${size}…`;
     return;
   }
-  const needsFull = selected.filter(({ font, text }) => requiresFullFont(font, text));
+  const needsFull = selected.filter(({ font, text, weight }) => requiresFullFont(font, text, weight));
   if (needsFull.length) {
     status.replaceChildren(document.createTextNode('這段搭配文字需要完整字型：'));
-    for (const { font } of needsFull) {
-      const files = currentLocalFiles(font)!;
+    for (const { font, weight } of needsFull) {
+      const files = currentLocalFiles(font, weight)!;
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'pairing-load-button';
-      button.dataset.pairLoad = font.id;
-      button.textContent = `載入${font.name}完整字型・${(files.bytes / 1000000).toFixed(1)} MB`;
+      button.dataset.pairLoad = approvalKey(font, weight);
+      button.textContent = `載入${font.name}完整字型（${weight}）・${(files.bytes / 1000000).toFixed(1)} MB`;
       status.append(' ', button);
     }
     return;
@@ -218,12 +252,12 @@ function updatePairingStatus() {
     status.textContent = `準備載入 ${idle.font.name}…`;
     return;
   }
-  status.textContent = `標題：${fontById.get(pairingHeadingFont.value)!.name} · 內文：${fontById.get(pairingBodyFont.value)!.name}`;
+  status.textContent = `標題：${fontById.get(fields.heading.font.value)!.name} · 內文：${fontById.get(fields.body.font.value)!.name}`;
 }
 
 function requestPairingFonts(retry = false) {
   if (!pairingActivated) return;
-  for (const [font, text] of pairingSamples()) requestFont(font, text, retry);
+  for (const { font, text, weight } of pairingSamples().values()) requestFont(font, text, retry, weight);
 }
 
 function schedulePairingFontRequest(retry = false) {
@@ -231,11 +265,11 @@ function schedulePairingFontRequest(retry = false) {
   pairingRequestTimer = setTimeout(() => requestPairingFonts(retry), retry ? 0 : 400);
 }
 
-function requiresFullFont(font: FontDefinition, text: string) {
+function requiresFullFont(font: FontDefinition, text: string, weight = weights.get(font.id)!) {
   return font.loader.kind === 'local'
-    && !prefersSubset(font, text)
-    && !loader.isLocalFull(font.id, weights.get(font.id)!)
-    && !localFullApproved.has(approvalKey(font));
+    && !prefersSubset(font, text, weight)
+    && !loader.isLocalFull(font.id, weight)
+    && !localFullApproved.has(approvalKey(font, weight));
 }
 
 function fontRowNearViewport(id: string) {
@@ -317,7 +351,7 @@ function updateFont(id: string) {
     }
     $<HTMLSelectElement>('[data-weight]', card).value = String(weights.get(id));
   });
-  if (pairingHeadingFont.value === id || pairingBodyFont.value === id) {
+  if (fields.heading.font.value === id || fields.body.font.value === id) {
     updatePairingPreview();
     updatePairingStatus();
   }
@@ -401,9 +435,8 @@ document.addEventListener('click', event => {
   } else if (button.dataset.load) {
     requestFontExplicitly(fontById.get(button.dataset.load)!, catalogSample());
   } else if (button.dataset.pairLoad) {
-    const font = fontById.get(button.dataset.pairLoad)!;
-    const text = pairingSamples().get(font);
-    if (text) requestFontExplicitly(font, text);
+    const sample = pairingSamples().get(button.dataset.pairLoad);
+    if (sample) requestFontExplicitly(sample.font, sample.text, sample.weight);
   } else if (button.dataset.pairRetry) {
     schedulePairingFontRequest(true);
   } else if (button.id === 'view-toggle') {
@@ -472,32 +505,132 @@ document.addEventListener('change', event => {
   updateFont(id);
   const font = fontById.get(id)!;
   requestFont(font, catalogSample());
-  if (pairingSamples().has(font)) schedulePairingFontRequest();
 });
 
 input.addEventListener('input', event => { if (!(event as InputEvent).isComposing) setPreviewText(input.value); });
 input.addEventListener('compositionend', () => setPreviewText(input.value));
 $('#clear-text').addEventListener('click', () => { setPreviewText(''); input.focus(); });
-for (const field of [pairingHeadingText, pairingBodyText]) {
-  function updatePairingText() {
-    updatePairingPreview();
-    updatePairingStatus();
-    schedulePairingFontRequest();
-  }
-  field.addEventListener('input', event => {
-    if (!(event as InputEvent).isComposing) updatePairingText();
-  });
-  field.addEventListener('compositionend', updatePairingText);
-}
-for (const select of [pairingHeadingFont, pairingBodyFont]) {
-  select.addEventListener('change', () => {
+for (const role of pairingRoles) {
+  const { font, text, weight } = fields[role];
+  setPairingWeightOptions(role, fontById.get(font.value)!);
+  text.addEventListener('input', event => { if (!(event as InputEvent).isComposing) updatePairing(); });
+  text.addEventListener('compositionend', updatePairing);
+  font.addEventListener('change', () => {
     pairingActivated = true;
     pairingObserver.disconnect();
-    updatePairingPreview();
-    updatePairingStatus();
-    schedulePairingFontRequest();
+    setPairingWeightOptions(role, fontById.get(font.value)!);
+    updatePairing();
   });
+  weight.addEventListener('change', updatePairing);
 }
+const shareDialog = $<HTMLDialogElement>('#pairing-share-dialog');
+const shareText = $<HTMLInputElement>('#pairing-share-text');
+const shareFeedback = $('#pairing-share-feedback');
+const shareManual = $('#pairing-share-manual');
+const shareManualText = $<HTMLTextAreaElement>('textarea', shareManual);
+const importFile = $<HTMLInputElement>('#pairing-import-file');
+
+function updateShareOptions() {
+  const tooLong = pairingUrl(currentPairing(), shareText.checked).length > maxShareUrlLength;
+  $<HTMLButtonElement>('#pairing-copy-url').disabled = tooLong;
+  $('#pairing-share-limit').hidden = !tooLong;
+  shareManual.hidden = true;
+  shareManualText.value = '';
+  shareFeedback.textContent = '';
+}
+
+$('#pairing-share-open').addEventListener('click', () => {
+  const summary = $('#pairing-share-summary');
+  summary.replaceChildren();
+  const pairing = currentPairing();
+  for (const role of pairingRoles) {
+    const { font, weight } = pairing[role];
+    const row = document.createElement('div');
+    const label = document.createElement('dt');
+    label.textContent = role === 'heading' ? '標題' : '內文';
+    const details = document.createElement('dd');
+    details.textContent = `${font.name} · ${weight}`;
+    const links = document.createElement('span');
+    for (const [name, url] of [['官方下載', font.downloadUrl], ['授權', import.meta.env.BASE_URL + font.licensePath]]) {
+      const link = document.createElement('a');
+      link.textContent = name;
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      links.append(link);
+    }
+    details.append(links);
+    row.append(label, details);
+    summary.append(row);
+  }
+  shareText.checked = false;
+  updateShareOptions();
+  shareDialog.showModal();
+});
+
+shareText.addEventListener('change', updateShareOptions);
+
+async function copyShare(value: string, message: string) {
+  updateShareOptions();
+  try {
+    await navigator.clipboard.writeText(value);
+    shareFeedback.textContent = message;
+  } catch {
+    if (!shareDialog.open) return;
+    shareManual.hidden = false;
+    shareManualText.value = value;
+    shareManualText.focus();
+    shareManualText.select();
+  }
+}
+
+$('#pairing-copy-url').addEventListener('click', () => {
+  void copyShare(pairingUrl(currentPairing(), shareText.checked), '已複製預覽連結。');
+});
+$('#pairing-copy-spec').addEventListener('click', () => {
+  void copyShare(pairingSpec(currentPairing(), shareText.checked), '已複製 JSON 套用規格。');
+});
+$('#pairing-download-spec').addEventListener('click', () => {
+  const blob = new Blob([pairingSpec(currentPairing(), shareText.checked)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'font-select-pairing.json';
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+$('#pairing-import-spec').addEventListener('click', () => importFile.click());
+importFile.addEventListener('change', async () => {
+  const file = importFile.files?.[0];
+  importFile.value = '';
+  if (!file) return;
+  try {
+    if (file.size > maxShareFileSize) throw new Error();
+    const pairing = readPairingSpec(JSON.parse(await file.text()));
+    applyPairing(pairing);
+    if (location.hash.startsWith('#pairing?')) history.replaceState(null, '', '#pairing');
+    shareDialog.close();
+    notify('已匯入文字搭配。');
+  } catch {
+    shareFeedback.textContent = '無法匯入這份搭配。請確認 JSON 格式、版本與字型設定。';
+  }
+});
+
+function openSharedPairing() {
+  try {
+    const pairing = readPairingUrl(location.hash);
+    if (!pairing) return;
+    if (shareDialog.open) shareDialog.close();
+    applyPairing(pairing);
+  } catch {
+    notify('無法讀取分享連結。請確認網址是否完整。');
+  }
+  const section = $('#pairing');
+  section.focus({ preventScroll: true });
+  section.scrollIntoView({ block: 'start', behavior: 'instant' });
+}
+window.addEventListener('hashchange', openSharedPairing);
+
 $('#search').addEventListener('input', event => { query = (event.target as HTMLInputElement).value; renderCatalog(); });
 const sortControl = $<HTMLSelectElement>('#catalog-sort');
 sortControl.value = catalogSort;
@@ -528,6 +661,7 @@ updatePairingPreview();
 updatePairingStatus();
 pairingObserver.observe($('#pairing'));
 renderCatalog(true);
+openSharedPairing();
 const siteHeadingText = Array.from(document.querySelectorAll<HTMLElement>('h1, h2, h3:not(#pairing-preview-heading), .brand-name'))
   .map(heading => heading.textContent ?? '')
   .join('\n');

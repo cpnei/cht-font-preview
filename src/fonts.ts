@@ -26,12 +26,12 @@ export interface FontDefinition {
   loader:
     | { kind: 'google'; family: string; axis: string }
     | { kind: 'stylesheet'; family: string; stylesheet: string | Record<number, string>; stretch?: string }
-    | { kind: 'local'; family: string; files: Record<number, LocalFontFiles> };
+    | { kind: 'local'; family: string; originalFamily: string; files: Record<number, LocalFontFiles> };
 }
 
-function localFont(id: keyof typeof localAssets) {
+function localFont(id: keyof typeof localAssets, originalFamily: string) {
   const { family, files } = localAssets[id];
-  return { weights: Object.keys(files).map(Number), loader: { kind: 'local' as const, family, files } };
+  return { weights: Object.keys(files).map(Number), loader: { kind: 'local' as const, family, originalFamily, files } };
 }
 
 type CatalogEntry = Omit<FontDefinition, 'addedAt'>;
@@ -77,13 +77,13 @@ const launchFonts: CatalogEntry[] = [
     id: 'chenyuluoyan', name: '辰宇落雁體', englishName: 'ChenYuluoyan 2.0 Thin', author: '劉韋辰 / 王立宇', category: '手寫・楷體',
     description: '細細的筆觸，收藏青春裡的每一句呢喃。', defaultWeight: 100,
     sourceUrl: 'https://github.com/Chenyu-otf/chenyuluoyan_thin', downloadUrl: 'https://github.com/Chenyu-otf/chenyuluoyan_thin#下載',
-    license: 'OFL-1.1', licensePath: 'licenses/chenyuluoyan.txt', ...localFont('chenyuluoyan'),
+    license: 'OFL-1.1', licensePath: 'licenses/chenyuluoyan.txt', ...localFont('chenyuluoyan', 'ChenYuluoyan 2.0'),
   },
   {
     id: 'mantou-sans', name: '饅頭黑體', englishName: 'Mantou Sans', author: 'mant0u0 / Artakana', category: '標題字',
     description: '飽滿、有力，讓想說的話成為目光焦點。', defaultWeight: 400,
     sourceUrl: 'https://github.com/mant0u0/MantouSans', downloadUrl: 'https://github.com/mant0u0/MantouSans#下載與安裝',
-    license: 'OFL-1.1', licensePath: 'licenses/mantou-sans.txt', ...localFont('mantou-sans'),
+    license: 'OFL-1.1', licensePath: 'licenses/mantou-sans.txt', ...localFont('mantou-sans', 'Mantou Sans'),
   },
 ];
 
@@ -271,25 +271,25 @@ const secondExpansion: CatalogEntry[] = [
     id: 'line-seed-tw', name: 'LINE Seed TW', englishName: 'LINE Seed 繁體中文版', author: 'LY Corporation／華康字型', category: '黑體',
     description: '柔和的圓角與均衡的中英比例，適合介面與混排。', defaultWeight: 400,
     sourceUrl: 'https://seed.line.me/index_tw.html', downloadUrl: 'https://seed.line.me/src/images/fonts/LINE_Seed_TW.zip',
-    license: 'OFL-1.1', licensePath: 'licenses/line-seed-tw.txt', ...localFont('line-seed-tw'),
+    license: 'OFL-1.1', licensePath: 'licenses/line-seed-tw.txt', ...localFont('line-seed-tw', 'LINE Seed TW_OTF'),
   },
   {
     id: 'taiwanpearl', name: '台灣圓體', englishName: 'TaiwanPearl', author: 'Max／姚春宇', category: '圓體',
     description: '柔和圓角保留「辶、糸、草」等臺灣習慣筆形。', defaultWeight: 400,
     sourceUrl: 'https://github.com/max32002/TaiwanPearl', downloadUrl: 'https://github.com/max32002/TaiwanPearl#下載字型',
-    license: 'OFL-1.1', licensePath: 'licenses/taiwanpearl.txt', ...localFont('taiwanpearl'),
+    license: 'OFL-1.1', licensePath: 'licenses/taiwanpearl.txt', ...localFont('taiwanpearl', 'TaiwanPearl'),
   },
   {
     id: 'tauhu-oo', name: '豆腐烏', englishName: 'Tauhu Oo 20.05', author: '莊炳元／再會豆腐字', category: '黑體',
     description: '支援臺語等本土語言的漢字與羅馬字，適合混合排版。', defaultWeight: 400,
     sourceUrl: 'https://tauhu.tw/ji-hing/', downloadUrl: 'https://github.com/tauhu-tw/tauhu-oo',
-    license: 'OFL-1.1', licensePath: 'licenses/tauhu-oo.txt', ...localFont('tauhu-oo'),
+    license: 'OFL-1.1', licensePath: 'licenses/tauhu-oo.txt', ...localFont('tauhu-oo', 'Tauhu Oo 20.05'),
   },
   {
     id: 'genryu-mincho-tw', name: '源流明體月 TW', englishName: 'GenRyu Mincho TW', author: 'But Ko／ButTaiwan', category: '明體',
     description: '臺灣通俗字形搭配俐落襯線，筆畫起收帶出印刷節奏。', defaultWeight: 400,
     sourceUrl: 'https://github.com/ButTaiwan/genryu-font', downloadUrl: 'https://github.com/ButTaiwan/genryu-font/releases/tag/v2.100',
-    license: 'OFL-1.1', licensePath: 'licenses/genryu-mincho-tw.txt', ...localFont('genryu-mincho-tw'),
+    license: 'OFL-1.1', licensePath: 'licenses/genryu-mincho-tw.txt', ...localFont('genryu-mincho-tw', 'GenRyuMin2 TW'),
   },
   ...([
     [1, '圓潤', '線條圓潤，像一張隨手寫下的便條。'],
@@ -301,7 +301,7 @@ const secondExpansion: CatalogEntry[] = [
     author: '游清松', category: '手寫・楷體', description, defaultWeight: 400,
     sourceUrl: 'https://github.com/jasonhandwriting/JasonHandwriting',
     downloadUrl: `https://github.com/jasonhandwriting/JasonHandwriting/blob/e488583c07077850aa4a2a6280baa20374cccde2/JasonHandwriting${number}.ttf`,
-    license: 'OFL-1.1', licensePath: 'licenses/jason-handwriting.txt', ...localFont(`jason-handwriting-${number}`),
+    license: 'OFL-1.1', licensePath: 'licenses/jason-handwriting.txt', ...localFont(`jason-handwriting-${number}`, `JasonHandwriting${number}`),
   })),
 ];
 
