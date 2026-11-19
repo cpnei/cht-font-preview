@@ -4,6 +4,7 @@ import { defaults, filterFonts, limitText, restore, samples, storageKey, type Se
 import { icon, renderFontCards, weightOptions } from './view';
 import { normalizeSearch, orderedFonts, type CatalogSort } from './catalog-order';
 import { FontLoader } from './loader';
+import { pairingExamples } from './pairing-examples';
 import {
   maxShareFileSize, maxShareUrlLength, pairingRoles, pairingSpec, pairingUrl, readPairingSpec, readPairingUrl,
   type Pairing, type PairingChoice, type PairingRole,
@@ -42,6 +43,9 @@ function pairingFields(role: PairingRole) {
   };
 }
 const fields = { heading: pairingFields('heading'), body: pairingFields('body') };
+const examplesPanel = $<HTMLDetailsElement>('#pairing-examples');
+const exampleButtons = Array.from(examplesPanel.querySelectorAll<HTMLButtonElement>('[data-pairing-example]'));
+
 const quickJump = $('#quick-jump');
 const quickJumpMenu = $<HTMLDetailsElement>('details', quickJump);
 input.value = previewText;
@@ -187,6 +191,12 @@ function updatePairingPreview() {
     element.textContent = text;
     setPreviewFont(element, font, weight);
   }
+  exampleButtons.forEach((button, index) => {
+    const example = pairingExamples[index];
+    const matches = pairingRoles.every(role => pairing[role].font.id === example[role].fontId
+      && pairing[role].weight === example[role].weight);
+    button.setAttribute('aria-pressed', String(matches));
+  });
 }
 
 function updatePairing() {
@@ -523,6 +533,20 @@ for (const role of pairingRoles) {
   });
   weight.addEventListener('change', updatePairing);
 }
+exampleButtons.forEach((button, index) => {
+  button.addEventListener('click', () => {
+    const example = pairingExamples[index];
+    const choice = (role: PairingRole): PairingChoice => ({
+      font: fontById.get(example[role].fontId)!,
+      weight: example[role].weight,
+      text: fields[role].text.value,
+    });
+    applyPairing({ heading: choice('heading'), body: choice('body') });
+    examplesPanel.open = false;
+    $('summary', examplesPanel).focus({ preventScroll: true });
+    notify(`已套用「${example.name}」搭配。`);
+  });
+});
 const shareDialog = $<HTMLDialogElement>('#pairing-share-dialog');
 const shareText = $<HTMLInputElement>('#pairing-share-text');
 const shareFeedback = $('#pairing-share-feedback');

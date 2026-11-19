@@ -1,5 +1,6 @@
 import { categories, fonts, type FontDefinition } from './fonts.ts';
 import { orderedFonts } from './catalog-order.ts';
+import { pairingExamples } from './pairing-examples.ts';
 import { pairingTextLimits } from './pairing-share.ts';
 import pairingSample from './pairing-sample.json' with { type: 'json' };
 import samples from './samples.json' with { type: 'json' };
@@ -130,7 +131,16 @@ export function renderHome(base: string) {
             <h3 id="pairing-preview-heading"></h3>
             <p id="pairing-preview-body"></p>
           </article>
-
+          <details id="pairing-examples">
+            <summary>試用搭配範例</summary>
+            <ul class="pairing-example-list">
+              ${pairingExamples.map((example, index) => `<li><button type="button" data-pairing-example="${index}" aria-pressed="false">
+                <strong>${example.name}</strong>
+                <span>${example.heading.label} ／ ${example.body.label}</span>
+                <span>${example.description}</span>
+              </button></li>`).join('')}
+            </ul>
+          </details>
         </div>
       </div>
     </section>

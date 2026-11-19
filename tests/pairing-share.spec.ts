@@ -91,3 +91,39 @@ test('exports and imports long copy as JSON and rejects an unsupported weight', 
   await expect(page.locator('#pairing-heading-weight')).toHaveValue('700');
   await expect(page.locator('#pairing-body-text')).toHaveValue(text);
 });
+
+test('pairing examples retain the copy and can be shared after editing', async ({ page }) => {
+  await page.route('https://fonts.googleapis.com/**', route => route.abort());
+  await page.route('https://cdn.jsdelivr.net/**', route => route.abort());
+  await page.goto('./#pairing');
+  const heading = page.locator('#pairing-heading-text');
+  const body = page.locator('#pairing-body-text');
+  await heading.fill('在城市裡，慢慢走');
+  await body.fill('從保留老招牌的巷口出發。\n週六 10:30 集合。');
+
+  const entry = page.getByText('試用搭配範例', { exact: true });
+  for (const [name, headingFont, headingWeight, bodyFont] of [
+    ['品牌與文化網站', 'noto-serif-tc', '600', 'noto-sans-tc'],
+    ['書刊與長文', 'noto-sans-tc', '700', 'noto-serif-tc'],
+    ['產品介面', 'noto-sans-tc', '700', 'noto-sans-tc'],
+  ]) {
+    await entry.click();
+    const example = page.getByRole('button', { name: new RegExp(name) });
+    await example.click();
+    await expect(entry).toBeFocused();
+    await expect(example).toBeHidden();
+    await expect(page.locator('#pairing-heading-font')).toHaveValue(headingFont);
+    await expect(page.locator('#pairing-body-font')).toHaveValue(bodyFont);
+    await expect(page.locator('#pairing-preview-heading')).toHaveCSS('font-weight', headingWeight);
+    await expect(page.locator('#pairing-preview-body')).toHaveCSS('font-weight', '400');
+  }
+  await expect(heading).toHaveValue('在城市裡，慢慢走');
+  await expect(body).toHaveValue('從保留老招牌的巷口出發。\n週六 10:30 集合。');
+
+  await page.locator('#pairing-heading-weight').selectOption('800');
+  await entry.click();
+  await expect(page.locator('#pairing-examples button[aria-pressed="true"]')).toHaveCount(0);
+  await page.getByRole('button', { name: '分享搭配' }).click();
+  await expect(page.locator('#pairing-share-summary')).toContainText('Noto Sans TC · 800');
+  await expect(page.locator('#pairing-share-summary')).toContainText('Noto Sans TC · 400');
+});
