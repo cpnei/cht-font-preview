@@ -105,3 +105,28 @@ test('bundled fonts use the selected weight and ask before loading its full file
   await expect(page.locator('#pairing-status')).toHaveText('標題：LINE Seed TW · 內文：清松手寫體 5 號');
   await expect(page.locator('#pairing-preview-heading')).toHaveCSS('font-weight', '700');
 });
+
+test('single-line comparison avoids mixing a loaded subset with fallback glyphs', async ({ page }) => {
+  await interceptFonts(page);
+  await page.getByRole('searchbox').fill('清松手寫體 1 號');
+  const editor = page.locator('#preview-input');
+  await editor.fill('好字，讓想法 有了樣子。');
+  await page.locator('#view-toggle').click();
+  const row = page.locator('#compare-list [data-font="jason-handwriting-1"]');
+  await row.scrollIntoViewIfNeeded();
+  const preview = row.locator('[data-compare-preview]');
+  const full = row.getByRole('button', { name: '載入清松手寫體 1 號完整字型' });
+
+  await expect(row).toHaveAttribute('data-status', 'ready');
+  await expect(preview).toHaveCSS('font-family', /Font Select Pen 1/);
+  await expect(full).toBeHidden();
+
+  await editor.fill('好字，讓想法 有了樣子。誠');
+  await expect(full).toBeVisible();
+  await expect(preview).not.toHaveCSS('font-family', /Font Select Pen 1/);
+  await expect(preview).toHaveAttribute('aria-label', /目前以系統字型顯示/);
+  await full.click();
+  await expect(row).toHaveAttribute('data-status', 'ready');
+  await expect(preview).toHaveCSS('font-family', /Font Select Pen 1/);
+  await expect(preview).not.toHaveAttribute('aria-label', /目前以系統字型顯示/);
+});

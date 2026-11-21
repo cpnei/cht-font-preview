@@ -11,7 +11,24 @@
 3. 有臺灣／香港繁中字形版本，或官方說明明確提供繁體中文支援。
 4. 能在使用者預覽時按需載入字元，避免第一次開頁就下載整套大型 CJK 字型。
 
-目前目錄四十九款。首批三十四款涵蓋 Google Fonts 繁中／香港目錄、CJK 字型子集套件、本機預覽檔和 Ziano 的傳承字形服務。第二批新增下列八款。
+目前目錄五十七款。首批三十四款涵蓋 Google Fonts 繁中／香港目錄、CJK 字型子集套件、本機預覽檔和 Ziano 的傳承字形服務。第二批新增下列八款。
+
+## 第四批新增
+
+網站先收錄八款的 Regular 400，均使用本站 WOFF2 樣張子集，子集以外的字元可按需載入完整檔。
+
+| 字型 | 鎖定來源 |
+| --- | --- |
+| 莫大毛筆 | [v1.49 官方 WOFF2](https://github.com/max32002/bakudaifont/releases/tag/1.49)，部分字保留日式筆形。 |
+| 芫茜雅楷 | [v0.3.1 Regular TTF](https://github.com/ItMarki/jyunsaikaai/releases/tag/v0.3.1)，以香港教育字形為調整方向。授權頁保留作者聲明及上游字型來源。 |
+| 等距更紗黑體 TC | [v1.0.43 Sarasa Mono TC 英數等寬版](https://github.com/be5invis/Sarasa-Gothic/releases/tag/v1.0.43)，取未加提示資訊的 TTF。 |
+| 獅尾四季春 TC | [v1.068 的 CJK TC WOFF2](https://github.com/max32002/swei-spring)。 |
+| 獅尾肉丸 TC | [v1.0 的 CJK TC WOFF2](https://github.com/max32002/swei-meatball)。 |
+| 源雲明體月 TW | [v2.100 的 TW OTF](https://github.com/ButTaiwan/genwan-font/releases/tag/v2.100)。 |
+| 源泉圓體月 TW | [v2.100 的 TW OTF](https://github.com/ButTaiwan/gensen-font/releases/tag/v2.100)。 |
+| 內海字體 | [v1.89 的 TW TTF](https://github.com/max32002/naikaifont/releases/tag/1.89)，部分字保留日式筆形。 |
+
+八款都採 OFL 1.1，預覽檔涵蓋三組內建樣張、文字搭配區的預設文案，以及首頁標題。
 
 ## 第三批新增
 
@@ -93,7 +110,7 @@ Google Fonts API 傳送排序、去重後的當前字元子集；CJK 套件則�
 | ChillDINGothic | 有 OFL 網頁分片套件，但上游說明未確認臺灣或香港繁中字形標準，先不放入以繁中為主的目錄。 |
 | WenJin Mincho、Zhuque Fangsong、Black Sugar Plum Candy | 字型包可取得，但來源說明分別標示中國字形習慣、預發布階段或日文字形取向；目前不把它們當作臺灣／香港繁中字型推薦。 |
 | ChillDINGothic | 有 OFL 與繁中文字元分片，但上游沒有確認臺灣或香港字形標準，先不標示為繁中地區字型。 |
-| Swei 獅尾系列、ButTaiwan 源泉圓體／源雲明體 | 可列入後續擴充，需為各款確認字形版本、字重與網頁載入方案。 |
+| 獅尾系列其餘款式 | 可列入後續擴充，需為各款確認字形版本、字重與網頁載入方案。 |
 
 未納入表示這次網站尚未收錄，並非評價字型品質或判定其授權不可用。若之後為完整字型建立小型預覽子集與按需完整載入，可以把這些候選再加入，而不必把大型原檔放入頁面初始下載。
 

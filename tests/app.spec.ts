@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('search, categories and empty-state recovery', async ({ page }) => {
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(49);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(57);
   await page.getByRole('searchbox', { name: '搜尋字型' }).fill('noto');
   await expect(page.locator('#font-grid .font-card')).toHaveCount(4);
   await page.getByRole('button', { name: '明體', exact: true }).click();
@@ -16,7 +16,7 @@ test('search, categories and empty-state recovery', async ({ page }) => {
   await page.getByRole('searchbox').fill('不存在');
   await expect(page.getByText('還沒遇見這款字')).toBeVisible();
   await page.getByRole('button', { name: '顯示所有字型' }).click();
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(49);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(57);
 });
 
 test('catalog sorting is shared with comparison and improves search order', async ({ page }) => {
@@ -28,10 +28,10 @@ test('catalog sorting is shared with comparison and improves search order', asyn
 
   await sort.selectOption('newest');
   await expect(cards.first()).toBeVisible();
-  const newest = (await ids(cards)).slice(0, 7);
+  const newest = (await ids(cards)).slice(0, 8);
   expect(newest.sort()).toEqual([
-    'ibm-plex-sans-tc', 'pop-gothic-tc', 'bailu-kai', 'jason-handwriting-9',
-    'nani-font', 'swei-3t-sans-tc', 'genseki-gothic-tw',
+    'bakudai', 'jyunsai-kaai', 'sarasa-mono-tc', 'swei-spring-tc',
+    'swei-meatball-tc', 'genwan-mincho-tw', 'gensen-rounded-tw', 'naikai-font',
   ].sort());
   await page.locator('#view-toggle').click();
   const rows = page.locator('#compare-list .compare-row');

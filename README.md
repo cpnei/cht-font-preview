@@ -1,6 +1,6 @@
 # 字選 Font Select
 
-免費繁體中文字型預覽工具。輸入一段文字，預覽與收藏四十九款可商用開源字型。
+免費繁體中文字型預覽工具。輸入一段文字，預覽與收藏五十七款可商用開源字型。
 
 **網站：[cpnei.github.io/font-select](https://cpnei.github.io/font-select/)**
 
@@ -80,10 +80,16 @@ npm run preview         # 預覽 dist 正式建置
 | 何某手寫體 | [Max／姚春宇](https://github.com/max32002/nanifont) | 本站 WOFF2 樣張子集，標準字重 |
 | 獅尾三角黑體 TC | [Max／姚春宇](https://github.com/max32002/swei-3t-sans) | 本站 WOFF2 樣張子集，標準字重 |
 | 源石黑體月 TW | [But Ko／ButTaiwan](https://github.com/ButTaiwan/genseki-font) | 本站 WOFF2 樣張子集，標準字重 |
+| 莫大毛筆 | [Max／姚春宇](https://github.com/max32002/bakudaifont) | 本站 WOFF2 樣張子集，標準字重 |
+| 芫茜雅楷 | [ItMarki](https://github.com/ItMarki/jyunsaikaai) | 本站 WOFF2 樣張子集，標準字重 |
+| 等距更紗黑體 TC | [Belleve Invis](https://github.com/be5invis/Sarasa-Gothic) | 本站 WOFF2 樣張子集，標準字重 |
+| 獅尾四季春 TC、獅尾肉丸 TC | [四季春](https://github.com/max32002/swei-spring)／[肉丸](https://github.com/max32002/swei-meatball) | 本站 WOFF2 樣張子集，各一種字重 |
+| 源雲明體月 TW、源泉圓體月 TW | [源雲明體](https://github.com/ButTaiwan/genwan-font)／[源泉圓體](https://github.com/ButTaiwan/gensen-font) | 本站 WOFF2 樣張子集，各一種字重 |
+| 內海字體 | [Max／姚春宇](https://github.com/max32002/naikaifont) | 本站 WOFF2 樣張子集，標準字重 |
 
 收錄字型都提供 **SIL Open Font License 1.1** 全文；少數字型另附上游的補充授權或來源說明，保存在 `public/licenses/`。免費商用不等於沒有條件：再散布、修改及保留名稱仍須依各字型授權辦理。網站程式碼採 MIT，MIT 不套用於字型檔案。
 
-本站字型的三組內建樣本、預設搭配文與 ASCII 有小型 WOFF2 子集。這些子集使用獨立的內部字型名稱，並保留原作者及授權資訊。完整檔優先使用作者發布的原始 WOFF2；原始檔只有 TTF 或 OTF 時，由 FontTools 轉為完整 WOFF2。使用者輸入子集之外的文字時，介面會先顯示完整檔的大小，再由使用者確認。
+本站字型的三組內建樣本、預設搭配文、首頁標題與 ASCII 有小型 WOFF2 子集。這些子集使用獨立的內部字型名稱，並保留原作者及授權資訊。完整檔優先使用作者發布的原始 WOFF2；原始檔只有 TTF 或 OTF 時，由 FontTools 轉為完整 WOFF2。使用者輸入子集之外的文字時，介面會先顯示完整檔的大小，再由使用者確認。
 
 `assets.lock.json` 鎖定既有原始檔和授權；`assets/web-font-sources.json` 鎖定本批來源的版本和 SHA-256。`optimized-fonts.lock.json` 驗證發布的 WOFF2、相關授權與字元清單。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建，下載的新增來源會放在未納入版本控制的 `assets/.font-cache/`；`npm run assets:restore` 可還原既有來源。
 
@@ -111,7 +117,7 @@ AI 代理人可讀取版本 1 JSON 的 `heading` 和 `body`，將 `fontWeight` �
 3. Google Fonts 使用正確的 API 參數；外部 CSS 必須具備 unicode-range 並釘選可重現的套件版本；本地原始字型放入 `assets/fonts/`，產生的 WOFF2 放入 `public/fonts/` 並採按需載入。加入完整原始授權文件，使用固定來源更新 `assets.lock.json` 的位元組數與 SHA-256；再執行 `npm run assets:fonts` 更新 WOFF2 與最佳化資產鎖。
 4. 同步首頁精選數量、README 與目錄完整性測試；執行單元、瀏覽器及真實字型測試。
 
-目前目錄收錄四十九款。納入條件是來源可追溯、授權可用於網頁預覽、繁中字形或繁中版本可確認，並能按需載入。搜尋清單與未納入字型的理由整理在 [`docs/font-catalog-research.md`](docs/font-catalog-research.md)。
+目前目錄收錄五十七款。納入條件是來源可追溯、授權可用於網頁預覽、繁中字形或繁中版本可確認，並能按需載入。搜尋清單與未納入字型的理由整理在 [`docs/font-catalog-research.md`](docs/font-catalog-research.md)。
 
 ## GitHub Pages 部署
 

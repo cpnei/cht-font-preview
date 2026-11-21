@@ -3,7 +3,7 @@ import { categories, fonts, fontById, fontFamily, type Category, type FontDefini
 import { defaults, filterFonts, limitText, restore, samples, storageKey, type Settings } from './state';
 import { icon, renderFontCards, weightOptions } from './view';
 import { normalizeSearch, orderedFonts, type CatalogSort } from './catalog-order';
-import { FontLoader } from './loader';
+import { FontLoader, type LoadStatus } from './loader';
 import { pairingExamples } from './pairing-examples';
 import {
   maxShareFileSize, maxShareUrlLength, pairingRoles, pairingSpec, pairingUrl, readPairingSpec, readPairingUrl,
@@ -171,10 +171,10 @@ function requestFontExplicitly(font: FontDefinition, text: string, weight = weig
   requestFont(font, text, true, weight);
 }
 
-function setPreviewFont(element: HTMLElement, font: FontDefinition, weight = weights.get(font.id)!) {
-  element.style.fontFamily = `"${fontFamily(font)}", serif`;
+function setPreviewFont(element: HTMLElement, font: FontDefinition, status: LoadStatus, weight = weights.get(font.id)!) {
+  element.style.fontFamily = status === 'ready' ? `"${fontFamily(font)}", serif` : '';
   element.style.fontWeight = String(weight);
-  element.style.fontStretch = font.loader.kind === 'stylesheet' ? font.loader.stretch ?? 'normal' : 'normal';
+  element.style.fontStretch = status === 'ready' && font.loader.kind === 'stylesheet' ? font.loader.stretch ?? '' : '';
 }
 
 function setPairingWeightOptions(role: PairingRole, font: FontDefinition, weight = font.defaultWeight) {
@@ -189,7 +189,7 @@ function updatePairingPreview() {
     const { font, weight, text } = pairing[role];
     const element = $(`#pairing-preview-${role}`);
     element.textContent = text;
-    setPreviewFont(element, font, weight);
+    setPreviewFont(element, font, fontStatus(font, text, weight), weight);
   }
   exampleButtons.forEach((button, index) => {
     const example = pairingExamples[index];
@@ -301,12 +301,15 @@ function updateFont(id: string) {
   document.querySelectorAll<HTMLElement>(`[data-font="${id}"]`).forEach(card => {
     const comparePreview = card.querySelector<HTMLElement>('[data-compare-preview]');
     if (comparePreview) {
-      setPreviewFont(comparePreview, font);
+      const previousFamily = comparePreview.style.fontFamily;
+      setPreviewFont(comparePreview, font, status);
+      const fallback = status === 'ready' ? '' : '；目前以系統字型顯示';
+      comparePreview.setAttribute('aria-label', `${font.name} 字型預覽${fallback}；水平捲動會同步至所有字型`);
       comparePreview.title = previewText.replace(/\s+/gu, ' ').trim();
       card.dataset.status = status;
       const load = card.querySelector<HTMLElement>('[data-compare-load]')!;
       if (needsFull) {
-        load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="載入${font.name}完整字型" title="目前文字需要完整字型">完整字型</button>`;
+        load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="載入${font.name}完整字型" title="目前以系統字型顯示，載入完整字型後更新">完整字型</button>`;
       } else if (status === 'idle' && font.loader.kind === 'local') {
         load.innerHTML = `<button class="compare-load-button" type="button" data-load="${id}" aria-label="載入${font.name}預覽">載入</button>`;
       } else if (status === 'error') {
@@ -316,14 +319,14 @@ function updateFont(id: string) {
       } else {
         load.replaceChildren();
       }
-      if (status === 'ready') applyCompareScrollProgress();
+      if (comparePreview.style.fontFamily !== previousFamily) applyCompareScrollProgress();
       return;
     }
     const preview = $<HTMLParagraphElement>('[data-preview]', card);
     const placeholder = $('[data-placeholder]', card);
     const statusLine = $('[data-status]', card);
     if (preview.textContent !== text) preview.textContent = text;
-    setPreviewFont(preview, font);
+    setPreviewFont(preview, font, status);
     preview.hidden = status !== 'ready' && !hasLoaded;
     placeholder.hidden = status === 'ready' || hasLoaded;
     card.dataset.status = status;
@@ -332,7 +335,7 @@ function updateFont(id: string) {
       const size = useSubset ? `${(files.preview.bytes / 1000).toFixed(0)} KB` : `${(files.bytes / 1000000).toFixed(1)} MB`;
       if (hasLoaded) {
         placeholder.replaceChildren();
-        statusLine.innerHTML = `這段文字含有子集未收錄的字元。<button type="button" class="load-button" data-load="${id}">${icon('download')} 載入完整字型・${size}</button>`;
+        statusLine.innerHTML = `目前以系統字型顯示。<button type="button" class="load-button" data-load="${id}">${icon('download')} 載入完整字型・${size}</button>`;
       } else {
         placeholder.innerHTML = `<span class="local-font-symbol" aria-hidden="true">Aa</span><button type="button" class="load-button" data-load="${id}">${icon('download')} ${useSubset ? '載入預覽' : '載入完整字型'}</button><span class="load-size">${useSubset ? '精簡字型' : '完整字型'}・${size}</span>`;
         statusLine.textContent = useSubset ? '進入畫面時自動載入精簡字型；其他字元可按需載入完整字型。' : '這段文字需要完整字型；點擊後才會下載。';

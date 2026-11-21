@@ -1,6 +1,6 @@
 {
   "fonttools": "4.68.0",
-  "previewTextSource": "src/samples.json and src/pairing-sample.json plus ASCII U+0020–U+007E",
+  "previewTextSource": "src/samples.json, src/pairing-sample.json, and src/site-headline.json plus ASCII U+0020–U+007E",
   "assets": [
     {
       "path": "public/fonts/ChenYuluoyan-2.0-Thin.woff2",
@@ -9,8 +9,8 @@
     },
     {
       "path": "public/fonts/Font-Select-Inkline.preview.woff2",
-      "bytes": 58552,
-      "sha256": "21724416b9d6fe6787eefeea4b69407c45bf0d8b8c7b1453844e5a27538e1ee4"
+      "bytes": 59676,
+      "sha256": "043090ce1993f377502950b2de4b318758f3bb324c2c99c4f6916ce1f7d15db4"
     },
     {
       "path": "public/fonts/MantouSans-Regular.woff2",
@@ -19,8 +19,8 @@
     },
     {
       "path": "public/fonts/Font-Select-Broadstroke.preview.woff2",
-      "bytes": 20176,
-      "sha256": "a316849510c7387651f85ed113c473a025832cad6ea84e18fe76f44b7594c680"
+      "bytes": 20548,
+      "sha256": "35f7c8475afaf6c3baa00b93ff63960cbe4f68ddeeae7a102fca3b326341b9b0"
     },
     {
       "path": "public/fonts/line-seed-tw-250.woff2",
@@ -29,8 +29,8 @@
     },
     {
       "path": "public/fonts/line-seed-tw-250.preview.woff2",
-      "bytes": 43120,
-      "sha256": "fefca516f7ba3cc52e09335c190480fae58e35ddfa2a363ca6002fbebb74ffb7"
+      "bytes": 43888,
+      "sha256": "069442473e5a4f6e329788891f5a232d47cff9dfa5ef8a020d1455898c87eceb"
     },
     {
       "path": "public/fonts/line-seed-tw-400.woff2",
@@ -39,8 +39,8 @@
     },
     {
       "path": "public/fonts/line-seed-tw-400.preview.woff2",
-      "bytes": 45852,
-      "sha256": "644299b3331df6dc5af0f7d47dda4b5c782a43d9addd4a8e80e9c914db13445d"
+      "bytes": 46584,
+      "sha256": "d7258cccb1fc4a244b577b21a4893e882da4ef4325d1796fd6b7276724ab99d8"
     },
     {
       "path": "public/fonts/line-seed-tw-700.woff2",
@@ -49,8 +49,8 @@
     },
     {
       "path": "public/fonts/line-seed-tw-700.preview.woff2",
-      "bytes": 47492,
-      "sha256": "3f038ad4f37268e347a41e724c63a449ee88fcec4661c3ddc8f5d693bc3c515e"
+      "bytes": 48468,
+      "sha256": "dda8d97c9bd4ea9858911989b1ce042b6a9b0f322098c06d7a3cd4d85675a6d4"
     },
     {
       "path": "public/fonts/line-seed-tw-800.woff2",
@@ -59,8 +59,8 @@
     },
     {
       "path": "public/fonts/line-seed-tw-800.preview.woff2",
-      "bytes": 47528,
-      "sha256": "6b219f3aaf2703d4a94e8c856946ae97379ec86577cb694ec6b1960ea17cb18a"
+      "bytes": 48464,
+      "sha256": "5898ceb027aeb3e0d33730b12f612fdc76257e53125cbc271be26ec9292ffe80"
     },
     {
       "path": "public/fonts/taiwanpearl-400.woff2",
@@ -69,8 +69,8 @@
     },
     {
       "path": "public/fonts/taiwanpearl-400.preview.woff2",
-      "bytes": 29976,
-      "sha256": "d6ba4f66897459803945cffed8f4c8bef6a2cb9039cddf14a5a24909517c63e4"
+      "bytes": 30612,
+      "sha256": "59e93c8fdac104cf77a0158c0e54666360855d937e2a71b512eea4ea1f958e01"
     },
     {
       "path": "public/fonts/tauhu-oo-400.woff2",
@@ -79,8 +79,8 @@
     },
     {
       "path": "public/fonts/tauhu-oo-400.preview.woff2",
-      "bytes": 30460,
-      "sha256": "1be6c1c6ee9c51dced7536468ed9b9b92fcb0ba32fe2af2f125ea3329be3548f"
+      "bytes": 31076,
+      "sha256": "33d48dd7352ff74fbaf322d859d88aefda3e7ba7327fbfaead9e920fc3f0523d"
     },
     {
       "path": "public/fonts/genryu-mincho-tw-400.woff2",
@@ -89,8 +89,8 @@
     },
     {
       "path": "public/fonts/genryu-mincho-tw-400.preview.woff2",
-      "bytes": 31008,
-      "sha256": "08b7d571c13fbb12e73bf358ecaf4749d74bd8a294ba9eae7cd6d1ecf7c1b2d2"
+      "bytes": 31596,
+      "sha256": "0731ed95d21afcc02ea52bb7f4559c15be5c5daf9f312aaf1facd87757878176"
     },
     {
       "path": "public/fonts/genryu-mincho-tw-700.woff2",
@@ -99,8 +99,8 @@
     },
     {
       "path": "public/fonts/genryu-mincho-tw-700.preview.woff2",
-      "bytes": 32020,
-      "sha256": "e6cb784f7aac51c3b6bed8a068e7a801147259a6f6a3c1c4bb3102233fff17da"
+      "bytes": 32536,
+      "sha256": "af9acf211966b0601d1677681bd1b91e62775b5ccbb14176f648b0d98b561b83"
     },
     {
       "path": "public/fonts/jason-handwriting-1-400.woff2",
@@ -109,8 +109,8 @@
     },
     {
       "path": "public/fonts/jason-handwriting-1-400.preview.woff2",
-      "bytes": 44560,
-      "sha256": "98822f49434a9b5cd0236786bae87e7f8c86eff97a34cb55d29d27948d3e66a7"
+      "bytes": 45596,
+      "sha256": "8d949f25b3b73f76b30449376a9c452a54ae305b18bbbe820014532927cb0759"
     },
     {
       "path": "public/fonts/jason-handwriting-2-400.woff2",
@@ -119,8 +119,8 @@
     },
     {
       "path": "public/fonts/jason-handwriting-2-400.preview.woff2",
-      "bytes": 44180,
-      "sha256": "e6d916717312d600bc2e2f41db7c637f1cd61f62c83029cfa95e03a22577a2a6"
+      "bytes": 45088,
+      "sha256": "7ff6391937a0902037abfe33148dffefe2660e0a275112e1bed277817ad1e56e"
     },
     {
       "path": "public/fonts/jason-handwriting-4-400.woff2",
@@ -129,8 +129,8 @@
     },
     {
       "path": "public/fonts/jason-handwriting-4-400.preview.woff2",
-      "bytes": 47872,
-      "sha256": "8f83293ff7798cc6781563d38de8f9ea40db6c5134716ae8ad01082d17003f83"
+      "bytes": 48912,
+      "sha256": "7555a698bac668a8732987e0a74bf1631838cdef09ca036798c62862c27c2cb7"
     },
     {
       "path": "public/fonts/jason-handwriting-5-400.woff2",
@@ -139,8 +139,8 @@
     },
     {
       "path": "public/fonts/jason-handwriting-5-400.preview.woff2",
-      "bytes": 49196,
-      "sha256": "6a56e44e9904722e9c1206af0de4057710ef3bd94c19c1518a217ed073fcb0f8"
+      "bytes": 50224,
+      "sha256": "3996cde2e4a37ea0698594600fcc85244b565f48e4f3cc957d320b7b4769e06d"
     },
     {
       "path": "public/fonts/jason-handwriting-9-400.woff2",
@@ -149,8 +149,8 @@
     },
     {
       "path": "public/fonts/jason-handwriting-9-400.preview.woff2",
-      "bytes": 46760,
-      "sha256": "994e8a8456a771e3400c33035043df98d02cc188cafa786d9365a228b6b39077"
+      "bytes": 47720,
+      "sha256": "25a0a5a7bb31a8a769cf731301eb0dd2a0f017ab00c1139182823d301433b7a9"
     },
     {
       "path": "public/fonts/pop-gothic-tc-400.woff2",
@@ -159,8 +159,8 @@
     },
     {
       "path": "public/fonts/pop-gothic-tc-400.preview.woff2",
-      "bytes": 37644,
-      "sha256": "ca0b4b4c147511c4ea43f029619e785b8045eab2b0a3d47ea6764226c1879c7d"
+      "bytes": 38372,
+      "sha256": "cb920ef23a308a374abc0e0b0a227e52b674a4f46346dea1a484524387e2fd43"
     },
     {
       "path": "public/fonts/bailu-kai-500.woff2",
@@ -169,8 +169,8 @@
     },
     {
       "path": "public/fonts/bailu-kai-500.preview.woff2",
-      "bytes": 42216,
-      "sha256": "a280c025b5f3006d079e927a8bf3c4ece6973033eac8162006b77c676f946e4c"
+      "bytes": 43016,
+      "sha256": "9e9722aeca9dda83cc255209a9451f3568f04be52e51cb4d875c086fb29a7746"
     },
     {
       "path": "public/fonts/nani-font-400.woff2",
@@ -179,8 +179,8 @@
     },
     {
       "path": "public/fonts/nani-font-400.preview.woff2",
-      "bytes": 47156,
-      "sha256": "81e080e31b435250a4e57dde4f23b1bd29236136acf6cff7935a7dab0340d7cc"
+      "bytes": 48084,
+      "sha256": "b992cf6cde22eac1151101ed6aa3e7d70349cb9ea245eacb66c195e07a8969d7"
     },
     {
       "path": "public/fonts/swei-3t-sans-tc-400.woff2",
@@ -189,8 +189,8 @@
     },
     {
       "path": "public/fonts/swei-3t-sans-tc-400.preview.woff2",
-      "bytes": 23860,
-      "sha256": "077b181f2ab0a6d948065c76e39af74f6b7b2922716ae72c73592ecb2a6410e6"
+      "bytes": 24300,
+      "sha256": "1c6aa7ce619b47b15ecbfc74ec208ae020973ddd85fcaa02e30569186f18f2c4"
     },
     {
       "path": "public/fonts/genseki-gothic-tw-400.woff2",
@@ -199,8 +199,88 @@
     },
     {
       "path": "public/fonts/genseki-gothic-tw-400.preview.woff2",
-      "bytes": 30760,
-      "sha256": "d22e8ca2f90b0f02f8bf88392f169fa1c3c482b9a362969de664443d2d5d18eb"
+      "bytes": 31184,
+      "sha256": "888936e31a5482dcbc07075a7aa4c203dfb6882f66666036cdafbd0046364ec4"
+    },
+    {
+      "path": "public/fonts/bakudai-400.woff2",
+      "bytes": 6718264,
+      "sha256": "66aea3c4d0c8fd10f3021bdf0bf784696473bb7285ca38572c717ade7d2ccc25"
+    },
+    {
+      "path": "public/fonts/bakudai-400.preview.woff2",
+      "bytes": 45964,
+      "sha256": "cee0c81f6e19f4065e693d52ddf730fbb6a7b997cf3cdc68f4191c543bcd3c31"
+    },
+    {
+      "path": "public/fonts/jyunsai-kaai-400.woff2",
+      "bytes": 4108396,
+      "sha256": "23fa5c4d117c06bbf5a8b918f0ee7e8ace6c3063750af6af18a6fb0661e1135b"
+    },
+    {
+      "path": "public/fonts/jyunsai-kaai-400.preview.woff2",
+      "bytes": 38740,
+      "sha256": "18491bd73635326034ca5888854dd243cdba598d78d4aa2480561e2ead1e9ef0"
+    },
+    {
+      "path": "public/fonts/sarasa-mono-tc-400.woff2",
+      "bytes": 5461352,
+      "sha256": "82592024c136fc5c1c61075244b1af6d7c80b42f23a703e00cde008bbc85e6a3"
+    },
+    {
+      "path": "public/fonts/sarasa-mono-tc-400.preview.woff2",
+      "bytes": 26108,
+      "sha256": "5ff2bac483a38f0eebb65693709f18b7fd0e58c285214685afc0d49caa1300a6"
+    },
+    {
+      "path": "public/fonts/swei-spring-tc-400.woff2",
+      "bytes": 5906292,
+      "sha256": "7af86ec76fd870d87617fc6665d3b3875a0ef79c475c8b4f1603d97b558677b9"
+    },
+    {
+      "path": "public/fonts/swei-spring-tc-400.preview.woff2",
+      "bytes": 24976,
+      "sha256": "5b5d1c00ba902256a7c959b01e2970ad11dbd57a17b85dd33ca0d39d228ef73c"
+    },
+    {
+      "path": "public/fonts/swei-meatball-tc-400.woff2",
+      "bytes": 6269648,
+      "sha256": "f40a7f8e179ce3c9ebf9690f4f31352903695626686ba22a87f912d3b910ff62"
+    },
+    {
+      "path": "public/fonts/swei-meatball-tc-400.preview.woff2",
+      "bytes": 25980,
+      "sha256": "919691caab34dad6725e2421d28ccab5a438193ba15a044354a607c90fc8afc1"
+    },
+    {
+      "path": "public/fonts/genwan-mincho-tw-400.woff2",
+      "bytes": 14902916,
+      "sha256": "c8ca757f9532e5ed8eb796a11aaca0c09f26761938f53334c01b53a87eb47848"
+    },
+    {
+      "path": "public/fonts/genwan-mincho-tw-400.preview.woff2",
+      "bytes": 49468,
+      "sha256": "81efff279c23626c1fe03a5669a465c0016337c1132632f3a0e5b19c65787f7d"
+    },
+    {
+      "path": "public/fonts/gensen-rounded-tw-400.woff2",
+      "bytes": 7544236,
+      "sha256": "dbfbf37fdb66a35160143f115994dd2bace41b2bc9225fb399b7a2a3a285735e"
+    },
+    {
+      "path": "public/fonts/gensen-rounded-tw-400.preview.woff2",
+      "bytes": 30432,
+      "sha256": "d05323d453175843de8f518bfac621f559dd33a0da0d2e9214fa9cbcb3e86ef2"
+    },
+    {
+      "path": "public/fonts/naikai-font-400.woff2",
+      "bytes": 12647140,
+      "sha256": "50225922532ce76e51bcd3e47bcbbed597b6720d45bc4d06b234a62bcdddc077"
+    },
+    {
+      "path": "public/fonts/naikai-font-400.preview.woff2",
+      "bytes": 29392,
+      "sha256": "61b20f2ecc3a719ede6b71cec5b70a84c9b90332d3816af38a7cbae64d9e82c5"
     },
     {
       "path": "public/licenses/line-seed-tw.txt",
@@ -248,14 +328,54 @@
       "sha256": "a6e4f868df1b9eec9284d26f35808a9a08f0733b8fd96109e509d6eac29f2aca"
     },
     {
+      "path": "public/licenses/bakudai.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    {
+      "path": "public/licenses/jyunsai-kaai.txt",
+      "bytes": 4939,
+      "sha256": "0d0a962052662703cc9e8ba0f812b52e049fc0ba97c1224549ba402d0f4c8601"
+    },
+    {
+      "path": "public/licenses/sarasa-mono-tc.txt",
+      "bytes": 4702,
+      "sha256": "32c932e0dbae4f6e6386964bbc2d04178707665a05ca65cf636241af13d50a53"
+    },
+    {
+      "path": "public/licenses/swei-spring-tc.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    {
+      "path": "public/licenses/swei-meatball-tc.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    {
+      "path": "public/licenses/genwan-mincho-tw.txt",
+      "bytes": 4559,
+      "sha256": "a6e4f868df1b9eec9284d26f35808a9a08f0733b8fd96109e509d6eac29f2aca"
+    },
+    {
+      "path": "public/licenses/gensen-rounded-tw.txt",
+      "bytes": 4559,
+      "sha256": "a6e4f868df1b9eec9284d26f35808a9a08f0733b8fd96109e509d6eac29f2aca"
+    },
+    {
+      "path": "public/licenses/naikai-font.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    {
       "path": "public/licenses/jason-handwriting.txt",
       "bytes": 5093,
       "sha256": "5645a11e7bedd49906ca2af0d70ac1ecaf772e36e9bbe7c0a6ebb080c2951bdb"
     },
     {
       "path": "src/local-font-assets.json",
-      "bytes": 13351,
-      "sha256": "818a0c9d6280f5f0cd5cd4d52cd3140daaed49687061f3fedb8401bdf90f91e0"
+      "bytes": 19059,
+      "sha256": "44fb0d82dacae640ab2d361a822a8f35a827f82b2a91650f0f6608f6b14d1196"
     }
   ]
 }

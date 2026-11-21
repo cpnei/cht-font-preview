@@ -355,11 +355,63 @@ const thirdExpansion: CatalogEntry[] = [
   },
 ];
 
+const fourthExpansion: CatalogEntry[] = [
+  {
+    id: 'bakudai', name: '莫大毛筆', englishName: 'Bakudai', author: 'Max／姚春宇・青柳衡山', category: '手寫・楷體',
+    description: '有鮮明的毛筆筆勢，適合海報和短標題。部分字保留日式筆形。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/max32002/bakudaifont', downloadUrl: 'https://github.com/max32002/bakudaifont/blob/1.49/tw/Bakudai-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/bakudai.txt', ...localFont('bakudai', 'Bakudai'),
+  },
+  {
+    id: 'jyunsai-kaai', name: '芫茜雅楷', englishName: 'JyunsaiKaai', author: 'ItMarki', category: '手寫・楷體',
+    description: '參照香港教育字形調整的楷體，可和芫荽對照。部分字形仍在調整。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/ItMarki/jyunsaikaai', downloadUrl: 'https://github.com/ItMarki/jyunsaikaai/releases/download/v0.3.1/JyunsaiKaai-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/jyunsai-kaai.txt', ...localFont('jyunsai-kaai', 'JyunsaiKaai'),
+  },
+  {
+    id: 'sarasa-mono-tc', name: '等距更紗黑體 TC', englishName: 'Sarasa Mono TC', author: 'Belleve Invis／更紗黑體專案', category: '等寬',
+    description: '英數等寬，漢字占兩格，適合程式碼、表格和價格。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/be5invis/Sarasa-Gothic', downloadUrl: 'https://github.com/be5invis/Sarasa-Gothic/releases/download/v1.0.43/SarasaMonoTC-TTF-Unhinted-1.0.43.7z',
+    license: 'OFL-1.1', licensePath: 'licenses/sarasa-mono-tc.txt', ...localFont('sarasa-mono-tc', 'Sarasa Mono TC'),
+  },
+  {
+    id: 'swei-spring-tc', name: '獅尾四季春 TC', englishName: 'Swei Spring CJK TC', author: 'Max／姚春宇', category: '標題字',
+    description: '保留明體的結構，去掉部分三角襯線，適合筆形俐落的標題。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/max32002/swei-spring', downloadUrl: 'https://github.com/max32002/swei-spring/blob/1.068/CJK%20TC/SweiSpringCJKtc-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/swei-spring-tc.txt', ...localFont('swei-spring-tc', 'Swei Spring CJK TC'),
+  },
+  {
+    id: 'swei-meatball-tc', name: '獅尾肉丸 TC', englishName: 'Swei Meatball CJK TC', author: 'Max／姚春宇', category: '標題字',
+    description: '把明體的三角襯線改成圓形，適合包裝與活潑的標題。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/max32002/swei-meatball', downloadUrl: 'https://github.com/max32002/swei-meatball/blob/1.0/CJK%20TC/SweiMeatballCJKtc-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/swei-meatball-tc.txt', ...localFont('swei-meatball-tc', 'Swei Meatball CJK TC'),
+  },
+  {
+    id: 'genwan-mincho-tw', name: '源雲明體月 TW', englishName: 'GenWan Mincho TW', author: 'But Ko／ButTaiwan', category: '明體',
+    description: '筆畫有油墨暈開的質感，適合書刊，也可和源流明體月並排比較。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/ButTaiwan/genwan-font', downloadUrl: 'https://github.com/ButTaiwan/genwan-font/releases/tag/v2.100',
+    license: 'OFL-1.1', licensePath: 'licenses/genwan-mincho-tw.txt', ...localFont('genwan-mincho-tw', 'GenWanMin2 TW'),
+  },
+  {
+    id: 'gensen-rounded-tw', name: '源泉圓體月 TW', englishName: 'GenSen Rounded TW', author: 'But Ko／ButTaiwan', category: '圓體',
+    description: '筆畫圓潤、結構規整，適合段落內文。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/ButTaiwan/gensen-font', downloadUrl: 'https://github.com/ButTaiwan/gensen-font/releases/tag/v2.100',
+    license: 'OFL-1.1', licensePath: 'licenses/gensen-rounded-tw.txt', ...localFont('gensen-rounded-tw', 'GenSenRounded2 TW'),
+  },
+  {
+    id: 'naikai-font', name: '內海字體', englishName: 'NaikaiFont', author: 'Max／姚春宇・瀨戶字體作者', category: '手寫・楷體',
+    description: '接近日常手寫，適合短文與註記。部分漢字保留日式筆形。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/max32002/naikaifont', downloadUrl: 'https://github.com/max32002/naikaifont/blob/1.89/tw/NaikaiFont-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/naikai-font.txt', ...localFont('naikai-font', 'NaikaiFont'),
+  },
+];
+
 const catalogBatches = [
   { addedAt: '2026-11-17T22:11:26+08:00', entries: launchFonts },
   { addedAt: '2026-11-18T13:26:59+08:00', entries: firstExpansion },
   { addedAt: '2026-11-18T23:30:57+08:00', entries: secondExpansion },
   { addedAt: '2026-11-21T10:52:15+08:00', entries: thirdExpansion },
+  { addedAt: '2026-11-21T14:56:50+08:00', entries: fourthExpansion },
 ];
 
 export const fonts: FontDefinition[] = catalogBatches.flatMap(({ addedAt, entries }) =>

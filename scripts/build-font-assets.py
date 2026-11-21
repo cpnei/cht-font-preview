@@ -11,6 +11,8 @@ from zipfile import ZipFile
 import fontTools
 from fontTools import subset
 from fontTools.ttLib import TTFont
+from py7zr import SevenZipFile
+from py7zr.io import BytesIOFactory
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -115,8 +117,16 @@ def build_expanded_fonts(text: str, assets: list, local_faces: dict) -> None:
                 raise RuntimeError(f"Cached source does not match the locked SHA-256: {name}")
             verified.add(name)
         if "member" in source:
+            member = source["member"]
+            if path.suffix == ".7z":
+                stream = BytesIOFactory(limit=64 * 1024 * 1024)
+                with SevenZipFile(path) as archive:
+                    archive.extract(targets=[member], factory=stream)
+                font = stream.get(member)
+                font.seek(0)
+                return font.read()
             with ZipFile(path) as archive:
-                return archive.read(source["member"])
+                return archive.read(member)
         return path.read_bytes()
 
     jason_credits = []
@@ -146,17 +156,27 @@ def build_expanded_fonts(text: str, assets: list, local_faces: dict) -> None:
             faces[weight] = record_face(full_path, preview_path, characters, assets)
         local_faces[font_id] = {"family": family, "files": faces}
 
+    official_ofl = read_source({"download": "sil-ofl.txt"}).decode("utf-8")
+    license_body = official_ofl[official_ofl.index("This Font Software is licensed"):]
     for filename, source in manifest["licenses"].items():
         path = ROOT / "public/licenses" / filename
-        path.write_bytes(read_source(source))
+        if "declaredFor" in source:
+            with TTFont(BytesIO(read_source({"download": source["declaredFor"]}))) as font:
+                copyright_notice = font["name"].getDebugName(0)
+            readme = read_source(source).decode("utf-8")
+            declaration = next(line for line in readme.splitlines() if line.startswith(source["declarationPrefix"]))
+            credits = [copyright_notice, *source["upstreamCredits"]]
+            declaration_url = manifest["downloads"][source["download"]]["url"]
+            path.write_text("\n".join(credits) + "\n\n" + declaration + "\n" + declaration_url
+                            + "\n\n" + license_body, encoding="utf-8")
+        else:
+            path.write_bytes(read_source(source))
         record_file(path, assets)
 
     # The author declares the OFL in the source README. Combine its attribution
     # and the original fonts' copyright notices with SIL's complete license text.
     author_readme = read_source({"download": "jason-readme.md"}).decode("utf-8")
     declaration = next(line for line in author_readme.splitlines() if "under SIL Open Font License" in line)
-    official_ofl = read_source({"download": "sil-ofl.txt"}).decode("utf-8")
-    license_body = official_ofl[official_ofl.index("This Font Software is licensed"):]
     jason_license = ROOT / "public/licenses/jason-handwriting.txt"
     jason_license.write_text(
         "\n".join(jason_credits) + '\nReserved Font Name "JasonHandwriting4" in the original #4 font.\n\n'
@@ -169,8 +189,10 @@ def build_expanded_fonts(text: str, assets: list, local_faces: dict) -> None:
 
 samples = json.loads((ROOT / "src/samples.json").read_text(encoding="utf-8"))
 pairing_sample = json.loads((ROOT / "src/pairing-sample.json").read_text(encoding="utf-8"))
+site_headline = json.loads((ROOT / "src/site-headline.json").read_text(encoding="utf-8"))
 preview_text = "".join(sample["text"] for sample in samples)
 preview_text += pairing_sample["heading"] + pairing_sample["body"]
+preview_text += site_headline["lead"] + site_headline["end"]
 preview_text += "".join(chr(codepoint) for codepoint in range(0x20, 0x7F))
 preview_text += "Aa臺灣"
 source_lock = json.loads((ROOT / "assets.lock.json").read_text(encoding="utf-8"))
@@ -205,7 +227,7 @@ record_file(local_metadata, assets)
 
 lock = {
     "fonttools": fontTools.__version__,
-    "previewTextSource": "src/samples.json and src/pairing-sample.json plus ASCII U+0020–U+007E",
+    "previewTextSource": "src/samples.json, src/pairing-sample.json, and src/site-headline.json plus ASCII U+0020–U+007E",
     "assets": assets,
 }
 (ROOT / "optimized-fonts.lock.json").write_text(

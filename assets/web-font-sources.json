@@ -87,6 +87,62 @@
     "bailu-kai-license.txt": {
       "url": "https://raw.githubusercontent.com/huthief/BailuKai/fcc0b6220449baa30bc761215e51979efc9ebc09/OFL.txt",
       "sha256": "22e6e504020ec5afcc162b5126ee7b3f18777b33f9cd8bb7cffca0c3b2589c78"
+    },
+    "bakudai.woff2": {
+      "url": "https://raw.githubusercontent.com/max32002/bakudaifont/f1eb195cfd665d95311f2fd720068ef5b1cf6115/webfont/Bakudai-Regular.woff2",
+      "sha256": "66aea3c4d0c8fd10f3021bdf0bf784696473bb7285ca38572c717ade7d2ccc25"
+    },
+    "swei-spring.woff2": {
+      "url": "https://raw.githubusercontent.com/max32002/swei-spring/39c230c04db96a69326d286838713ca6e18038ff/WebFont/CJK%20TC/SweiSpringCJKtc-Regular.woff2",
+      "sha256": "7af86ec76fd870d87617fc6665d3b3875a0ef79c475c8b4f1603d97b558677b9"
+    },
+    "swei-meatball.woff2": {
+      "url": "https://raw.githubusercontent.com/max32002/swei-meatball/71ac1e74d556b8353263cd2f6801333fef855d7e/WebFont/CJK%20TC/SweiMeatballCJKtc-Regular.woff2",
+      "sha256": "f40a7f8e179ce3c9ebf9690f4f31352903695626686ba22a87f912d3b910ff62"
+    },
+    "jyunsai.ttf": {
+      "url": "https://github.com/ItMarki/jyunsaikaai/releases/download/v0.3.1/JyunsaiKaai-Regular.ttf",
+      "sha256": "945bffd30e313f316df19e4fd2704e944380092d90f764b909076e3aad2631d1"
+    },
+    "gensen.zip": {
+      "url": "https://github.com/ButTaiwan/gensen-font/releases/download/v2.100/GenSenRounded2TW-otf.zip",
+      "sha256": "c5a18c0661c0b26effe5503431f2fee176137f6451be3ae37b9787c6179cf325"
+    },
+    "genwan.zip": {
+      "url": "https://github.com/ButTaiwan/genwan-font/releases/download/v2.100/GenWanMin2TW-otf.zip",
+      "sha256": "ddc324b2f3f804e36b6084b2e773900a8f74455c1fbfa1f38d082344f4ab3264"
+    },
+    "sarasa.7z": {
+      "url": "https://github.com/be5invis/Sarasa-Gothic/releases/download/v1.0.43/SarasaMonoTC-TTF-Unhinted-1.0.43.7z",
+      "sha256": "f9634bb428eac92ff8d28bc1a81f95cc25f6c2d96be64047182706d06a416e03"
+    },
+    "naikai.ttf": {
+      "url": "https://raw.githubusercontent.com/max32002/naikaifont/1.89/tw/NaikaiFont-Regular.ttf",
+      "sha256": "d3320b822131540d5e3cc9737f7b458aeb1c0ca76fe89aeaa1b76001f54e503e"
+    },
+    "bakudai-ofl.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/bakudaifont/f1eb195cfd665d95311f2fd720068ef5b1cf6115/SIL_Open_Font_License_1.1.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    "swei-spring-ofl.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/swei-spring/39c230c04db96a69326d286838713ca6e18038ff/SIL_Open_Font_License_1.1.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    "swei-meatball-ofl.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/swei-meatball/71ac1e74d556b8353263cd2f6801333fef855d7e/SIL_Open_Font_License_1.1.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    "naikai-ofl.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/naikaifont/47c9e68039f386f891d074a18b7b8a918d2c21f9/SIL_Open_Font_License_1.1.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    "jyunsai-readme.md": {
+      "url": "https://raw.githubusercontent.com/ItMarki/jyunsaikaai/dd19f4dc11a2637684b47f44b10b7cb2c8dedcca/README.md",
+      "sha256": "ee4f567a6dd4ebd4c626f232b99e737d0e1ed24c0db232cc05cc0b334c144136"
+    },
+    "sarasa-ofl.txt": {
+      "url": "https://raw.githubusercontent.com/be5invis/Sarasa-Gothic/v1.0.43/LICENSE",
+      "sha256": "32c932e0dbae4f6e6386964bbc2d04178707665a05ca65cf636241af13d50a53"
     }
   },
   "fonts": [
@@ -270,6 +326,97 @@
           "member": "GenSekiGothic2TW-R.otf"
         }
       ]
+    },
+    {
+      "id": "bakudai",
+      "family": "Font Select Brush",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "bakudai.woff2"
+        }
+      ]
+    },
+    {
+      "id": "jyunsai-kaai",
+      "family": "Font Select Coriander",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "jyunsai.ttf"
+        }
+      ]
+    },
+    {
+      "id": "sarasa-mono-tc",
+      "family": "Font Select Grid",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "sarasa.7z",
+          "member": "SarasaMonoTC-Regular.ttf"
+        }
+      ]
+    },
+    {
+      "id": "swei-spring-tc",
+      "family": "Font Select Spring",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "swei-spring.woff2"
+        }
+      ]
+    },
+    {
+      "id": "swei-meatball-tc",
+      "family": "Font Select Round Serif",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "swei-meatball.woff2"
+        }
+      ]
+    },
+    {
+      "id": "genwan-mincho-tw",
+      "family": "Font Select Ink Spread",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "genwan.zip",
+          "member": "GenWanMin2TW-R.otf"
+        }
+      ]
+    },
+    {
+      "id": "gensen-rounded-tw",
+      "family": "Font Select Rounded",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "gensen.zip",
+          "member": "GenSenRounded2TW-R.otf"
+        }
+      ]
+    },
+    {
+      "id": "naikai-font",
+      "family": "Font Select Coast",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "naikai.ttf"
+        }
+      ]
     }
   ],
   "licenses": {
@@ -302,6 +449,40 @@
     "genseki-gothic-tw.txt": {
       "download": "genseki-tw.zip",
       "member": "SIL_Open_Font_License_1.1.txt"
+    },
+    "bakudai.txt": {
+      "download": "bakudai-ofl.txt"
+    },
+    "jyunsai-kaai.txt": {
+      "download": "jyunsai-readme.md",
+      "declaredFor": "jyunsai.ttf",
+      "declarationPrefix": "芫茜雅楷以",
+      "upstreamCredits": [
+        "Copyright 2020 The Klee Project Authors (https://github.com/fontworks-fonts/Klee)",
+        "Copyright 2022 The Iansui Project Authors (https://github.com/ButTaiwan/iansui).",
+        "Copyright 2024 The LXGW WenKai Project Authors (https://github.com/lxgw/LxgwWenkaiTC)",
+        "LXGW WenKai GB source: https://github.com/lxgw/LxgwWenkaiGB"
+      ]
+    },
+    "sarasa-mono-tc.txt": {
+      "download": "sarasa-ofl.txt"
+    },
+    "swei-spring-tc.txt": {
+      "download": "swei-spring-ofl.txt"
+    },
+    "swei-meatball-tc.txt": {
+      "download": "swei-meatball-ofl.txt"
+    },
+    "genwan-mincho-tw.txt": {
+      "download": "genwan.zip",
+      "member": "SIL_Open_Font_License_1.1.txt"
+    },
+    "gensen-rounded-tw.txt": {
+      "download": "gensen.zip",
+      "member": "SIL_Open_Font_License_1.1.txt"
+    },
+    "naikai-font.txt": {
+      "download": "naikai-ofl.txt"
     }
   }
 }
