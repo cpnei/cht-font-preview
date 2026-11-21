@@ -1,13 +1,14 @@
 import { expect, test, type Page } from '@playwright/test';
+import heroFonts from '../src/hero-fonts.json' with { type: 'json' };
 
 async function openPairing(page: Page) {
   await page.route('https://fonts.googleapis.com/**', route => route.abort());
   await page.route('https://cdn.jsdelivr.net/**', route => route.abort());
-  await page.goto('./');
-  await page.getByRole('searchbox').fill('no matching fonts');
   const loaded = [400, 700].map(weight => page.waitForResponse(response =>
     response.ok() && new URL(response.url()).pathname.endsWith(`/line-seed-tw-${weight}.preview.woff2`),
   ));
+  await page.goto('./');
+  await page.getByRole('searchbox').fill('no matching fonts');
   for (const role of ['heading', 'body']) {
     await page.locator(`#pairing-${role}-font`).selectOption('line-seed-tw');
   }
@@ -17,11 +18,13 @@ async function openPairing(page: Page) {
 }
 
 test('shares both weights and restores text only when selected', async ({ page }) => {
-  await page.addInitScript(() => {
+  const heroIndex = heroFonts.findIndex(font => font.id === 'line-seed-tw');
+  await page.addInitScript(random => {
+    if (random >= 0) Math.random = () => random;
     Object.defineProperty(navigator, 'clipboard', { value: {
       writeText: (value: string) => Promise.reject(new Error(value)),
     } });
-  });
+  }, (heroIndex + 0.5) / heroFonts.length);
   await openPairing(page);
   await page.locator('#pairing-heading-text').fill('未發布標題 😀');
   await page.locator('#pairing-body-text').fill('私有的文案\n第二行 & #');
