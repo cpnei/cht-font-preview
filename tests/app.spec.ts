@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('search, categories and empty-state recovery', async ({ page }) => {
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(42);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(49);
   await page.getByRole('searchbox', { name: '搜尋字型' }).fill('noto');
   await expect(page.locator('#font-grid .font-card')).toHaveCount(4);
   await page.getByRole('button', { name: '明體', exact: true }).click();
@@ -16,7 +16,7 @@ test('search, categories and empty-state recovery', async ({ page }) => {
   await page.getByRole('searchbox').fill('不存在');
   await expect(page.getByText('還沒遇見這款字')).toBeVisible();
   await page.getByRole('button', { name: '顯示所有字型' }).click();
-  await expect(page.locator('#font-grid .font-card')).toHaveCount(42);
+  await expect(page.locator('#font-grid .font-card')).toHaveCount(49);
 });
 
 test('catalog sorting is shared with comparison and improves search order', async ({ page }) => {
@@ -28,10 +28,10 @@ test('catalog sorting is shared with comparison and improves search order', asyn
 
   await sort.selectOption('newest');
   await expect(cards.first()).toBeVisible();
-  const newest = (await ids(cards)).slice(0, 8);
+  const newest = (await ids(cards)).slice(0, 7);
   expect(newest.sort()).toEqual([
-    'line-seed-tw', 'taiwanpearl', 'tauhu-oo', 'genryu-mincho-tw',
-    'jason-handwriting-1', 'jason-handwriting-2', 'jason-handwriting-4', 'jason-handwriting-5',
+    'ibm-plex-sans-tc', 'pop-gothic-tc', 'bailu-kai', 'jason-handwriting-9',
+    'nani-font', 'swei-3t-sans-tc', 'genseki-gothic-tw',
   ].sort());
   await page.locator('#view-toggle').click();
   const rows = page.locator('#compare-list .compare-row');
@@ -46,7 +46,7 @@ test('catalog sorting is shared with comparison and improves search order', asyn
   await search.fill('清松手寫體');
   await sort.selectOption('name');
   expect(await ids(rows)).toEqual([
-    'jason-handwriting-1', 'jason-handwriting-2', 'jason-handwriting-4', 'jason-handwriting-5',
+    'jason-handwriting-1', 'jason-handwriting-2', 'jason-handwriting-4', 'jason-handwriting-5', 'jason-handwriting-9',
   ]);
 });
 

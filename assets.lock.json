@@ -173,6 +173,12 @@
       "bytes": 4464,
       "sha256": "d84b652ca46586043946969a33c1dbf5a43028440825ae744a325965bec4c8fb",
       "url": "https://cdn.jsdelivr.net/npm/@hanzi.pro/webfonts-genyo-gothic-tc@0.1.0/LICENSE"
+    },
+    {
+      "path": "public/licenses/ibm-plex-sans-tc.txt",
+      "bytes": 4456,
+      "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+      "url": "https://cdn.jsdelivr.net/npm/@ibm/plex-sans-tc@1.1.1/LICENSE.txt"
     }
   ]
 }

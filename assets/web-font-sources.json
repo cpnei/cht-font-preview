@@ -47,6 +47,46 @@
     "jason-5.ttf": {
       "url": "https://raw.githubusercontent.com/jasonhandwriting/JasonHandwriting/e488583c07077850aa4a2a6280baa20374cccde2/JasonHandwriting5.ttf",
       "sha256": "2f0a54b56a79961e44f38d95ea293d113362e6eff438a2c351e60390d60f7960"
+    },
+    "jason-9.ttf": {
+      "url": "https://raw.githubusercontent.com/jasonhandwriting/JasonHandwriting/5e30a59f8630be45661ca07ec19d7649a33fb598/JasonHandwriting9.ttf",
+      "sha256": "b50728e2c7442a76a661c4d43c8ec22142e8edc83909a9d40b7c25d04bd04cf5"
+    },
+    "genseki-tw.zip": {
+      "url": "https://github.com/ButTaiwan/genseki-font/releases/download/v2.100/GenSekiGothic2TW-otf.zip",
+      "sha256": "e0d7c5d14bdc851bf272ef8b9018315bec79781b532b4d299a95653fab88be38"
+    },
+    "nani.woff2": {
+      "url": "https://raw.githubusercontent.com/max32002/nanifont/1.046/webfont/NaniFont-Regular.woff2",
+      "sha256": "499c04015180f87a4bed062fc9a570c9203e20e68882fdf63ee747a6e1f57f49"
+    },
+    "nani-license.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/nanifont/1.046/SIL_Open_Font_License_1.1.txt",
+      "sha256": "94e77aa15093a81ffb97b1af48aea3348828b76e2565cea6c3dcee1ac5370816"
+    },
+    "pop-gothic-tc.woff2": {
+      "url": "https://raw.githubusercontent.com/max32002/pop-gothic/2.143/webfont/CJK%20TC/PopGothicCjkTc-Regular.woff2",
+      "sha256": "01eb25de840733f6e9b569d0b40cf357fea34e258c274b55f66f3f44793adfe6"
+    },
+    "pop-gothic-license.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/pop-gothic/2.143/SIL_Open_Font_License_1.1.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    "swei-3t-sans-tc.woff2": {
+      "url": "https://raw.githubusercontent.com/max32002/swei-3t-sans/2.129/WebFont/CJK%20TC/Swei3TSansCJKtc-Regular.woff2",
+      "sha256": "e846ae9094696e140f6f283afba0068b4bea84ebfb7e369e133f546b3686d313"
+    },
+    "swei-3t-sans-license.txt": {
+      "url": "https://raw.githubusercontent.com/max32002/swei-3t-sans/2.129/SIL_Open_Font_License_1.1.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    "bailu-kai.ttf": {
+      "url": "https://github.com/huthief/BailuKai/releases/download/20261012/BailuKai-Medium.ttf",
+      "sha256": "c4ac77906015f8a862b2b7b074fd6e3e6b203e55fad0f9b2a57cdb43ca71db7b"
+    },
+    "bailu-kai-license.txt": {
+      "url": "https://raw.githubusercontent.com/huthief/BailuKai/fcc0b6220449baa30bc761215e51979efc9ebc09/OFL.txt",
+      "sha256": "22e6e504020ec5afcc162b5126ee7b3f18777b33f9cd8bb7cffca0c3b2589c78"
     }
   },
   "fonts": [
@@ -163,6 +203,73 @@
           "download": "jason-5.ttf"
         }
       ]
+    },
+    {
+      "id": "jason-handwriting-9",
+      "family": "Font Select Pen 9",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "jason-9.ttf"
+        }
+      ]
+    },
+    {
+      "id": "pop-gothic-tc",
+      "family": "Font Select Ripple",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "pop-gothic-tc.woff2"
+        }
+      ]
+    },
+    {
+      "id": "bailu-kai",
+      "family": "Font Select Egret",
+      "weights": [
+        {
+          "weight": 500,
+          "style": "Medium",
+          "download": "bailu-kai.ttf"
+        }
+      ]
+    },
+    {
+      "id": "nani-font",
+      "family": "Font Select Sketch",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "nani.woff2"
+        }
+      ]
+    },
+    {
+      "id": "swei-3t-sans-tc",
+      "family": "Font Select Triform",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "swei-3t-sans-tc.woff2"
+        }
+      ]
+    },
+    {
+      "id": "genseki-gothic-tw",
+      "family": "Font Select Flint",
+      "weights": [
+        {
+          "weight": 400,
+          "style": "Regular",
+          "download": "genseki-tw.zip",
+          "member": "GenSekiGothic2TW-R.otf"
+        }
+      ]
     }
   ],
   "licenses": {
@@ -178,6 +285,22 @@
     },
     "genryu-mincho-tw.txt": {
       "download": "genryu-tw.zip",
+      "member": "SIL_Open_Font_License_1.1.txt"
+    },
+    "pop-gothic-tc.txt": {
+      "download": "pop-gothic-license.txt"
+    },
+    "bailu-kai.txt": {
+      "download": "bailu-kai-license.txt"
+    },
+    "nani-font.txt": {
+      "download": "nani-license.txt"
+    },
+    "swei-3t-sans-tc.txt": {
+      "download": "swei-3t-sans-license.txt"
+    },
+    "genseki-gothic-tw.txt": {
+      "download": "genseki-tw.zip",
       "member": "SIL_Open_Font_License_1.1.txt"
     }
   }

@@ -305,10 +305,61 @@ const secondExpansion: CatalogEntry[] = [
   })),
 ];
 
+const thirdExpansion: CatalogEntry[] = [
+  {
+    id: 'ibm-plex-sans-tc', name: 'IBM Plex Sans TC', englishName: 'IBM Plex Sans・繁體中文版', author: 'IBM', category: '黑體',
+    description: '適合介面和中英數混排，標準與粗體可用於區分內文和標題。', weights: [400, 700], defaultWeight: 400,
+    sourceUrl: 'https://github.com/IBM/plex', downloadUrl: 'https://github.com/IBM/plex/releases/tag/@ibm%2Fplex-sans-tc@1.1.1',
+    license: 'OFL-1.1', licensePath: 'licenses/ibm-plex-sans-tc.txt',
+    loader: { kind: 'stylesheet', family: 'IBM Plex Sans TC', stylesheet: {
+      400: 'https://cdn.jsdelivr.net/npm/@ibm/plex-sans-tc@1.1.1/fonts/split/woff2/hinted/IBMPlexSansTC-Regular.css',
+      700: 'https://cdn.jsdelivr.net/npm/@ibm/plex-sans-tc@1.1.1/fonts/split/woff2/hinted/IBMPlexSansTC-Bold.css',
+    } },
+  },
+  {
+    id: 'pop-gothic-tc', name: '大波浪圓體 TC', englishName: 'Pop Gothic CJK TC', author: 'Max／姚春宇', category: '圓體',
+    description: '圓潤的手繪筆形適合活動標題和包裝。部分漢字保留日式筆形。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/max32002/pop-gothic', downloadUrl: 'https://github.com/max32002/pop-gothic/blob/2.143/CJK%20TC/PopGothicCjkTc-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/pop-gothic-tc.txt', ...localFont('pop-gothic-tc', 'Pop Gothic CJK TC'),
+  },
+  {
+    id: 'bailu-kai', name: '白鷺楷', englishName: 'BailuKai Medium', author: 'Hu Yen-Chuan／huthief', category: '手寫・楷體',
+    description: '以原俠正楷增粗而成的中等字重楷體，適合小標、圖說與橫排。', defaultWeight: 500,
+    sourceUrl: 'https://github.com/huthief/BailuKai', downloadUrl: 'https://github.com/huthief/BailuKai/releases/download/20261012/BailuKai-Medium.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/bailu-kai.txt', ...localFont('bailu-kai', 'BailuKai'),
+  },
+  {
+    id: 'jason-handwriting-9', name: '清松手寫體 9 號', englishName: '文青・Jason Handwriting 9', author: '游清松', category: '手寫・楷體',
+    description: '作者稱為文青款，適合生活短文與手寫標題。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/jasonhandwriting/JasonHandwriting',
+    downloadUrl: 'https://github.com/jasonhandwriting/JasonHandwriting/blob/5e30a59f8630be45661ca07ec19d7649a33fb598/JasonHandwriting9.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/jason-handwriting.txt', ...localFont('jason-handwriting-9', 'JasonHandwriting9'),
+  },
+  {
+    id: 'nani-font', name: '何某手寫體', englishName: 'NaniFont', author: 'Max／姚春宇', category: '手寫・楷體',
+    description: '保留日系手寫的筆觸並補入常用中文字，適合短句與社群圖文。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/max32002/nanifont', downloadUrl: 'https://github.com/max32002/nanifont/blob/1.046/ttf/NaniFont-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/nani-font.txt', ...localFont('nani-font', 'NaniFont'),
+  },
+  {
+    id: 'swei-3t-sans-tc', name: '獅尾三角黑體 TC', englishName: 'Swei 3T Sans CJK TC', author: 'Max／姚春宇', category: '標題字',
+    description: '以思源黑體為底，將部分平直筆端改成三角造形。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/max32002/swei-3t-sans', downloadUrl: 'https://github.com/max32002/swei-3t-sans/blob/2.129/CJK%20TC/Swei3TSansCJKtc-Regular.ttf',
+    license: 'OFL-1.1', licensePath: 'licenses/swei-3t-sans-tc.txt', ...localFont('swei-3t-sans-tc', 'Swei 3T Sans CJK TC'),
+  },
+  {
+    id: 'genseki-gothic-tw', name: '源石黑體月 TW', englishName: 'GenSeki Gothic TW', author: 'But Ko／ButTaiwan', category: '黑體',
+    description: '重現早期鉛字黑體較硬朗的筆形，也收錄臺語與客語用字。', defaultWeight: 400,
+    sourceUrl: 'https://github.com/ButTaiwan/genseki-font', downloadUrl: 'https://github.com/ButTaiwan/genseki-font/releases/tag/v2.100',
+    license: 'OFL-1.1', licensePath: 'licenses/genseki-gothic-tw.txt', ...localFont('genseki-gothic-tw', 'GenSekiGothic2 TW'),
+  },
+];
+
 const catalogBatches = [
   { addedAt: '2026-11-17T22:11:26+08:00', entries: launchFonts },
   { addedAt: '2026-11-18T13:26:59+08:00', entries: firstExpansion },
   { addedAt: '2026-11-18T23:30:57+08:00', entries: secondExpansion },
+  { addedAt: '2026-11-21T10:52:15+08:00', entries: thirdExpansion },
 ];
 
 export const fonts: FontDefinition[] = catalogBatches.flatMap(({ addedAt, entries }) =>

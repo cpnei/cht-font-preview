@@ -174,5 +174,89 @@
         }
       }
     }
+  },
+  "jason-handwriting-9": {
+    "family": "Font Select Pen 9",
+    "files": {
+      "400": {
+        "path": "fonts/jason-handwriting-9-400.woff2",
+        "bytes": 4534896,
+        "preview": {
+          "path": "fonts/jason-handwriting-9-400.preview.woff2",
+          "bytes": 46760,
+          "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~、。「」一不之伴何你個們光內受同吸喜在型奏好如子字它寫山己巷常度弄引性感成把挑搭文日是景有格標樣歡段每活海溫灣為生畫的目筆節繁自臺與花蔥藏讀讓負責選都配間閱陪題風鬱鶴龜！，"
+        }
+      }
+    }
+  },
+  "pop-gothic-tc": {
+    "family": "Font Select Ripple",
+    "files": {
+      "400": {
+        "path": "fonts/pop-gothic-tc-400.woff2",
+        "bytes": 3706672,
+        "preview": {
+          "path": "fonts/pop-gothic-tc-400.preview.woff2",
+          "bytes": 37644,
+          "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~、。「」一不之伴何你個們光內受同吸喜在型奏好如子字它寫山己巷常度弄引性感成把挑搭文日是景有格標樣歡段每活海溫灣為生畫的目筆節繁自臺與花蔥藏讀讓負責選都配間閱陪題風鬱鶴龜！，"
+        }
+      }
+    }
+  },
+  "bailu-kai": {
+    "family": "Font Select Egret",
+    "files": {
+      "500": {
+        "path": "fonts/bailu-kai-500.woff2",
+        "bytes": 5473368,
+        "preview": {
+          "path": "fonts/bailu-kai-500.preview.woff2",
+          "bytes": 42216,
+          "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~、。「」一不之伴何你個們光內受同吸喜在型奏好如子字它寫山己巷常度弄引性感成把挑搭文日是景有格標樣歡段每活海溫灣為生畫的目筆節繁自臺與花蔥藏讀讓負責選都配間閱陪題風鬱鶴龜！，"
+        }
+      }
+    }
+  },
+  "nani-font": {
+    "family": "Font Select Sketch",
+    "files": {
+      "400": {
+        "path": "fonts/nani-font-400.woff2",
+        "bytes": 7798936,
+        "preview": {
+          "path": "fonts/nani-font-400.preview.woff2",
+          "bytes": 47156,
+          "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~、。「」一不之伴何你個們光內受同吸喜在型奏好如子字它寫山己巷常度弄引性感成把挑搭文日是景有格標樣歡段每活海溫灣為生畫的目筆節繁自臺與花蔥藏讀讓負責選都配間閱陪題風鬱鶴龜！，"
+        }
+      }
+    }
+  },
+  "swei-3t-sans-tc": {
+    "family": "Font Select Triform",
+    "files": {
+      "400": {
+        "path": "fonts/swei-3t-sans-tc-400.woff2",
+        "bytes": 5551980,
+        "preview": {
+          "path": "fonts/swei-3t-sans-tc-400.preview.woff2",
+          "bytes": 23860,
+          "characters": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~、。「」一不之伴何你個們光內受同吸喜在型奏好如子字它寫山己巷常度弄引性感成把挑搭文日是景有格標樣歡段每活海溫灣為生畫的目筆節繁自臺與花蔥藏讀讓負責選都配間閱陪題風鬱鶴龜！，"
+        }
+      }
+    }
+  },
+  "genseki-gothic-tw": {
+    "family": "Font Select Flint",
+    "files": {
+      "400": {
+        "path": "fonts/genseki-gothic-tw-400.woff2",
+        "bytes": 7019028,
+        "preview": {
+          "path": "fonts/genseki-gothic-tw-400.preview.woff2",
+          "bytes": 30760,
+          "characters": "\n !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~、。「」一不之伴何你個們光內受同吸喜在型奏好如子字它寫山己巷常度弄引性感成把挑搭文日是景有格標樣歡段每活海溫灣為生畫的目筆節繁自臺與花蔥藏讀讓負責選都配間閱陪題風鬱鶴龜！，"
+        }
+      }
+    }
   }
 }

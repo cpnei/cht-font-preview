@@ -30,10 +30,12 @@ test('all catalog fonts load, change weights and render new text', async ({ page
     await expect(card).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
   }
   await newSubset;
-  const notoSansCard = page.locator('#font-grid [data-font="noto-sans-tc"]');
-  await notoSansCard.locator('[data-weight]').selectOption('700');
-  await expect(notoSansCard).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
-  await expect(notoSansCard.locator('.font-preview')).toHaveCSS('font-weight', '700');
+  for (const id of ['noto-sans-tc', 'ibm-plex-sans-tc']) {
+    const card = page.locator(`#font-grid [data-font="${id}"]`);
+    await card.locator('[data-weight]').selectOption('700');
+    await expect(card).toHaveAttribute('data-status', 'ready', { timeout: 35000 });
+    await expect(card.locator('.font-preview')).toHaveCSS('font-weight', '700');
+  }
   const loadedFamilies = await page.evaluate(() => Array.from(document.fonts).filter(font => font.status === 'loaded').map(font => font.family.replaceAll('"', '')));
   for (const family of new Set(fonts.map(fontFamily))) {
     expect(loadedFamilies).toContain(family);

@@ -143,6 +143,66 @@
       "sha256": "6a56e44e9904722e9c1206af0de4057710ef3bd94c19c1518a217ed073fcb0f8"
     },
     {
+      "path": "public/fonts/jason-handwriting-9-400.woff2",
+      "bytes": 4534896,
+      "sha256": "85cbb843c4e41d3414391741e7dc87393aa4540c41150d788ec9f9c296c8a9f6"
+    },
+    {
+      "path": "public/fonts/jason-handwriting-9-400.preview.woff2",
+      "bytes": 46760,
+      "sha256": "994e8a8456a771e3400c33035043df98d02cc188cafa786d9365a228b6b39077"
+    },
+    {
+      "path": "public/fonts/pop-gothic-tc-400.woff2",
+      "bytes": 3706672,
+      "sha256": "01eb25de840733f6e9b569d0b40cf357fea34e258c274b55f66f3f44793adfe6"
+    },
+    {
+      "path": "public/fonts/pop-gothic-tc-400.preview.woff2",
+      "bytes": 37644,
+      "sha256": "ca0b4b4c147511c4ea43f029619e785b8045eab2b0a3d47ea6764226c1879c7d"
+    },
+    {
+      "path": "public/fonts/bailu-kai-500.woff2",
+      "bytes": 5473368,
+      "sha256": "0b22a6509b178543283c48a4f4f0b3d6a5d7cd61649b451cb24ace14e35ba07e"
+    },
+    {
+      "path": "public/fonts/bailu-kai-500.preview.woff2",
+      "bytes": 42216,
+      "sha256": "a280c025b5f3006d079e927a8bf3c4ece6973033eac8162006b77c676f946e4c"
+    },
+    {
+      "path": "public/fonts/nani-font-400.woff2",
+      "bytes": 7798936,
+      "sha256": "499c04015180f87a4bed062fc9a570c9203e20e68882fdf63ee747a6e1f57f49"
+    },
+    {
+      "path": "public/fonts/nani-font-400.preview.woff2",
+      "bytes": 47156,
+      "sha256": "81e080e31b435250a4e57dde4f23b1bd29236136acf6cff7935a7dab0340d7cc"
+    },
+    {
+      "path": "public/fonts/swei-3t-sans-tc-400.woff2",
+      "bytes": 5551980,
+      "sha256": "e846ae9094696e140f6f283afba0068b4bea84ebfb7e369e133f546b3686d313"
+    },
+    {
+      "path": "public/fonts/swei-3t-sans-tc-400.preview.woff2",
+      "bytes": 23860,
+      "sha256": "077b181f2ab0a6d948065c76e39af74f6b7b2922716ae72c73592ecb2a6410e6"
+    },
+    {
+      "path": "public/fonts/genseki-gothic-tw-400.woff2",
+      "bytes": 7019028,
+      "sha256": "656a69e667745690bc8ef6205710b60d67fa88ffff3ca5b1a71f0d8f6eadcf35"
+    },
+    {
+      "path": "public/fonts/genseki-gothic-tw-400.preview.woff2",
+      "bytes": 30760,
+      "sha256": "d22e8ca2f90b0f02f8bf88392f169fa1c3c482b9a362969de664443d2d5d18eb"
+    },
+    {
       "path": "public/licenses/line-seed-tw.txt",
       "bytes": 4470,
       "sha256": "c6b7b1a8d37becc65e645eec2e7a41bc41386f896aec21e9c735b8588cc19964"
@@ -163,14 +223,39 @@
       "sha256": "a6e4f868df1b9eec9284d26f35808a9a08f0733b8fd96109e509d6eac29f2aca"
     },
     {
+      "path": "public/licenses/pop-gothic-tc.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    {
+      "path": "public/licenses/bailu-kai.txt",
+      "bytes": 4515,
+      "sha256": "22e6e504020ec5afcc162b5126ee7b3f18777b33f9cd8bb7cffca0c3b2589c78"
+    },
+    {
+      "path": "public/licenses/nani-font.txt",
+      "bytes": 4436,
+      "sha256": "94e77aa15093a81ffb97b1af48aea3348828b76e2565cea6c3dcee1ac5370816"
+    },
+    {
+      "path": "public/licenses/swei-3t-sans-tc.txt",
+      "bytes": 4302,
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602"
+    },
+    {
+      "path": "public/licenses/genseki-gothic-tw.txt",
+      "bytes": 4559,
+      "sha256": "a6e4f868df1b9eec9284d26f35808a9a08f0733b8fd96109e509d6eac29f2aca"
+    },
+    {
       "path": "public/licenses/jason-handwriting.txt",
-      "bytes": 4992,
-      "sha256": "786be6eb27fde11a4b6c4a781e420670758bda13c672e15f3d2ae5239d277b07"
+      "bytes": 5093,
+      "sha256": "5645a11e7bedd49906ca2af0d70ac1ecaf772e36e9bbe7c0a6ebb080c2951bdb"
     },
     {
       "path": "src/local-font-assets.json",
-      "bytes": 9265,
-      "sha256": "71c5f6c8d3787cafe901bc78bca4e416bb69e851036c24ce0d40973bcd41dca5"
+      "bytes": 13351,
+      "sha256": "818a0c9d6280f5f0cd5cd4d52cd3140daaed49687061f3fedb8401bdf90f91e0"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # 繁體中文字型來源盤點
 
-更新日期：2026-11-18
+更新日期：2026-11-21
 
 ## 盤點範圍與納入原則
 
@@ -11,7 +11,21 @@
 3. 有臺灣／香港繁中字形版本，或官方說明明確提供繁體中文支援。
 4. 能在使用者預覽時按需載入字元，避免第一次開頁就下載整套大型 CJK 字型。
 
-目前目錄四十二款。首批三十四款涵蓋 Google Fonts 繁中／香港目錄、CJK 字型子集套件、本機預覽檔和 Ziano 的傳承字形服務。第二批新增下列八款。
+目前目錄四十九款。首批三十四款涵蓋 Google Fonts 繁中／香港目錄、CJK 字型子集套件、本機預覽檔和 Ziano 的傳承字形服務。第二批新增下列八款。
+
+## 第三批新增
+
+| 字型 | 網站字重與來源 |
+| --- | --- |
+| IBM Plex Sans TC | 400、700。[IBM 1.1.1](https://github.com/IBM/plex/releases/tag/@ibm%2Fplex-sans-tc@1.1.1) 的官方 WOFF2 字元分片。 |
+| 大波浪圓體 TC | 400。[v2.143 的 CJK TC WOFF2](https://github.com/max32002/pop-gothic)，部分字保留日式筆形。 |
+| 白鷺楷 | 500。[作者上傳的橫排 TTF](https://github.com/huthief/BailuKai/releases/tag/20261012)。 |
+| 清松手寫體 9 號 | 400。[原作者的文青款 TTF](https://github.com/jasonhandwriting/JasonHandwriting)。 |
+| 何某手寫體 | 400。[v1.046 的官方 WOFF2](https://github.com/max32002/nanifont)。 |
+| 獅尾三角黑體 TC | 400。[v2.129 的 CJK TC WOFF2](https://github.com/max32002/swei-3t-sans)。 |
+| 源石黑體月 TW | 400。[v2.100 的 TW OTF](https://github.com/ButTaiwan/genseki-font/releases/tag/v2.100)。 |
+
+七款都採 OFL 1.1；IBM 使用官方字元分片，其餘六款使用本站 WOFF2 樣張子集，需要子集外的字元時會提示完整字型大小。上述收錄字重皆涵蓋三組內建樣張與文字搭配的預設文案。
 
 ## 第二批新增
 
@@ -79,7 +93,7 @@ Google Fonts API 傳送排序、去重後的當前字元子集；CJK 套件則�
 | ChillDINGothic | 有 OFL 網頁分片套件，但上游說明未確認臺灣或香港繁中字形標準，先不放入以繁中為主的目錄。 |
 | WenJin Mincho、Zhuque Fangsong、Black Sugar Plum Candy | 字型包可取得，但來源說明分別標示中國字形習慣、預發布階段或日文字形取向；目前不把它們當作臺灣／香港繁中字型推薦。 |
 | ChillDINGothic | 有 OFL 與繁中文字元分片，但上游沒有確認臺灣或香港字形標準，先不標示為繁中地區字型。 |
-| Swei 獅尾系列、ButTaiwan 源泉圓體／源雲明體／源石黑體 | 可列入後續擴充，需為各款確認字形版本、字重與網頁載入方案。 |
+| Swei 獅尾系列、ButTaiwan 源泉圓體／源雲明體 | 可列入後續擴充，需為各款確認字形版本、字重與網頁載入方案。 |
 
 未納入表示這次網站尚未收錄，並非評價字型品質或判定其授權不可用。若之後為完整字型建立小型預覽子集與按需完整載入，可以把這些候選再加入，而不必把大型原檔放入頁面初始下載。
 
