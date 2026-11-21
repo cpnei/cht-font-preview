@@ -4,6 +4,7 @@ import { defaults, filterFonts, limitText, restore, samples, storageKey, type Se
 import { icon, renderFontCards, weightOptions } from './view';
 import { normalizeSearch, orderedFonts, type CatalogSort } from './catalog-order';
 import { FontLoader, type LoadStatus } from './loader';
+import { randomizeHeroFont } from './hero-font';
 import { pairingExamples } from './pairing-examples';
 import {
   maxShareFileSize, maxShareUrlLength, pairingRoles, pairingSpec, pairingUrl, readPairingSpec, readPairingUrl,
@@ -693,3 +694,4 @@ const siteHeadingText = Array.from(document.querySelectorAll<HTMLElement>('h1, h
   .map(heading => heading.textContent ?? '')
   .join('\n');
 requestFont(fontById.get('taipei-sans-tc')!, siteHeadingText);
+randomizeHeroFont($('#hero-title'), loader);

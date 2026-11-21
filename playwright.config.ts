@@ -10,7 +10,7 @@ export default defineConfig({
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },
-    { name: 'iphone-webkit', testMatch: ['**/quick-jump.spec.ts', '**/pairing-share.spec.ts'], use: { ...devices['iPhone 13'] } },
+    { name: 'iphone-webkit', testMatch: ['**/quick-jump.spec.ts', '**/pairing-share.spec.ts', '**/hero-font.spec.ts'], use: { ...devices['iPhone 13'] } },
   ],
   webServer: {
     command: 'npm run preview -- --port 4173 --strictPort',

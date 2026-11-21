@@ -78,7 +78,7 @@ export function renderHome(base: string) {
   </nav>
   <main class="wrap">
     <section class="hero" aria-labelledby="hero-title">
-      <div><p class="eyebrow"><span></span> 字裡行間，自有風景</p><h1 id="hero-title">${siteHeadline.lead}<span>${siteHeadline.end}</span><i aria-hidden="true">*</i></h1></div>
+      <div class="hero-copy"><p class="eyebrow"><span></span> 字裡行間，自有風景</p><h1 id="hero-title"><span>${siteHeadline.lead}</span><span>${siteHeadline.end}</span><i aria-hidden="true">*</i></h1></div>
       <div class="hero-aside"><p>用自己的文字比較黑體、明體、圓體與手寫字型。<br>也能分別替標題和段落選字，預覽搭配效果。</p><div class="hero-meta"><span><b>${String(fonts.length).padStart(2, '0')}</b> 款精選字型</span><span class="meta-dot"></span><span>開源・免費商用</span></div></div>
     </section>
     <section class="editor" id="preview-settings" aria-label="預覽設定" tabindex="-1" data-jump-target>

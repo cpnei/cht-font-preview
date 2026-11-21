@@ -18,3 +18,16 @@ for (const asset of optimizedLock.assets) {
   }
 }
 console.log(`Verified ${optimizedLock.assets.length} optimized font assets.`);
+
+const heroLock = JSON.parse(await readFile(new URL('../assets/hero-fonts.lock.json', import.meta.url), 'utf8'));
+const headline = JSON.parse(await readFile(new URL('../src/site-headline.json', import.meta.url), 'utf8'));
+if (headline.lead !== heroLock.headline.lead || headline.end !== heroLock.headline.end) {
+  throw new Error('首頁標題已更新，請重建大標字型。');
+}
+for (const asset of heroLock.assets) {
+  const bytes = await readFile(new URL(`../${asset.path}`, import.meta.url));
+  if (bytes.length !== asset.bytes || createHash('sha256').update(bytes).digest('hex') !== asset.sha256) {
+    throw new Error(`大標字型驗證失敗：${asset.path}`);
+  }
+}
+console.log(`Verified ${heroLock.assets.length} headline font assets.`);

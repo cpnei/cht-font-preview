@@ -93,6 +93,12 @@ npm run preview         # 預覽 dist 正式建置
 
 `assets.lock.json` 鎖定既有原始檔和授權；`assets/web-font-sources.json` 鎖定本批來源的版本和 SHA-256。`optimized-fonts.lock.json` 驗證發布的 WOFF2、相關授權與字元清單。安裝 `requirements-fonts.txt` 後執行 `npm run assets:fonts` 可重建，下載的新增來源會放在未納入版本控制的 `assets/.font-cache/`；`npm run assets:restore` 可還原既有來源。
 
+## 首頁大標字型
+
+每次開啟首頁，大標進入可視範圍後，會從通過收字與排版檢查的目錄字型抽選一款。本站字型共用樣張子集，外部字型只載入本站保存的大標精簡分片。超過 1.2 秒或發生載入錯誤時，保留原本的台北黑體及系統備援。
+
+新增字型或更動首頁標語時，安裝 `requirements-fonts.txt` 後執行 `npm run assets:hero-fonts`。大標資產鎖記錄每款的入選字重、來源、授權、檔案雜湊及未通過原因。候選清單須通過瀏覽器的雙行排版測試。若某款某個字重排版失敗，將測試結果與原因記入資產鎖的 `layoutFailures`（以目錄 ID、字重為鍵）再重建，其餘字重會自動依順序重驗。
+
 ## 載入、隱私與限制
 
 - 字型在卡片接近可視範圍時才請求。Google Fonts 使用 `text=` 傳送去重後的必要字元；字元清單過長時退回 Google 的 unicode-range 分片。其他 CJK 字型使用 jsDelivr 提供的 `unicode-range` CSS，瀏覽器只會下載目前文字命中的 WOFF2 字元片段。

@@ -1,3 +1,5 @@
 # Preserve upstream fonts and licenses byte-for-byte for SHA-256 verification.
 public/fonts/* binary
 public/licenses/* -text -whitespace
+
+public/hero-fonts/* binary

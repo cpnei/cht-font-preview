@@ -13,7 +13,8 @@
     "test:e2e": "playwright test",
     "test:fonts": "FONT_SMOKE=1 playwright test tests/fonts.spec.ts --project=chromium",
     "assets:restore": "node scripts/restore-assets.mjs",
-    "assets:fonts": "python3 scripts/build-font-assets.py"
+    "assets:fonts": "python3 scripts/build-font-assets.py",
+    "assets:hero-fonts": "python3 scripts/build-hero-fonts.py"
   },
   "devDependencies": {
     "@playwright/test": "1.65.1",

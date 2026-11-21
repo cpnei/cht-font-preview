@@ -1,0 +1,886 @@
+[
+  {
+    "id": "noto-sans-tc",
+    "weight": 400,
+    "family": "Font Select Hero noto-sans-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/noto-sans-tc-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "noto-serif-tc",
+    "weight": 400,
+    "family": "Font Select Hero noto-serif-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/noto-serif-tc-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "huninn",
+    "weight": 400,
+    "family": "Font Select Hero huninn",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/huninn-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "chiron-goround-tc",
+    "weight": 400,
+    "family": "Font Select Hero chiron-goround-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/chiron-goround-tc-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "lxgw-wenkai-tc",
+    "weight": 400,
+    "family": "Font Select Hero lxgw-wenkai-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/lxgw-wenkai-tc-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "iansui",
+    "weight": 400,
+    "family": "Font Select Hero iansui",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/iansui-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "chenyuluoyan",
+    "weight": 100
+  },
+  {
+    "id": "mantou-sans",
+    "weight": 400
+  },
+  {
+    "id": "cactus-classical-serif",
+    "weight": 400,
+    "family": "Font Select Hero cactus-classical-serif",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/cactus-classical-serif-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "chiron-hei-hk",
+    "weight": 400,
+    "family": "Font Select Hero chiron-hei-hk",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/chiron-hei-hk-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "chiron-sung-hk",
+    "weight": 400,
+    "family": "Font Select Hero chiron-sung-hk",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/chiron-sung-hk-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "chocolate-classical-sans",
+    "weight": 400,
+    "family": "Font Select Hero chocolate-classical-sans",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/chocolate-classical-sans-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "lxgw-marker-gothic",
+    "weight": 400,
+    "family": "Font Select Hero lxgw-marker-gothic",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/lxgw-marker-gothic-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "lxgw-wenkai-mono-tc",
+    "weight": 400,
+    "family": "Font Select Hero lxgw-wenkai-mono-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/lxgw-wenkai-mono-tc-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "noto-sans-hk",
+    "weight": 400,
+    "family": "Font Select Hero noto-sans-hk",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/noto-sans-hk-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "noto-serif-hk",
+    "weight": 400,
+    "family": "Font Select Hero noto-serif-hk",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/noto-serif-hk-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "uoqmunthenkhung",
+    "weight": 400,
+    "family": "Font Select Hero uoqmunthenkhung",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/uoqmunthenkhung-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "wdxl-lubrifont-tc",
+    "weight": 400,
+    "family": "Font Select Hero wdxl-lubrifont-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/wdxl-lubrifont-tc-400-1.woff2",
+        "range": "U+3002,U+4E86,U+597D,U+5B50,U+5B57,U+60F3,U+6709,U+6A23,U+6CD5,U+8B93,U+FF0C"
+      }
+    ]
+  },
+  {
+    "id": "taipei-sans-tc",
+    "weight": 400,
+    "family": "Font Select Hero taipei-sans-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-3.woff2",
+        "range": "U+6A23,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-4.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-5.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-6.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-7.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-8.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/taipei-sans-tc-400-9.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "welai-glow-sans-tc-normal",
+    "weight": 400,
+    "family": "Font Select Hero welai-glow-sans-tc-normal",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-normal-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-normal-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-normal-400-3.woff2",
+        "range": "U+60F3,U+6709,U+6A23,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-normal-400-4.woff2",
+        "range": "U+4E86,U+597D,U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-normal-400-5.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "welai-glow-sans-tc-compressed",
+    "weight": 400,
+    "family": "Font Select Hero welai-glow-sans-tc-compressed",
+    "stretch": "extra-condensed",
+    "faces": [
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-compressed-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-compressed-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-compressed-400-3.woff2",
+        "range": "U+60F3,U+6709,U+6A23,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-compressed-400-4.woff2",
+        "range": "U+4E86,U+597D,U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-compressed-400-5.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "welai-glow-sans-tc-condensed",
+    "weight": 400,
+    "family": "Font Select Hero welai-glow-sans-tc-condensed",
+    "stretch": "condensed",
+    "faces": [
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-condensed-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-condensed-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-condensed-400-3.woff2",
+        "range": "U+60F3,U+6709,U+6A23,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-condensed-400-4.woff2",
+        "range": "U+4E86,U+597D,U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-condensed-400-5.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "welai-glow-sans-tc-extended",
+    "weight": 400,
+    "family": "Font Select Hero welai-glow-sans-tc-extended",
+    "stretch": "expanded",
+    "faces": [
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-extended-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-extended-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-extended-400-3.woff2",
+        "range": "U+60F3,U+6709,U+6A23,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-extended-400-4.woff2",
+        "range": "U+4E86,U+597D,U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-extended-400-5.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "welai-glow-sans-tc-wide",
+    "weight": 400,
+    "family": "Font Select Hero welai-glow-sans-tc-wide",
+    "stretch": "extra-expanded",
+    "faces": [
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-wide-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-wide-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-wide-400-3.woff2",
+        "range": "U+60F3,U+6709,U+6A23,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-wide-400-4.woff2",
+        "range": "U+4E86,U+597D,U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/welai-glow-sans-tc-wide-400-5.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "fusion-pixel-12-mono",
+    "weight": 400,
+    "family": "Font Select Hero fusion-pixel-12-mono",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-3.woff2",
+        "range": "U+6CD5"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-4.woff2",
+        "range": "U+6A23"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-5.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-6.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-7.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-8.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-9.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-mono-400-10.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "fusion-pixel-12-proportional",
+    "weight": 400,
+    "family": "Font Select Hero fusion-pixel-12-proportional",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-3.woff2",
+        "range": "U+6CD5"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-4.woff2",
+        "range": "U+6A23"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-5.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-6.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-7.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-8.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-9.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/fusion-pixel-12-proportional-400-10.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "genki-mincho-tc",
+    "weight": 400,
+    "family": "Font Select Hero genki-mincho-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-3.woff2",
+        "range": "U+6CD5"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-4.woff2",
+        "range": "U+6A23"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-5.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-6.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-7.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-8.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-9.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/genki-mincho-tc-400-10.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "genyo-mincho-tc",
+    "weight": 400,
+    "family": "Font Select Hero genyo-mincho-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-3.woff2",
+        "range": "U+6CD5"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-4.woff2",
+        "range": "U+6A23"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-5.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-6.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-7.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-8.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-9.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/genyo-mincho-tc-400-10.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "tw-sung",
+    "weight": 400,
+    "family": "Font Select Hero tw-sung",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/tw-sung-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-3.woff2",
+        "range": "U+6CD5"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-4.woff2",
+        "range": "U+6A23"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-5.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-6.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-7.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-8.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-9.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/tw-sung-400-10.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "tw-kai",
+    "weight": 400,
+    "family": "Font Select Hero tw-kai",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/tw-kai-400-1.woff2",
+        "range": "U+FF0C"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-2.woff2",
+        "range": "U+8B93"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-3.woff2",
+        "range": "U+6CD5"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-4.woff2",
+        "range": "U+6A23"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-5.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-6.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-7.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-8.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-9.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/tw-kai-400-10.woff2",
+        "range": "U+3002"
+      }
+    ]
+  },
+  {
+    "id": "genyo-gothic-tc",
+    "weight": 400,
+    "family": "Font Select Hero genyo-gothic-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/genyo-gothic-tc-400-1.woff2",
+        "range": "U+3002,U+597D,U+5B50,U+6709,U+FF0C"
+      },
+      {
+        "path": "hero-fonts/genyo-gothic-tc-400-2.woff2",
+        "range": "U+4E86,U+5B57,U+60F3,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/genyo-gothic-tc-400-3.woff2",
+        "range": "U+6A23,U+8B93"
+      }
+    ]
+  },
+  {
+    "id": "genki-gothic-tc",
+    "weight": 400,
+    "family": "Font Select Hero genki-gothic-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/genki-gothic-tc-400-1.woff2",
+        "range": "U+3002,U+597D,U+5B50,U+6709,U+FF0C"
+      },
+      {
+        "path": "hero-fonts/genki-gothic-tc-400-2.woff2",
+        "range": "U+4E86,U+5B57,U+60F3,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/genki-gothic-tc-400-3.woff2",
+        "range": "U+6A23,U+8B93"
+      }
+    ]
+  },
+  {
+    "id": "shanggu-serif-tc",
+    "weight": 400,
+    "family": "Font Select Hero shanggu-serif-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/shanggu-serif-tc-400-1.woff2",
+        "range": "U+3002,U+597D,U+5B50,U+6709,U+FF0C"
+      },
+      {
+        "path": "hero-fonts/shanggu-serif-tc-400-2.woff2",
+        "range": "U+4E86,U+5B57,U+60F3,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/shanggu-serif-tc-400-3.woff2",
+        "range": "U+6A23,U+8B93"
+      }
+    ]
+  },
+  {
+    "id": "shanggu-sans-tc",
+    "weight": 400,
+    "family": "Font Select Hero shanggu-sans-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/shanggu-sans-tc-400-1.woff2",
+        "range": "U+3002,U+597D,U+5B50,U+6709,U+FF0C"
+      },
+      {
+        "path": "hero-fonts/shanggu-sans-tc-400-2.woff2",
+        "range": "U+4E86,U+5B57,U+60F3,U+6CD5"
+      },
+      {
+        "path": "hero-fonts/shanggu-sans-tc-400-3.woff2",
+        "range": "U+6A23,U+8B93"
+      }
+    ]
+  },
+  {
+    "id": "line-seed-tw",
+    "weight": 400
+  },
+  {
+    "id": "taiwanpearl",
+    "weight": 400
+  },
+  {
+    "id": "tauhu-oo",
+    "weight": 400
+  },
+  {
+    "id": "genryu-mincho-tw",
+    "weight": 400
+  },
+  {
+    "id": "jason-handwriting-1",
+    "weight": 400
+  },
+  {
+    "id": "jason-handwriting-2",
+    "weight": 400
+  },
+  {
+    "id": "jason-handwriting-4",
+    "weight": 400
+  },
+  {
+    "id": "jason-handwriting-5",
+    "weight": 400
+  },
+  {
+    "id": "ibm-plex-sans-tc",
+    "weight": 400,
+    "family": "Font Select Hero ibm-plex-sans-tc",
+    "stretch": "normal",
+    "faces": [
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-1.woff2",
+        "range": "U+3002,U+FF0C"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-2.woff2",
+        "range": "U+4E86"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-3.woff2",
+        "range": "U+597D"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-4.woff2",
+        "range": "U+5B50,U+5B57"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-5.woff2",
+        "range": "U+60F3"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-6.woff2",
+        "range": "U+6709"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-7.woff2",
+        "range": "U+6A23"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-8.woff2",
+        "range": "U+6CD5"
+      },
+      {
+        "path": "hero-fonts/ibm-plex-sans-tc-400-9.woff2",
+        "range": "U+8B93"
+      }
+    ]
+  },
+  {
+    "id": "pop-gothic-tc",
+    "weight": 400
+  },
+  {
+    "id": "bailu-kai",
+    "weight": 500
+  },
+  {
+    "id": "jason-handwriting-9",
+    "weight": 400
+  },
+  {
+    "id": "nani-font",
+    "weight": 400
+  },
+  {
+    "id": "swei-3t-sans-tc",
+    "weight": 400
+  },
+  {
+    "id": "genseki-gothic-tw",
+    "weight": 400
+  },
+  {
+    "id": "bakudai",
+    "weight": 400
+  },
+  {
+    "id": "jyunsai-kaai",
+    "weight": 400
+  },
+  {
+    "id": "sarasa-mono-tc",
+    "weight": 400
+  },
+  {
+    "id": "swei-spring-tc",
+    "weight": 400
+  },
+  {
+    "id": "swei-meatball-tc",
+    "weight": 400
+  },
+  {
+    "id": "genwan-mincho-tw",
+    "weight": 400
+  },
+  {
+    "id": "gensen-rounded-tw",
+    "weight": 400
+  },
+  {
+    "id": "naikai-font",
+    "weight": 400
+  }
+]

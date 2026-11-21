@@ -79,7 +79,8 @@ test('favorites survive reload and filter correctly', async ({ page }) => {
 
 test('full local fonts wait for consent and failed downloads can be retried', async ({ page }) => {
   let downloads = 0;
-  await page.route('**/fonts/*.woff2', route => { downloads++; return route.abort(); });
+  const fullFont = '**/fonts/MantouSans-Regular.woff2';
+  await page.route(fullFont, route => { downloads++; return route.abort(); });
   await page.getByRole('textbox', { name: '試著寫點什麼' }).fill('自訂字元𠮷');
   await page.getByRole('button', { name: '標題字', exact: true }).click();
   const card = page.locator('[data-font="mantou-sans"]');
@@ -89,7 +90,7 @@ test('full local fonts wait for consent and failed downloads can be retried', as
   await expect(card.getByText('字型暫時無法載入')).toBeVisible();
   await expect(card.locator('.font-preview')).not.toBeVisible();
   expect(downloads).toBe(1);
-  await page.unroute('**/fonts/*.woff2');
+  await page.unroute(fullFont);
   await card.getByRole('button', { name: '重新載入' }).click();
   await expect(card.locator('.font-preview')).toBeVisible({ timeout: 15000 });
   await expect(card.locator('.font-status')).toHaveText('字型已載入');

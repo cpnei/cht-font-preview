@@ -92,10 +92,11 @@ button svg, a svg { pointer-events: none; }
 .hero { display: flex; align-items: flex-end; justify-content: space-between; padding: 64px 0 48px; gap: 32px; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: #65775e; font-size: 11px; font-weight: 600; letter-spacing: 2px; margin: 0 0 20px; }
 .eyebrow > span { width: 6px; height: 6px; background: #7e9562; border-radius: 50%; }
-h1 { position: relative; margin: 0; font-family: 'Noto Serif CJK TC', 'Songti TC', 'PMingLiU', serif; font-size: clamp(44px, 4.4vw, 62px); font-weight: 500; line-height: 1.38; letter-spacing: -1px; }
-h1 > span { display: block; }
-h1 > i { position: absolute; color: #879b63; top: 44px; right: -52px; font-size: 73px; font-family: Georgia, serif; font-style: normal; font-weight: 400; transform: rotate(18deg); }
-.hero-aside { padding-bottom: 9px; padding-right: 2px; }
+.hero-copy { flex: 0 0 54%; min-inline-size: 0; }
+#hero-title { position: relative; margin: 0; inline-size: min(100%, 8.6em); min-block-size: 2.76em; padding-inline-end: .9em; font-family: var(--hero-family, var(--site-heading-font)); font-size: clamp(44px, 4.4vw, 62px); font-weight: var(--hero-weight, 500); font-stretch: var(--hero-stretch, normal); line-height: 1.38; letter-spacing: -1px; line-break: strict; }
+#hero-title > span { display: block; }
+#hero-title > i { position: absolute; color: #879b63; inset-block-start: .6em; inset-inline-end: .12em; font-size: 1.18em; font-family: Georgia, serif; font-style: normal; font-weight: 400; font-stretch: normal; transform: rotate(18deg); }
+.hero-aside { min-inline-size: 0; padding-bottom: 9px; padding-right: 2px; }
 .hero-aside > p { margin: 0 0 25px; font-size: 14px; line-height: 1.95; color: #717b70; }
 .hero-meta { display: flex; align-items: center; gap: 15px; color: #6c7869; font-size: 11px; }
 .hero-meta b { font-size: 20px; margin-right: 4px; color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
@@ -298,11 +299,10 @@ body:has(dialog[open]) { overflow: hidden; }
   .brand-name > span { font-size: 7px; }
   .site-header nav { gap: 20px; font-size: 12px; }
   .github-link { display: none; }
-  .hero { padding: 39px 0 32px; align-items: flex-start; gap: 20px; }
-  h1 { font-size: 42px; }
-  h1 > i { font-size: 55px; top: 30px; right: -38px; }
+  .hero { display: block; padding: 39px 0 32px; }
+  #hero-title { font-size: 42px; }
   .eyebrow { font-size: 10px; margin-bottom: 17px; }
-  .hero-aside { align-self: flex-end; }
+  .hero-aside { margin-top: 22px; }
   .hero-aside > p { font-size: 11px; margin-bottom: 17px; }
   .hero-meta { font-size: 9px; gap: 7px; flex-wrap: wrap; }
   .hero-meta b { font-size: 16px; }
@@ -331,10 +331,8 @@ body:has(dialog[open]) { overflow: hidden; }
   .site-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 @media (max-width: 560px) {
-  .hero { display: block; }
-  h1 { font-size: clamp(38px, 11.3vw, 44px); display: inline-block; }
-  h1 > i { right: -40px; }
-  .hero-aside { margin-top: 22px; padding: 0; }
+  #hero-title { font-size: clamp(32px, 10vw, 44px); }
+  .hero-aside { padding: 0; }
   .hero-aside > p { font-size: 12px; line-height: 1.8; }
   .hero-aside > p br { display: none; }
   .hero-meta { font-size: 10px; gap: 12px; }
@@ -384,6 +382,8 @@ body:has(dialog[open]) { overflow: hidden; }
   .notice { width: max-content; text-align: center; font-size: 11px; }
 }
 @media (max-width: 360px) {
+  #hero-title { padding-inline-end: 0; }
+  #hero-title > i { display: none; }
   .site-header nav { gap: 10px; font-size: 11px; }
   .catalog-top h2 { font-size: 11px; gap: 5px; }
   #result-count { display: none; }
@@ -407,7 +407,7 @@ body:has(dialog[open]) { overflow: hidden; }
 }
 
 .brand-name { font-family: var(--site-heading-font); }
-:is(h1, h2, h3):not(#pairing-preview-heading) { font-family: var(--site-heading-font); }
+:is(h1, h2, h3):not(#pairing-preview-heading, #hero-title) { font-family: var(--site-heading-font); }
 
 .pairing-weight { margin-top: 8px; }
 .pairing-canvas-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
